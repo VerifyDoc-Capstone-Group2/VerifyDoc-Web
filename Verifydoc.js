@@ -1,11 +1,44 @@
 const menuBtn = document.getElementById("menuBtn");
-        const mobileMenu = document.getElementById("mobileMenu");
+const mobileMenu = document.getElementById("mobileMenu");
 
-        menuBtn.addEventListener("click", function () {
+if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener("click", function () {
+        mobileMenu.classList.toggle("hidden");
+    });
+}
 
-            mobileMenu.classList.toggle("hidden");
 
-        });
+const loginBtn = document.getElementById("loginBtn");
+const getStartedBtn = document.getElementById("getStartedBtn");
+const mobileLoginBtn = document.getElementById("mobileLoginBtn");
+const mobileGetStartedBtn = document.getElementById("mobileGetStartedBtn");
+
+
+if (loginBtn) {
+    loginBtn.addEventListener("click", function () {
+        window.location.href = "VerifyRegister.html";
+    });
+}
+
+if (getStartedBtn) {
+    getStartedBtn.addEventListener("click", function () {
+        window.location.href = "VerifyRegister.html";
+    });
+}
+
+if (mobileLoginBtn) {
+    mobileLoginBtn.addEventListener("click", function () {
+        window.location.href = "VerifyRegister.html";
+    });
+}
+
+if (mobileGetStartedBtn) {
+    mobileGetStartedBtn.addEventListener("click", function () {
+        window.location.href = "VerifyRegister.html";
+    });
+}
+
+
         const sections = document.querySelectorAll(".reveal");
        const observer = new IntersectionObserver(
         (entries) => {
@@ -29,35 +62,21 @@ const menuBtn = document.getElementById("menuBtn");
     });
 
 
-    const loginBtn = document.getElementById("loginBtn");
-const getStartedBtn = document.getElementById("getStartedBtn");
-const mobileLoginBtn = document.getElementById("mobileLoginBtn");
-const mobileGetStartedBtn = document.getElementById("mobileGetStartedBtn");
 
-
-loginBtn.addEventListener("click", function () {
-    window.location.href = "VerifyRegister.html";
-});
-
-getStartedBtn.addEventListener("click", function () {
-    window.location.href = "VerifyRegister.html";
-});
-
-mobileLoginBtn.addEventListener("click", function () {
-    window.location.href = "VerifyRegister.html";
-});
-
-mobileGetStartedBtn.addEventListener("click", function () {
-    window.location.href = "VerifyRegister.html";
-});
 
 
 const roleButtons = document.querySelectorAll(".btn-role");
 
+console.log("Number of role buttons:", roleButtons.length);
+
 roleButtons.forEach(function (button) {
     button.addEventListener("click", function () {
+
         const role = button.dataset.role;
+
+        console.log("Selected role:", role);
 
         window.location.href = `login.html?role=${role}`;
     });
-});
+}); 
+
