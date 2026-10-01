@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VerifyDoc - Verification Request Status</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-[#F8FAFC] font-sans antialiased text-slate-800">
+
+  <div class="flex min-h-screen">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 bg-[#0F172A] text-slate-300 flex flex-col justify-between p-4 shrink-0 sticky top-0 h-screen overflow-y-auto">
+      <div>
+        <!-- Logo -->
+        <div class="flex items-center gap-2 px-3 py-4 text-white font-bold text-xl">
+          <div class="bg-blue-600 p-1.5 rounded-lg text-white">
+            <i data-lucide="shield-check" class="w-6 h-6"></i>
+          </div>
+          <span>VerifyDoc</span>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="mt-6 space-y-1">
+          <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="shared-credentials.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+            <i data-lucide="share-2" class="w-5 h-5"></i>
+            <span>Shared Credentials</span>
+          </a>
+          <!-- Active Nav Link -->
+          <a href="verify-credential.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-600 text-white font-medium transition">
+            <i data-lucide="file-check" class="w-5 h-5"></i>
+            <span>Verify Credential</span>
+          </a>
+          <a href="verification-requests.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+            <i data-lucide="clock" class="w-5 h-5"></i>
+            <span>Verification Requests</span>
+          </a>
+          <a href="organization.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+            <i data-lucide="building-2" class="w-5 h-5"></i>
+            <span>Organization</span>
+          </a>
+          <a href="settings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+            <i data-lucide="settings" class="w-5 h-5"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Footer Organization Badge -->
+      <div class="border-t border-slate-800 pt-4 px-2 flex items-center gap-3">
+        <div class="p-2 rounded-lg bg-slate-800 text-slate-300">
+          <i data-lucide="building" class="w-5 h-5"></i>
+        </div>
+        <div class="text-xs">
+          <p class="font-semibold text-white">TechCorp Solutions</p>
+          <p class="text-slate-400">Verified Organization</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col min-w-0">
+      
+      <!-- Top Header -->
+      <header class="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between">
+        <!-- Search Input -->
+        <div class="relative w-80">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input 
+            type="text" 
+            placeholder="Search anything..." 
+            class="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+
+        <!-- User Profile & Notifications -->
+        <div class="flex items-center gap-4">
+          <button class="relative p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition">
+            <i data-lucide="bell" class="w-5 h-5"></i>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-600 rounded-full"></span>
+          </button>
+          <div class="flex items-center gap-3 border-l border-slate-200 pl-4">
+            <img 
+              src="https://res.cloudinary.com/xnjupqaj/image/upload/v1790814913/Ellipse_160_epfvd1.png" 
+              alt="John Doe" 
+              class="w-9 h-9 rounded-full object-cover"
+            />
+            <div class="text-sm">
+              <p class="font-semibold text-slate-800 leading-none">John Doe</p>
+              <p class="text-xs text-slate-500 mt-0.5">Employer</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content View -->
+      <div class="p-8 space-y-6 max-w-2xl">
+        
+        <!-- Back Link -->
+        <div>
+          <a href="confirmation-requested.html" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>Back</span>
+          </a>
+        </div>
+
+        <!-- Page Heading -->
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900">Verification Request Status</h1>
+          <p class="text-xs text-slate-500 mt-1">Track the status of your fresh confirmation request.</p>
+        </div>
+
+        <!-- Status Details Card -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
+          
+          <!-- Credential Brief Card -->
+          <div class="bg-slate-50/60 rounded-xl p-4 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-blue-100/70 text-blue-600 flex items-center justify-center shrink-0">
+              <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-sm font-bold text-slate-900">John Nwaugo</h2>
+              <p class="text-xs text-slate-600 mt-0.5">B.Sc. Computer Science</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">MOUAU</p>
+            </div>
+          </div>
+
+          <!-- Request Submitted Meta -->
+          <div class="border-t border-b border-slate-100 py-3">
+            <p class="text-xs font-bold text-slate-800">Request submitted</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Sep 30, 2026 • 10:34 AM</p>
+          </div>
+
+          <!-- Status Timeline Tracker -->
+          <div class="space-y-4">
+            <p class="text-xs font-bold text-slate-800">Status</p>
+            
+            <div class="relative pl-8 space-y-6">
+              <!-- Timeline Vertical Line -->
+              <div class="absolute left-3 top-3 bottom-3 w-0.5 bg-slate-200 -z-0"></div>
+
+              <!-- Step 1: Request Submitted (Completed) -->
+              <div class="relative flex items-start gap-3">
+                <div class="absolute -left-8 top-0.5 w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center z-10">
+                  <i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-emerald-600">Request submitted</p>
+                  <p class="text-[11px] text-slate-400 mt-0.5">Sep 30, 2026 - 10:34 AM</p>
+                </div>
+              </div>
+
+              <!-- Step 2: Institution Reviewing (In Progress) -->
+              <div class="relative flex items-start gap-3">
+                <div class="absolute -left-8 top-0.5 w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center z-10 border-2 border-white shadow-sm">
+                  <div class="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-blue-600">Institution reviewing</p>
+                  <p class="text-[11px] text-slate-400 mt-0.5">In progress...</p>
+                </div>
+              </div>
+
+              <!-- Step 3: Confirmation Received (Pending) -->
+              <div class="relative flex items-start gap-3">
+                <div class="absolute -left-8 top-0.5 w-6 h-6 rounded-full bg-slate-200 text-slate-400 flex items-center justify-center z-10">
+                  <div class="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+                <div>
+                  <p class="text-xs font-medium text-slate-400">Confirmation received</p>
+                  <p class="text-[11px] text-slate-400 mt-0.5">Pending</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Back Button -->
+        <div>
+          <a 
+            href="shared-credentials.html" 
+            class="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold py-3.5 px-4 rounded-xl shadow-sm transition flex items-center justify-center"
+          >
+            Back to Shared Credentials
+          </a>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>

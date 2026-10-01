@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VerifyDoc - Verification Result</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-[#F8FAFC] font-sans antialiased text-slate-800">
+
+  <div class="flex min-h-screen">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 bg-[#0F172A] text-slate-300 flex flex-col justify-between p-4 shrink-0 sticky top-0 h-screen overflow-y-auto">
+      <div>
+        <!-- Logo -->
+        <div class="flex items-center gap-2 px-3 py-4 text-white font-bold text-xl">
+          <div class="bg-blue-600 p-1.5 rounded-lg text-white">
+            <i data-lucide="shield-check" class="w-6 h-6"></i>
+          </div>
+          <span>VerifyDoc</span>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="mt-6 space-y-1">
+          <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="shared-credentials.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+            <i data-lucide="share-2" class="w-5 h-5"></i>
+            <span>Shared Credentials</span>
+          </a>
+          <!-- Active Nav Link -->
+          <a href="verify-credential.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-600 text-white font-medium transition">
+            <i data-lucide="file-check" class="w-5 h-5"></i>
+            <span>Verify Credential</span>
+          </a>
+          <a href="verification-requests.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+            <i data-lucide="clock" class="w-5 h-5"></i>
+            <span>Verification Requests</span>
+          </a>
+          <a href="organization.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+            <i data-lucide="building-2" class="w-5 h-5"></i>
+            <span>Organization</span>
+          </a>
+          <a href="settings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+            <i data-lucide="settings" class="w-5 h-5"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Footer Organization Badge -->
+      <div class="border-t border-slate-800 pt-4 px-2 flex items-center gap-3">
+        <div class="p-2 rounded-lg bg-slate-800 text-slate-300">
+          <i data-lucide="building" class="w-5 h-5"></i>
+        </div>
+        <div class="text-xs">
+          <p class="font-semibold text-white">TechCrush  Solutions</p>
+          <p class="text-slate-400">Verified Organization</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col min-w-0">
+      
+      <!-- Top Header -->
+      <header class="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between">
+        <!-- Search Input -->
+        <div class="relative w-80">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input 
+            type="text" 
+            placeholder="Search anything..." 
+            class="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+
+        <!-- User Profile & Notifications -->
+        <div class="flex items-center gap-4">
+          <button class="relative p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition">
+            <i data-lucide="bell" class="w-5 h-5"></i>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-600 rounded-full"></span>
+          </button>
+          <div class="flex items-center gap-3 border-l border-slate-200 pl-4">
+            <img 
+              src="https://res.cloudinary.com/xnjupqaj/image/upload/v1790814913/Ellipse_160_epfvd1.png" 
+              alt="John Doe" 
+              class="w-9 h-9 rounded-full object-cover"
+            />
+            <div class="text-sm">
+              <p class="font-semibold text-slate-800 leading-none">John Doe</p>
+              <p class="text-xs text-slate-500 mt-0.5">Employer</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content View -->
+      <div class="p-8 space-y-6 max-w-3xl mx-auto w-full">
+        
+        <!-- Verification Card Container -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          
+          <!-- Green Success Banner Header -->
+          <div class="p-8 text-center border-b border-slate-100 flex flex-col items-center">
+            <!-- Checkmark Circle Badge -->
+            <div class="w-14 h-14 rounded-full bg-[#10B981] text-white flex items-center justify-center mb-4 shadow-sm">
+              <i data-lucide="check" class="w-8 h-8 stroke-[3]"></i>
+            </div>
+            
+            <h1 class="text-xl font-bold text-[#10B981]">Credential Verified</h1>
+            <p class="text-xs text-slate-500 mt-1">This credential is authentic and valid.</p>
+          </div>
+
+          <!-- Credential Details Table / Rows -->
+          <div class="p-8 space-y-4 text-xs">
+            
+            <div class="flex justify-between items-start py-1">
+              <span class="text-slate-500 font-medium w-1/3">Credential</span>
+              <span class="text-slate-900 font-semibold w-2/3 text-left">B.Sc. Computer Science</span>
+            </div>
+
+            <div class="flex justify-between items-start py-1">
+              <span class="text-slate-500 font-medium w-1/3">Holder</span>
+              <span class="text-slate-900 font-semibold w-2/3 text-left">John Nwaugo</span>
+            </div>
+
+            <div class="flex justify-between items-start py-1">
+              <span class="text-slate-500 font-medium w-1/3">Institution</span>
+              <span class="text-slate-900 font-semibold w-2/3 text-left">
+                Michael Okpara University<br />
+                <span class="text-slate-500 font-normal">of Agriculture, Umudike (MOUAU)</span>
+              </span>
+            </div>
+
+            <div class="flex justify-between items-start py-1">
+              <span class="text-slate-500 font-medium w-1/3">Credential Number</span>
+              <span class="text-slate-900 font-medium w-2/3 text-left">VD-2026-00123</span>
+            </div>
+
+            <div class="flex justify-between items-start py-1">
+              <span class="text-slate-500 font-medium w-1/3">Issue Date</span>
+              <span class="text-slate-900 font-medium w-2/3 text-left">12 Sep 2026</span>
+            </div>
+
+            <div class="flex justify-between items-start py-1">
+              <span class="text-slate-500 font-medium w-1/3">Expiry Date</span>
+              <span class="text-slate-900 font-medium w-2/3 text-left">12 Sep 2030</span>
+            </div>
+
+            <div class="flex justify-between items-center py-1">
+              <span class="text-slate-500 font-medium w-1/3">Status</span>
+              <div class="w-2/3 text-left">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-semibold bg-[#E6F8F3] text-[#0D9488]">
+                  Active
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Action Buttons Footer -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <button 
+            type="button" 
+            class="w-full bg-white border border-slate-200 hover:bg-slate-50 text-blue-600 text-xs font-semibold py-3 px-4 rounded-xl shadow-sm transition"
+          >
+            View Credential Details
+          </button>
+          
+          <a
+            href="request-fresh-confirmation.html"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-3 px-4 rounded-xl shadow-sm transition"
+          >
+            Request Fresh Confirmation
+          </a>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>
