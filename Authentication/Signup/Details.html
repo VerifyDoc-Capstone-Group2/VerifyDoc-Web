@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="/style.css" />
-    <title>Sign Up</title>
+    <title>Details</title>
   </head>
   <body class="flex items-center justify-center min-h-screen">
-    <section class="p-4 flex flex-col gap-y-6 lg:p-0">
+    <section class="p-4 flex flex-col gap-y-6 w-full lg:p-0">
       <!--Heading text-->
       <div class="flex flex-col gap-y-2 text-center">
         <h3
           class="text-[28px] font-[Inter] lg:text-[40px] font-extrabold text-[#171717]"
         >
-          Create your account
+          Organization details
         </h3>
         <span
           class="text-base text-[#737373] lg:text-[18px] font-medium font-[Inter]"
-          >Create your account to create and share credentials</span
+          >Tell us about your organization</span
         >
       </div>
 
@@ -27,55 +27,49 @@
         <!--Input field-->
         <div class="flex flex-col gap-y-4">
           <div class="flex flex-col gap-y-2">
-            <label class="text-xs font-[Inter] text-[#111827]">Full name</label>
+            <label class="text-xs font-[Inter] text-[#111827]"
+              >Organization name</label
+            >
             <input
               type="text"
               class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
               placeholder="John Doe"
-              id="full_name"
+              id="organization_name"
             />
           </div>
           <div class="flex flex-col gap-y-2">
             <label class="text-xs font-[Inter] text-[#111827]"
-              >Email Address</label
+              >Organization type</label
             >
             <input
-              type="email"
+              type="text"
               class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
-              placeholder="johndoe@gmail.com"
-              id="email"
-            />
-          </div>
-          <div class="flex flex-col gap-y-2">
-            <label class="text-xs font-[Inter] text-[#111827]">Password</label>
-            <input
-              type="password"
-              class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
-              placeholder="••••••••"
-              id="password"
+              placeholder="School, Company etc.."
+              id="organization_type"
             />
           </div>
           <div class="flex flex-col gap-y-2">
             <label class="text-xs font-[Inter] text-[#111827]"
-              >Confirm password</label
+              >Phone number</label
             >
             <input
-              type="password"
+              type=""
               class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
-              placeholder="••••••••"
-              id="confirm_password"
+              placeholder="+234 1234983920"
+              id="number"
+              maxlength="11"
             />
           </div>
         </div>
-        <!--buttons-->
 
+        <!--buttons-->
         <div class="flex flex-col gap-y-4">
           <button
             type="submit"
             class="bg-[#155eef] text-white py-2.5 font-[Inter] cursor-pointer hover:bg-[#0b1f3a] px-5 rounded-lg disabled:cursor-not-allowed disabled:opacity-50"
-            id="create_account"
+            id="submit_application"
           >
-            Create account
+            Submit application
           </button>
           <button
             class="border border-[#155eef] py-2.5 font-[Inter] cursor-pointer px-5 rounded-lg text-[#155eef]"
@@ -94,6 +88,6 @@
       </div>
     </section>
 
-    <script src="../Signup.js"></script>
+    <script src="../Details.js"></script>
   </body>
 </html>

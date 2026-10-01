@@ -14,13 +14,14 @@ function checkFields() {
   submitButton.disabled = !submit;
 }
 
-full_name.addEventListener("input", checkFields);
-email.addEventListener("input", checkFields);
-password.addEventListener("input", checkFields);
-confirm_password.addEventListener("input", checkFields);
+full_name.addEventListener("change", checkFields);
+email.addEventListener("change", checkFields);
+password.addEventListener("change", checkFields);
+confirm_password.addEventListener("change", checkFields);
 
 checkFields();
 
 submitButton.addEventListener("click", (e) => {
   e.preventDefault();
+  window.location.href = "Registration_complete.html";
 });
