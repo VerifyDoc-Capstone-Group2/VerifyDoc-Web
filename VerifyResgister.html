@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VerifyDoc - A simple document verification platform">
+    <title>VerifyDoc</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    inter: ["Inter", "sans-serif"],
+                },
+
+                colors: {
+                    primary: "#2563EB",
+                    dark: "#0F172A",
+                    muted: "#64748B",
+                },
+
+                boxShadow: {
+                    soft: "0 10px 40px rgba(15, 23, 42, 0.08)",
+                },
+
+                animation: {
+                    float: "float 6s ease-in-out infinite",
+                    blob: "blob 12s ease-in-out infinite",
+                    marquee: "marquee 22s linear infinite",
+                    pulseSoft: "pulseSoft 3s ease-in-out infinite",
+                    rotate: "rotate 2s ease-in-out",
+                    slide: "slide 10s ease-in-out infinite",
+                     reveal: "reveal 0.8s ease-out forwards",
+                },
+
+                keyframes: {
+                    float: {
+                        "0%, 100%": {
+                            transform: "translateY(0)",
+                        },
+                        "50%": {
+                            transform: "translateY(-12px)",
+                        },
+                    },
+
+                    blob: {
+                        "0%, 100%": {
+                            transform: "translate(0, 0) scale(1)",
+                        },
+                        "33%": {
+                            transform: "translate(25px, -30px) scale(1.08)",
+                        },
+                        "66%": {
+                            transform: "translate(-20px, 20px) scale(.94)",
+                        },
+                    },
+
+                    marquee: {
+                        "0%": {
+                            transform: "translateX(0)",
+                        },
+                        "100%": {
+                            transform: "translateX(-50%)",
+                        },
+                    },
+
+                    pulseSoft: {
+                        "0%, 100%": {
+                            opacity: ".45",
+                        },
+                        "50%": {
+                            opacity: "1",
+                        },
+                    },
+
+                    rotate: {
+                        "0%": {
+                            transform: "rotate(0deg)",
+                        },
+                        "100%": {
+                            transform: "rotate(360deg)",
+                        },
+                    },
+
+                    slide: {
+                        "0%, 100%": {
+                            transform: "translateX(0)",
+                        },
+                        "50%": {
+                            transform: "translateX(500px)",
+                        },
+                    },
+
+                    reveal: {
+        "0%": {
+            opacity: "0",
+            transform: "translateY(40px)",
+        },
+        "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+        },
+    }
+                },
+            },
+        },
+    };
+</script>
+</head>
+
+<body class="font-inter text-dark bg-slate-100 bg-[linear-gradient(to_right,rgba(37,99,235,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(37,99,235,0.08)_1px,transparent_1px)] bg-[size:40px_40px]">
+
+
+     <!-- NAVBAR -->
+    <header class="bg-blue-500/10 backdrop-blur-xl border-b border-blue-200/20  sticky top-0 z-20">
+        <nav class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
+
+            
+            <a href="index.html" class="flex items-center gap-2">
+                <div class="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold">V</span>
+                </div>
+
+                <div class="text-xl font-bold tracking-tight">
+                    Verify<span class="text-primary">Doc</span>
+                </div>
+            </a>
+            
+        </nav>
+            
+    </header>
+
+<body class="font-inter bg-white min-h-screen">
+<main class="min-h-screen px-4 py-8">
+    <section class="text-center">
+        <div class="flex justify-center mb-4">
+        <div class="bg-gray-300 rounded-sm w-9 h-9"></div>
+        </div>
+    <h1 class="text-2xl font-bold tracking-normal">What brings you here?</h1>
+    <p class="mt-2 text-slate-600 font-medium">Choose a role to sign in or create your account.</p>
+
+    </section>
+
+    <section class="mt-8 max-w-md mx-auto">
+        <button type="button" class="btn-role shadow-soft rounded-lg hover:bg-slate-100 transition w-full flex items-center gap-6 bg-white border border-slate-400 p-4" data-role="citizen">
+            <div class="shrink-0">
+
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="black" stroke-width="1.8"class="text-gray-900">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+                    </svg>
+                    </div>
+                 <div class="flex flex-col">
+                    <h3 class="text-left font-bold text-[18px]">Citizen</h3>
+                    <p class="font-medium text-slate-600">Manage and share your credentials.</p>
+                    </div>
+        </button>
+
+
+       <button type="button" class="btn-role shadow-soft rounded-lg hover:bg-slate-100 transition w-full flex items-center gap-6 bg-white border border-slate-400 p-4 mt-4" data-role="employer">
+                
+                <div class="shrink-0">
+    <svg width="24" height="24" viewBox="0 0 24 24"
+         fill="white" stroke="black" stroke-width="1.8">
+        <path d="M4 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17"/>
+        <path d="M16 10h3a1 1 0 0 1 1 1v10"/>
+        <path d="M2 21h20"/>
+        <path d="M8 7h2"/>
+        <path d="M12 7h2"/>
+        <path d="M8 11h2"/>
+        <path d="M12 11h2"/>
+        <path d="M8 15h2"/>
+        <path d="M12 15h2"/>
+    </svg>
+</div>
+
+<div class="flex flex-col">
+<h3 class="text-left font-bold text-[18px]">Employer</h3>
+<p class="font-medium text-slate-600">Manage and share your credentials.</p>
+</div>
+        </button>
+
+
+         <button type="button" class="btn-role shadow-soft rounded-lg hover:bg-slate-100 transition w-full flex items-center gap-6 bg-white border border-slate-400 p-4 mt-4" data-role="institution">
+            <div class="shrink-0">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="black" stroke-width="1.8">
+        <path d="M3 10L12 4l9 6"/>
+        <path d="M5 10v9"/>
+        <path d="M9 10v9"/>
+        <path d="M15 10v9"/>
+        <path d="M19 10v9"/>
+        <path d="M3 19h18"/>
+    </svg>
+</div>
+<div class="flex flex-col">
+<h3 class="text-left font-bold text-[18px]"> Institution</h3>
+<p class="font-medium text-slate-600">Manage and share your credentials</p>
+</div>
+         </button>
+    </section>
+</main>    
+
+<footer class="bg-dark text-white">
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-10">
+
+            <div class="flex flex-col md:flex-row justify-between gap-6">
+
+                <div>
+                    <div class="text-xl font-bold"> Verify <span class="text-blue-400">Doc</span></div>
+
+                    <p class="mt-2 text-sm text-slate-400"> Digital credential verification platform.</p>
+                </div>
+
+                <p class="text-sm text-slate-400">
+                    © 2026 VerifyDoc. All rights reserved.
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+    
+</body>
+</html>
