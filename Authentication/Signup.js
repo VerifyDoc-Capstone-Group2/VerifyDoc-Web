@@ -1,27 +1,118 @@
-const full_name = document.getElementById("full_name");
+const first_name = document.getElementById("first_name");
+const last_name = document.getElementById("last_name");
 const email = document.getElementById("email");
+const number = document.getElementById("number");
+const cac = document.getElementById("cac");
 const password = document.getElementById("password");
+const digit = document.getElementById("digit");
 const confirm_password = document.getElementById("confirm_password");
+const header = document.getElementById("header");
+const email_text = document.getElementById("email_text");
 const submitButton = document.getElementById("create_account");
 
 function checkFields() {
   const submit =
-    full_name.value.trim() !== "" &&
+    first_name.value.trim() !== "" &&
+    last_name.value.trim() !== "" &&
     email.value.trim() !== "" &&
+    cac.value.trim() !== "" &&
     password.value.trim() !== "" &&
-    confirm_password.value.trim() !== "";
+    confirm_password.value.trim() !== "" &&
+    password.value === confirm_password.value;
 
   submitButton.disabled = !submit;
 }
 
-full_name.addEventListener("change", checkFields);
-email.addEventListener("change", checkFields);
-password.addEventListener("change", checkFields);
-confirm_password.addEventListener("change", checkFields);
+["input", "change"].forEach((eventName) => {
+  first_name.addEventListener(eventName, checkFields);
+  last_name.addEventListener(eventName, checkFields);
+  email.addEventListener(eventName, checkFields);
+  cac.addEventListener(eventName, checkFields);
+  password.addEventListener(eventName, checkFields);
+  confirm_password.addEventListener(eventName, checkFields);
+});
+
+const role = new URLSearchParams(window.location.search).get("role");
+
+if (role === "Institution") {
+  header.textContent = "Create an institution account";
+  email_text.textContent = "Work email";
+  number.style.display = "none";
+} else if (role === "Organization") {
+  header.textContent = "Create an organization account";
+  email_text.textContent = "Organization email";
+} else {
+  header.textContent = "Create an account";
+  email_text.textContent = "Email Address";
+  number.style.display = "none";
+}
 
 checkFields();
 
-submitButton.addEventListener("click", (e) => {
+const API_URL = "https://verifydoc-api-v1.onrender.com";
+async function signUp(data) {
+  let url = "";
+
+  if (role === "Institution") {
+    url = "auth/register-institution";
+  } else if (role === "Organization") {
+    url = "auth/register-organization";
+  } else {
+    url = "auth/register";
+  }
+  try {
+    const response = await fetch(`${API_URL}/${url}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log("Success:", result);
+
+    if (role === "institution" || role === "organization") {
+      window.location.href = `Details.html?role=${role}`;
+    } else {
+      window.location.href = "Registration_complete.html";
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Unable to create your account. Please try again.");
+    first_name.value = "";
+    last_name.value = "";
+    email.value = "";
+    cac.value = "";
+    password.value = "";
+    confirm_password.value = "";
+  }
+}
+
+submitButton.addEventListener("click", async (e) => {
   e.preventDefault();
-  window.location.href = "Registration_complete.html";
+
+  if (submitButton.disabled) {
+    return;
+  }
+
+  if (password.value !== confirm_password.value) {
+    alert("Passwords do not match.");
+    return;
+  }
+
+  await signUp({
+    firstName: first_name.value.trim(),
+    lastName: last_name.value.trim(),
+    email: email.value.trim(),
+    password: password.value,
+    ...(role === "Organization" && {
+      cacCertificate: cac.value,
+    }),
+    role: role,
+  });
 });
