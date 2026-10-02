@@ -164,7 +164,7 @@
         <!--Input field-->
         <div class="flex flex-col gap-y-4">
           <div class="flex flex-col gap-y-2">
-            <label class="text-xs font-[Inter] text-[#111827]"
+            <label class="text-xs font-[Inter] text-[#111827]" id="name"
               >Organization name</label
             >
             <input
@@ -175,7 +175,7 @@
             />
           </div>
           <div class="flex flex-col gap-y-2">
-            <label class="text-xs font-[Inter] text-[#111827]"
+            <label class="text-xs font-[Inter] text-[#111827]" id="type"
               >Organization type</label
             >
             <input
@@ -186,18 +186,33 @@
             />
           </div>
           <div class="flex flex-col gap-y-2">
+            <label
+              class="text-xs font-[Inter] text-[#111827]"
+              for="organization_document"
+              id="document_label"
+            ></label>
+            <input
+              type="file"
+              class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
+              accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg"
+              id="organization_document"
+              required
+            />
+          </div>
+          <div class="flex flex-col gap-y-2">
             <label class="text-xs font-[Inter] text-[#111827]"
               >Phone number</label
             >
             <input
-              type=""
+              type="tel"
               class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
               placeholder="+234 1234983920"
               id="number"
-              maxlength="11"
+              maxlength="15"
             />
           </div>
         </div>
+        <p id="application_message" class="hidden text-sm" role="alert"></p>
 
         <!--buttons-->
         <div class="flex flex-col gap-y-4">

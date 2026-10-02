@@ -15,7 +15,6 @@ function checkFields() {
     first_name.value.trim() !== "" &&
     last_name.value.trim() !== "" &&
     email.value.trim() !== "" &&
-    cac.value.trim() !== "" &&
     password.value.trim() !== "" &&
     confirm_password.value.trim() !== "" &&
     password.value === confirm_password.value;
@@ -51,15 +50,7 @@ checkFields();
 
 const API_URL = "https://verifydoc-api-v1.onrender.com";
 async function signUp(data) {
-  let url = "";
-
-  if (role === "Institution") {
-    url = "auth/register-institution";
-  } else if (role === "Organization") {
-    url = "auth/register-organization";
-  } else {
-    url = "auth/register";
-  }
+  let url = "auth/register";
   try {
     const response = await fetch(`${API_URL}/${url}`, {
       method: "POST",
@@ -76,11 +67,7 @@ async function signUp(data) {
     const result = await response.json();
     console.log("Success:", result);
 
-    if (role === "institution" || role === "organization") {
-      window.location.href = `Details.html?role=${role}`;
-    } else {
-      window.location.href = "Registration_complete.html";
-    }
+    window.location.href = "Registration_complete.html";
   } catch (error) {
     console.error("Error:", error);
     alert("Unable to create your account. Please try again.");
@@ -94,7 +81,22 @@ async function signUp(data) {
 }
 
 submitButton.addEventListener("click", async (e) => {
+  const user = {
+    firstName: first_name.value.trim(),
+    lastName: last_name.value.trim(),
+    email: email.value.trim(),
+    password: password.value,
+    ...(role === "Organization" && {
+      cacNumber: cac.value,
+    }),
+    role: role,
+  };
   e.preventDefault();
+  if (role === "Institution" || role === "Organization") {
+    window.location.href = `Details.html?role=${role}`;
+    localStorage.setItem("user", JSON.stringify(user));
+    return;
+  }
 
   if (submitButton.disabled) {
     return;
