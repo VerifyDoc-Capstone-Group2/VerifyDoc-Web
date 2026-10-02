@@ -11,10 +11,13 @@
 </head>
 <body class="bg-[#F8FAFC] font-sans antialiased text-slate-800">
 
+  <!-- Mobile Sidebar Overlay -->
+  <div id="sidebarOverlay" class="fixed inset-0 bg-slate-900/50 z-20 hidden md:hidden"></div>
+
   <div class="flex min-h-screen">
     
-    <!-- Sidebar -->
-    <aside class="w-64 bg-[#0F172A] text-slate-300 flex flex-col justify-between p-4 shrink-0 sticky top-0 h-screen overflow-y-auto">
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="fixed md:sticky top-0 h-screen w-64 bg-[#0F172A] text-slate-300 flex flex-col justify-between p-4 z-30 transition-transform -translate-x-full md:translate-x-0 overflow-y-auto shrink-0">
       <div>
         <!-- Logo -->
         <div class="flex items-center gap-2 px-3 py-4 text-white font-bold text-xl">
@@ -34,12 +37,12 @@
             <i data-lucide="share-2" class="w-5 h-5"></i>
             <span>Shared Credentials</span>
           </a>
-          <!-- Active Nav Link -->
-          <a href="verify-credential.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-600 text-white font-medium transition">
+          <a href="verify-credential.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
             <i data-lucide="file-check" class="w-5 h-5"></i>
             <span>Verify Credential</span>
           </a>
-          <a href="verification-requests.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+          <!-- Active Nav Link -->
+          <a href="verification-request-status.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-600 text-white font-medium transition">
             <i data-lucide="clock" class="w-5 h-5"></i>
             <span>Verification Requests</span>
           </a>
@@ -70,30 +73,37 @@
     <main class="flex-1 flex flex-col min-w-0">
       
       <!-- Top Header -->
-      <header class="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between">
-        <!-- Search Input -->
-        <div class="relative w-80">
-          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
-          <input 
-            type="text" 
-            placeholder="Search anything..." 
-            class="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
+      <header class="bg-white border-b border-slate-200 px-4 sm:px-8 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <!-- Mobile Menu Button -->
+          <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 focus:outline-none">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+
+          <!-- Search Input -->
+          <div class="relative w-44 sm:w-80">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input 
+              type="text" 
+              placeholder="Search anything..." 
+              class="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
         </div>
 
         <!-- User Profile & Notifications -->
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 sm:gap-4">
           <button class="relative p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition">
             <i data-lucide="bell" class="w-5 h-5"></i>
             <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-600 rounded-full"></span>
           </button>
-          <div class="flex items-center gap-3 border-l border-slate-200 pl-4">
+          <div class="flex items-center gap-3 border-l border-slate-200 pl-2 sm:pl-4">
             <img 
               src="https://res.cloudinary.com/xnjupqaj/image/upload/v1790814913/Ellipse_160_epfvd1.png" 
               alt="John Doe" 
-              class="w-9 h-9 rounded-full object-cover"
+              class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover"
             />
-            <div class="text-sm">
+            <div class="text-sm hidden sm:block">
               <p class="font-semibold text-slate-800 leading-none">John Doe</p>
               <p class="text-xs text-slate-500 mt-0.5">Employer</p>
             </div>
@@ -102,7 +112,7 @@
       </header>
 
       <!-- Main Content View -->
-      <div class="p-8 space-y-6 max-w-2xl">
+      <div class="p-4 sm:p-8 space-y-6 max-w-2xl mx-auto w-full">
         
         <!-- Back Link -->
         <div>
@@ -114,12 +124,12 @@
 
         <!-- Page Heading -->
         <div>
-          <h1 class="text-2xl font-bold text-slate-900">Verification Request Status</h1>
-          <p class="text-xs text-slate-500 mt-1">Track the status of your fresh confirmation request.</p>
+          <h1 class="text-xl sm:text-2xl font-bold text-slate-900">Verification Request Status</h1>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Track the status of your fresh confirmation request.</p>
         </div>
 
         <!-- Status Details Card -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 space-y-6">
           
           <!-- Credential Brief Card -->
           <div class="bg-slate-50/60 rounded-xl p-4 flex items-center gap-4">
@@ -189,7 +199,7 @@
         <div>
           <a 
             href="shared-credentials.html" 
-            class="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold py-3.5 px-4 rounded-xl shadow-sm transition flex items-center justify-center"
+            class="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold py-3.5 px-4 rounded-xl shadow-sm transition flex items-center justify-center active:scale-[0.99]"
           >
             Back to Shared Credentials
           </a>
@@ -199,9 +209,8 @@
     </main>
   </div>
 
-  <script>
-    // Initialize Lucide Icons
-    lucide.createIcons();
-  </script>
+  <!-- External JavaScript Files -->
+  <script src="js/main.js"></script>
+  <script src="js/verification-request-status.js"></script>
 </body>
 </html>

@@ -6,15 +6,18 @@
   <title>VerifyDoc - Employer Dashboard</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
+  <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-[#F8FAFC] font-sans antialiased text-slate-800">
 
+  <!-- Mobile Sidebar Overlay -->
+  <div id="sidebarOverlay" class="fixed inset-0 bg-slate-900/50 z-20 hidden md:hidden"></div>
+
   <div class="flex min-h-screen">
     
-    <!-- Sidebar -->
-    <aside class="w-64 bg-[#0F172A] text-slate-300 flex flex-col justify-between p-4 shrink-0 sticky top-0 h-screen overflow-y-auto">
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="fixed md:sticky top-0 h-screen w-64 bg-[#0F172A] text-slate-300 flex flex-col justify-between p-4 z-30 transition-transform -translate-x-full md:translate-x-0 overflow-y-auto shrink-0">
       <div>
         <!-- Logo -->
         <div class="flex items-center gap-2 px-3 py-4 text-white font-bold text-xl">
@@ -26,7 +29,7 @@
 
         <!-- Navigation Links -->
         <nav class="mt-6 space-y-1">
-          <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-600 text-white font-medium transition">
+          <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-600 text-white font-medium transition">
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
             <span>Dashboard</span>
           </a>
@@ -38,15 +41,15 @@
             <i data-lucide="file-check" class="w-5 h-5"></i>
             <span>Verify Credential</span>
           </a>
-          <a href="verification-requests.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+          <a href="verification-request-status.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
             <i data-lucide="clock" class="w-5 h-5"></i>
             <span>Verification Requests</span>
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+          <a href="organization.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
             <i data-lucide="building-2" class="w-5 h-5"></i>
             <span>Organization</span>
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
+          <a href="settings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
             <i data-lucide="settings" class="w-5 h-5"></i>
             <span>Settings</span>
           </a>
@@ -69,30 +72,39 @@
     <main class="flex-1 flex flex-col min-w-0">
       
       <!-- Top Header -->
-      <header class="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between">
-        <!-- Search Bar -->
-        <div class="relative w-80">
-          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
-          <input 
-            type="text" 
-            placeholder="Search anything..." 
-            class="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
+      <header class="bg-white border-b border-slate-200 px-4 sm:px-8 py-4 flex items-center justify-between gap-3">
+        
+        <div class="flex items-center gap-3 flex-1 sm:flex-initial">
+          <!-- Mobile Menu Button -->
+          <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 focus:outline-none shrink-0">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+
+          <!-- Search Bar -->
+          <div class="relative w-full sm:w-80">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input 
+              type="text" 
+              placeholder="Search anything..." 
+              class="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
         </div>
 
         <!-- User Profile & Notifications -->
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3 sm:gap-4 shrink-0">
           <button class="relative p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition">
             <i data-lucide="bell" class="w-5 h-5"></i>
             <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-600 rounded-full"></span>
           </button>
-          <div class="flex items-center gap-3 border-l border-slate-200 pl-4">
+          
+          <div class="flex items-center gap-3 border-l border-slate-200 pl-3 sm:pl-4">
             <img 
               src="https://res.cloudinary.com/xnjupqaj/image/upload/v1790814913/Ellipse_160_epfvd1.png" 
               alt="John Doe" 
-              class="w-9 h-9 rounded-full object-cover"
+              class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover"
             />
-            <div class="text-sm">
+            <div class="text-sm hidden sm:block">
               <p class="font-semibold text-slate-800 leading-none">John Doe</p>
               <p class="text-xs text-slate-500 mt-0.5">Employer</p>
             </div>
@@ -101,40 +113,40 @@
       </header>
 
       <!-- Dashboard Body -->
-      <div class="p-8 space-y-6 overflow-y-auto">
+      <div class="p-4 sm:p-8 space-y-6 overflow-y-auto">
         
         <!-- Welcome Banner & Key Metrics Section -->
         <div class="space-y-6">
 
           <!-- Welcome Banner -->
-          <div class="bg-[#EEF4FF] border border-[#DCE7FF] rounded-2xl p-6 relative flex justify-between items-center overflow-hidden min-h-[120px]">
+          <div class="bg-[#EEF4FF] border border-[#DCE7FF] rounded-2xl p-5 sm:p-6 relative flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 overflow-hidden min-h-[120px]">
             <div class="space-y-1.5 z-10 max-w-md">
-              <h1 class="text-xl font-bold text-[#1E293B]">Good morning, John Doe</h1>
+              <h1 class="text-lg sm:text-xl font-bold text-[#1E293B]">Good morning, John Doe</h1>
               <p class="text-[#64748B] text-xs leading-relaxed">
                 Verify credentials, build trust, and make better hiring decisions.
               </p>
             </div>
 
             <!-- Right Graphic Illustration (3D Shield & Document) -->
-            <div class="relative flex items-center justify-center pr-4">
-              <div class="absolute -right-2 -bottom-6 w-32 h-32 bg-blue-200/40 rounded-full blur-xl"></div>
+            <div class="relative flex items-center justify-end w-full sm:w-auto pr-2 sm:pr-4">
+              <div class="absolute -right-2 -bottom-6 w-28 h-28 sm:w-32 sm:h-32 bg-blue-200/40 rounded-full blur-xl"></div>
               
               <div class="relative flex items-center">
-                <div class="w-16 h-20 bg-white border border-blue-200 rounded-lg shadow-sm rotate-12 flex flex-col p-2 space-y-1.5 transform translate-x-3">
+                <div class="w-14 h-16 sm:w-16 sm:h-20 bg-white border border-blue-200 rounded-lg shadow-sm rotate-12 flex flex-col p-2 space-y-1.5 transform translate-x-3">
                   <div class="w-8 h-1.5 bg-blue-100 rounded"></div>
                   <div class="w-10 h-1 bg-slate-100 rounded"></div>
                   <div class="w-8 h-1 bg-slate-100 rounded"></div>
                   <div class="w-6 h-1 bg-slate-100 rounded"></div>
                 </div>
-                <div class="z-10 bg-gradient-to-b from-blue-500 to-blue-700 text-white p-3 rounded-2xl shadow-lg shadow-blue-500/30 transform -rotate-6 border-2 border-white">
-                  <i data-lucide="shield-check" class="w-7 h-7"></i>
+                <div class="z-10 bg-gradient-to-b from-blue-500 to-blue-700 text-white p-2.5 sm:p-3 rounded-2xl shadow-lg shadow-blue-500/30 transform -rotate-6 border-2 border-white">
+                  <i data-lucide="shield-check" class="w-6 h-6 sm:w-7 sm:h-7"></i>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Metric Cards Grid -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
 
             <!-- Total Verifications (Blue Tint) -->
             <div class="bg-[#F4F8FF] border border-[#E0ECFF] p-5 rounded-2xl shadow-sm">
@@ -171,7 +183,7 @@
             </div>
 
             <!-- Completed (Green Tint) -->
-            <div class="bg-[#F0FDF4] border border-[#DCFCE7] p-5 rounded-2xl shadow-sm">
+            <div class="bg-[#F0FDF4] border border-[#DCFCE7] p-5 rounded-2xl shadow-sm sm:col-span-2 lg:col-span-1">
               <div class="flex items-center gap-2 mb-3">
                 <div class="w-6 h-6 rounded bg-[#10B981] text-white flex items-center justify-center shrink-0">
                   <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
@@ -194,18 +206,18 @@
         <!-- Lower Grid Section -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
-          <!-- Recent Activity (Spans 2 Columns) -->
-          <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+          <!-- Recent Activity (Spans 2 Columns on Desktop) -->
+          <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-4 sm:p-6 shadow-sm">
             <div class="flex items-center justify-between mb-4">
               <h2 class="font-bold text-slate-900">Recent Activity</h2>
               <a href="#" class="text-xs text-blue-600 hover:underline font-medium">View all</a>
             </div>
 
-            <div class="space-y-4">
+            <div class="space-y-3 sm:space-y-4">
               <!-- Item 1 -->
-              <div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition border border-slate-100">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition border border-slate-100 gap-3 sm:gap-0">
                 <div class="flex items-center gap-3">
-                  <div class="p-2.5 bg-emerald-100 text-emerald-600 rounded-lg">
+                  <div class="p-2.5 bg-emerald-100 text-emerald-600 rounded-lg shrink-0">
                     <i data-lucide="shield-check" class="w-5 h-5"></i>
                   </div>
                   <div>
@@ -213,16 +225,16 @@
                     <p class="text-xs text-slate-500">B.Sc. Computer Science • MOUAU</p>
                   </div>
                 </div>
-                <div class="text-right">
-                  <span class="text-xs text-slate-400 block mb-1">2h ago</span>
+                <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center">
+                  <span class="text-xs text-slate-400 block sm:mb-1">2h ago</span>
                   <span class="text-[10px] font-semibold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">Verified</span>
                 </div>
               </div>
 
               <!-- Item 2 -->
-              <div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition border border-slate-100">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition border border-slate-100 gap-3 sm:gap-0">
                 <div class="flex items-center gap-3">
-                  <div class="p-2.5 bg-blue-100 text-blue-600 rounded-lg">
+                  <div class="p-2.5 bg-blue-100 text-blue-600 rounded-lg shrink-0">
                     <i data-lucide="file-badge" class="w-5 h-5"></i>
                   </div>
                   <div>
@@ -230,16 +242,16 @@
                     <p class="text-xs text-slate-500">Faith Okafor • NYSC Certificate</p>
                   </div>
                 </div>
-                <div class="text-right">
-                  <span class="text-xs text-slate-400 block mb-1">4h ago</span>
+                <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center">
+                  <span class="text-xs text-slate-400 block sm:mb-1">4h ago</span>
                   <span class="text-[10px] font-semibold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">Shared</span>
                 </div>
               </div>
 
               <!-- Item 3 -->
-              <div class="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition border border-slate-100">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition border border-slate-100 gap-3 sm:gap-0">
                 <div class="flex items-center gap-3">
-                  <div class="p-2.5 bg-indigo-100 text-indigo-600 rounded-lg">
+                  <div class="p-2.5 bg-indigo-100 text-indigo-600 rounded-lg shrink-0">
                     <i data-lucide="send" class="w-5 h-5"></i>
                   </div>
                   <div>
@@ -247,8 +259,8 @@
                     <p class="text-xs text-slate-500">TechCrush Solutions</p>
                   </div>
                 </div>
-                <div class="text-right">
-                  <span class="text-xs text-slate-400 block mb-1">6h ago</span>
+                <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center">
+                  <span class="text-xs text-slate-400 block sm:mb-1">6h ago</span>
                   <span class="text-[10px] font-semibold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">Pending</span>
                 </div>
               </div>
@@ -282,9 +294,7 @@
     </main>
   </div>
 
-  <script>
-    // Initialize Lucide icons
-    lucide.createIcons();
-  </script>
+  <!-- External JavaScript -->
+  <script src="js/dashboard.js"></script>
 </body>
 </html>
