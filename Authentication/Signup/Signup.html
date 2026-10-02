@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/style.css" />
+    <title>Sign Up</title>
+  </head>
+  <body class="flex items-center justify-center min-h-screen">
+    <section class="p-4 flex flex-col gap-y-6 lg:p-0">
+      <!--Heading text-->
+      <div class="flex flex-col gap-y-2 text-center">
+        <h3
+          class="text-[28px] font-[Inter] lg:text-[40px] font-extrabold text-[#171717]"
+        >
+          Create your account
+        </h3>
+        <span
+          class="text-base text-[#737373] lg:text-[18px] font-medium font-[Inter]"
+          >Create your account to create and share credentials</span
+        >
+      </div>
+
+      <!--Input form-->
+      <form action="" class="flex flex-col gap-y-8">
+        <!--Input field-->
+        <div class="flex flex-col gap-y-4">
+          <div class="flex flex-col gap-y-2">
+            <label class="text-xs font-[Inter] text-[#111827]">Full name</label>
+            <input
+              type="text"
+              class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
+              placeholder="John Doe"
+              id="full_name"
+            />
+          </div>
+          <div class="flex flex-col gap-y-2">
+            <label class="text-xs font-[Inter] text-[#111827]"
+              >Email Address</label
+            >
+            <input
+              type="email"
+              class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
+              placeholder="johndoe@gmail.com"
+              id="email"
+            />
+          </div>
+          <div class="flex flex-col gap-y-2">
+            <label class="text-xs font-[Inter] text-[#111827]">Password</label>
+            <input
+              type="password"
+              class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
+              placeholder="••••••••"
+              id="password"
+            />
+          </div>
+          <div class="flex flex-col gap-y-2">
+            <label class="text-xs font-[Inter] text-[#111827]"
+              >Confirm password</label
+            >
+            <input
+              type="password"
+              class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
+              placeholder="••••••••"
+              id="confirm_password"
+            />
+          </div>
+        </div>
+        <!--buttons-->
+
+        <div class="flex flex-col gap-y-4">
+          <button
+            type="submit"
+            class="bg-[#155eef] text-white py-2.5 font-[Inter] cursor-pointer hover:bg-[#0b1f3a] px-5 rounded-lg disabled:cursor-not-allowed disabled:opacity-50"
+            id="create_account"
+          >
+            Create account
+          </button>
+          <button
+            class="border border-[#155eef] py-2.5 font-[Inter] cursor-pointer px-5 rounded-lg text-[#155eef]"
+          >
+            Back
+          </button>
+        </div>
+      </form>
+
+      <!--Login text-->
+      <div class="mb-5 flex flex-col gap-y-1 text-center lg:mb-10">
+        <span class="text-[#404040] font-[Inter]">Already have an account?</span
+        ><button class="font-[Inter] cursor-pointer text-[#155eef]">
+          Login
+        </button>
+      </div>
+    </section>
+
+    <script src="../Signup.js"></script>
+  </body>
+</html>

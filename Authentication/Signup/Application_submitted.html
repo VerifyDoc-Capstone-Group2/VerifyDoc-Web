@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/style.css" />
+    <title>Application Submitted</title>
+  </head>
+  <body class="flex items-center justify-center mt-10">
+    <section class="p-4 flex flex-col gap-y-6 lg:p-0">
+      <!--Heading text-->
+      <div class="flex flex-col gap-y-2 text-center">
+        <h3
+          class="text-[28px] font-[Inter] lg:text-[40px] font-extrabold text-[#171717]"
+        >
+          Application submitted
+        </h3>
+        <span
+          class="text-base text-[#737373] lg:text-[18px] font-medium font-[Inter]"
+          >Your organization application has been sumitted</span
+        >
+      </div>
+      <!--buttons-->
+      <div class="flex flex-col gap-y-4">
+        <button
+          type="submit"
+          class="bg-[#155eef] text-white py-2.5 font-[Inter] cursor-pointer hover:bg-[#0b1f3a] px-5 rounded-lg disabled:cursor-not-allowed disabled:opacity-50"
+          id="application_submitted"
+        >
+          <a href="Application_under_review.html">View application status</a>
+        </button>
+      </div>
+
+      <!--Login text-->
+      <button
+        class="text-base font-[Inter] lg:text-[24px] cursor-pointer font-bold text-[#155eef]"
+      >
+        Return to login
+      </button>
+    </section>
+  </body>
+</html>

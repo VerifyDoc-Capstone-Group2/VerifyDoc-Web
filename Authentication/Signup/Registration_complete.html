@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/style.css" />
+    <title>Registration</title>
+  </head>
+  <body class="flex items-center justify-center lg:min-h-screen">
+    <section class="p-4 flex flex-col items-center gap-y-8 lg:p-0">
+      <!--Heading text-->
+      <div class="flex flex-col gap-y-2 text-center items-center">
+        <h3
+          class="text-[28px] font-[Inter] lg:text-[40px] font-extrabold text-[#171717]"
+        >
+          Registration Complete
+        </h3>
+        <span
+          class="text-base text-[#737373] lg:text-base max-w-full lg:w-1/2 text-center font-medium font-[Inter]"
+          >We've sent a 6-digit verification code to your email. Kindly check
+          and enter the code below to continue.</span
+        >
+      </div>
+
+      <!--input section for code-->
+      <div class="gap-x-2 flex items-center lg:gap-x-6">
+        <input
+          type="text"
+          maxlength="1"
+          class="text-[24px] font-bold flex items-center justify-center rounded-lg border border-[#D1D5DB] p-1 text-center outline-none font-[Inter] max-w-full max-h-full w-11 h-13"
+        />
+        <input
+          type="text"
+          maxlength="1"
+          class="text-[24px] font-bold flex items-center justify-center rounded-lg border border-[#D1D5DB] p-1 text-center outline-none font-[Inter] max-w-full max-h-full w-11 h-13"
+        />
+        <input
+          type="text"
+          maxlength="1"
+          class="text-[24px] font-bold flex items-center justify-center rounded-lg border border-[#D1D5DB] p-1 text-center outline-none font-[Inter] max-w-full max-h-full w-11 h-13"
+        />
+        <input
+          type="text"
+          maxlength="1"
+          class="text-[24px] font-bold flex items-center justify-center rounded-lg border border-[#D1D5DB] p-1 text-center outline-none font-[Inter] max-w-full max-h-full w-11 h-13"
+        />
+        <input
+          type="text"
+          maxlength="1"
+          class="text-[24px] font-bold flex items-center justify-center rounded-lg border border-[#D1D5DB] p-1 text-center outline-none font-[Inter] max-w-full max-h-full w-11 h-13"
+        />
+        <input
+          type="text"
+          maxlength="1"
+          class="text-[24px] font-bold flex items-center justify-center rounded-lg border border-[#D1D5DB] p-1 text-center outline-none font-[Inter] max-w-full max-h-full w-11 h-13"
+        />
+      </div>
+
+      <span
+        class="text-base text-[#737373] lg:text-base max-w-full w-1/2 text-center font-medium font-[Inter]"
+        >Resend code: <b>00:30</b></span
+      >
+
+      <div class="flex flex-col gap-y-3">
+        <span class="text-[#404040] font-[Inter]">Didn’t receive a code?</span
+        ><button class="font-[Inter] cursor-pointer text-[#155eef] font-bold">
+          Resend Code
+        </button>
+      </div>
+    </section>
+  </body>
+</html>
