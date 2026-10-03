@@ -1,5 +1,5 @@
 // VerifyDoc API Base URL
-const API_BASE_URL = "https://verifydoc-api-v1-.onrender.com";
+const API_BASE_URL = "https://verifydoc-api-v1.onrender.com";
 
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
@@ -68,14 +68,28 @@ loginForm.addEventListener("submit", async (e) => {
 
     // Extract JWT token and user info per API spec
     if (resData.data && resData.data.token) {
-      localStorage.setItem("authToken", resData.data.token);
+      localStorage.setItem("authorization", resData.data.token);
       localStorage.setItem("user", JSON.stringify(resData.data.user));
     }
 
     showAlert("Login successful! Redirecting...", false);
 
     setTimeout(() => {
-      window.location.href = "../../Employer-dashbord/dashboard.html";
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (!user) {
+        showAlert("User information is missing. Please log in again.");
+      }
+
+      if (user && user.role === "Admin") {
+        window.location.href = "../../Admin-dashbord/dashboard.html";
+      } else if (user && user.role === "Organization") {
+        window.location.href = "../../Employer-dashbord/dashboard.html";
+      } else if (user && user.role === "Institution") {
+        window.location.href = "../../Institution-dashbord/dashboard.html";
+      } else if (user && user.role === "Citizen") {
+        window.location.href = "../../Citizen-dashbord/dashboard.html";
+      }
     }, 1000);
 
   } catch (error) {
