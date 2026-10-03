@@ -82,7 +82,7 @@ loginForm.addEventListener("submit", async (e) => {
       }
 
       if (user && user.role === "Admin") {
-        window.location.href = "../../Admin-dashbord/dashboard.html";
+        window.location.href = "../../Admin-Dashboard/Admin.html";
       } else if (user && user.role === "Organization") {
         window.location.href = "../../Employer-dashbord/dashboard.html";
       } else if (user && user.role === "Institution") {
