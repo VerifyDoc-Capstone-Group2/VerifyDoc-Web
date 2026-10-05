@@ -2,6 +2,19 @@
 
 console.log("Registration.js loaded");
 
+function showToast (message, toastStyle) {
+  Toastify({
+    text: message,
+    duration: 3000,
+    gravity: "top",
+    style: toastStyle || {
+      background: "green",
+      color: "white",
+      borderRadius: "8px"
+    }
+  }).showToast();
+};
+
 const API_BASE_URL = "https://verifydoc-api-v1.onrender.com";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -13,37 +26,49 @@ document.addEventListener("DOMContentLoaded", () => {
   let timeLeft = 30;
 
   // Extract email saved during signup
-  const userEmail = localStorage.getItem("pendingEmail") || "";
+  const userEmail = sessionStorage.getItem("verificationEmail");
+
+  if (!userEmail) {
+    showToast("No email found for verification. Please sign up again.", {
+      background: "red",
+      color: "white",
+      borderRadius: "8px"
+    });
+
+    return;
+  }
 
   // Dynamic feedback alert box
-  const section = document.querySelector("section");
-  let alertBox = document.getElementById("otpAlert");
-  if (!alertBox) {
-    alertBox = document.createElement("div");
-    alertBox.id = "otpAlert";
-    alertBox.className = "hidden text-sm rounded-md p-3 text-center my-2 font-medium transition-all w-full max-w-xs";
-    section.insertBefore(alertBox, section.children[1]);
-  }
+  // const section = document.querySelector("section");
+  // let alertBox = document.getElementById("otpAlert");
+  // if (!alertBox) {
+  //   alertBox = document.createElement("div");
+  //   alertBox.id = "otpAlert";
+  //   alertBox.className = "hidden text-sm rounded-md p-3 text-center my-2 font-medium transition-all w-full max-w-xs";
+  //   section.insertBefore(alertBox, section.children[1]);
+  // }
 
-  function showAlert(message, isError = true) {
-    alertBox.innerText = message;
-    alertBox.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700");
-    if (isError) {
-      alertBox.classList.add("bg-red-100", "text-red-700");
-    } else {
-      alertBox.classList.add("bg-green-100", "text-green-700");
-    }
-  }
+  // function showAlert(message, isError = true) {
+  //   alertBox.innerText = message;
+  //   alertBox.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700");
+  //   if (isError) {
+  //     alertBox.classList.add("bg-red-100", "text-red-700");
+  //   } else {
+  //     alertBox.classList.add("bg-green-100", "text-green-700");
+  //   }
+  // }
 
-  function clearAlert() {
-    alertBox.innerText = "";
-    alertBox.classList.add("hidden");
-  }
+  // function clearAlert() {
+  //   alertBox.innerText = "";
+  //   alertBox.classList.add("hidden");
+  // }
+
+  let isVerifying = false;
 
   // Auto-focus and numeric entry handling across the 6 boxes
   otpInputs.forEach((input, index) => {
     input.addEventListener("input", (e) => {
-      clearAlert();
+      // clearAlert();
       const value = e.target.value;
 
       e.target.value = value.replace(/[^0-9]/g, "");
@@ -80,7 +105,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- API CALL: VERIFY EMAIL OTP ---
   async function verifyOtp(code) {
-    showAlert("Verifying code...", false);
+    if (isVerifying) return;
+
+    isVerifying = true;
+
+    showToast("Verifying code...", {
+      background: "amber",
+      color: "black",
+      borderRadius: "8px"
+    });
 
     try {
       const response = await fetch(`${API_BASE_URL}/auth/email/verify`, {
@@ -90,24 +123,32 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         body: JSON.stringify({
           email: userEmail,
-          code: code, // or 'otp' depending on exact backend property key
+          otp: code
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Invalid or expired verification code.");
+        throw new Error(data.message || "Verification failed");
       }
 
-      showAlert("Email verified successfully! Redirecting to login...", false);
+      showToast("Email verified successfully! Redirecting to login...");
+
+      sessionStorage.removeItem("verificationEmail");
 
       setTimeout(() => {
         window.location.href = "../Login/login.html";
       }, 1500);
 
     } catch (error) {
-      showAlert(error.message || "Verification failed. Please try again.");
+      showToast("Verification failed. Please try again.", {
+        background: "red",
+        color: "white",
+        borderRadius: "8px"
+      });
+    } finally {
+      isVerifying = false;
     }
   }
 
@@ -133,12 +174,12 @@ document.addEventListener("DOMContentLoaded", () => {
   resendBtn.addEventListener("click", async () => {
     if (resendBtn.disabled) return;
 
-    clearAlert();
-    showAlert("Sending a new verification code...", false);
+    // clearAlert();
+    showToast("Sending a new verification code...");
 
 
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/email/verify`, {
+      const response = await fetch(`${API_BASE_URL}/auth/email/send-verification`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -149,14 +190,24 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Failed to resend code.");
+        showToast("Failed to resend code. Please try again.", {
+          background: "red",
+          color: "white",
+          borderRadius: "8px"
+        });
+
+        throw new Error(data.message );
       }
 
-      showAlert("New verification code sent!", false);
+      showToast("Verification code resent successfully!");
       startCountdown();
 
     } catch (error) {
-      showAlert(error.message || "Could not resend code. Please try again.");
+      showToast("Could not resend code. Please try again.", {
+        background: "red",
+        color: "white",
+        borderRadius: "8px"
+      });
     }
   });
 

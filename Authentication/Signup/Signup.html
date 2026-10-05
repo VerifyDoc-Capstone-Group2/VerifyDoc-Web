@@ -11,7 +11,6 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../Signup.js" defer></script>
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,6 +18,8 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <!-- For Toastify -->
+    <link rel="stylesheet" href="../../node_modules/toastify-js/src/toastify.css" />
 
     <script>
       tailwind.config = {
@@ -173,8 +174,8 @@
               <input
                 type="text"
                 class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
-                placeholder="John Doe"
-                id="first_name"
+                placeholder="John"
+                id="firstName"
               />
             </div>
             <div class="flex flex-col gap-y-2">
@@ -184,11 +185,12 @@
               <input
                 type="text"
                 class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
-                placeholder="John Doe"
+                placeholder="Doe"
                 id="last_name"
               />
             </div>
           </div>
+          
           <div class="flex flex-col gap-y-2">
             <label class="text-xs font-[Inter] text-[#111827]" id="email_text"
               >Email Address</label
@@ -201,17 +203,18 @@
             />
           </div>
 
-          <div class="flex flex-col gap-y-2" id="number">
-            <label class="text-xs font-[Inter] text-[#111827]" id="number"
-              >CAC number</label
+          <div class="flex flex-col gap-y-2" >
+            <label class="text-xs font-[Inter] text-[#111827]"
+              >Phone Number <span class="text-gray-500">(Optional)</span></label
             >
             <input
-              type="text"
+              type="tel"
               class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
-              placeholder="johndoe@gmail.com"
-              id="cac"
+              placeholder="+234 801 234 2345"
+              id="phoneNumber"
             />
           </div>
+
           <div class="flex flex-col gap-y-2">
             <label class="text-xs font-[Inter] text-[#111827]">Password</label>
             <input
@@ -236,6 +239,9 @@
               id="confirm_password"
             />
           </div>
+
+          <!-- Password error message -->
+           <p id="passwordErrorMessage" class="text-red-500 text-xs"></p>
         </div>
         <!--buttons-->
 
@@ -268,6 +274,7 @@
       </div>
     </section>
 
+    <script src="../../node_modules/toastify-js/src/toastify.js"></script>
     <script src="../Signup.js"></script>
   </body>
 </html>

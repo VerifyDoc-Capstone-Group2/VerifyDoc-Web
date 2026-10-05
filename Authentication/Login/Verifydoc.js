@@ -1,34 +1,47 @@
 // VerifyDoc API Base URL
 const API_BASE_URL = "https://verifydoc-api-v1.onrender.com";
 
+function showToast (message, toastStyle) {
+  Toastify({
+    text: message,
+    duration: 3000,
+    gravity: "top",
+    style: toastStyle || {
+      background: "green",
+      color: "white",
+      borderRadius: "8px"
+    }
+  }).showToast();
+};
+
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const loginBtn = document.getElementById("login");
 const loginForm = document.getElementById("loginForm");
 
 // Create dynamic alert container for feedback
-let alertBox = document.getElementById("loginAlert");
-if (!alertBox) {
-  alertBox = document.createElement("div");
-  alertBox.id = "loginAlert";
-  alertBox.className = "hidden text-sm rounded-md p-3 text-center mb-2 font-medium transition-all";
-  loginForm.parentNode.insertBefore(alertBox, loginForm);
-}
+// let alertBox = document.getElementById("loginAlert");
+// if (!alertBox) {
+//   alertBox = document.createElement("div");
+//   alertBox.id = "loginAlert";
+//   alertBox.className = "hidden text-sm rounded-md p-3 text-center mb-2 font-medium transition-all";
+//   loginForm.parentNode.insertBefore(alertBox, loginForm);
+// }
 
-function showAlert(message, isError = true) {
-  alertBox.innerText = message;
-  alertBox.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700");
-  if (isError) {
-    alertBox.classList.add("bg-red-100", "text-red-700");
-  } else {
-    alertBox.classList.add("bg-green-100", "text-green-700");
-  }
-}
+// function showAlert(message, isError = true) {
+//   alertBox.innerText = message;
+//   alertBox.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700");
+//   if (isError) {
+//     alertBox.classList.add("bg-red-100", "text-red-700");
+//   } else {
+//     alertBox.classList.add("bg-green-100", "text-green-700");
+//   }
+// }
 
-function clearAlert() {
-  alertBox.innerText = "";
-  alertBox.classList.add("hidden");
-}
+// function clearAlert() {
+//   alertBox.innerText = "";
+//   alertBox.classList.add("hidden");
+// }
 
 function updateButtonState() {
   const isValid = emailInput.value.trim() !== "" && passwordInput.value.trim() !== "";
@@ -43,7 +56,7 @@ updateButtonState();
 
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  clearAlert();
+  // clearAlert();
 
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
@@ -72,13 +85,19 @@ loginForm.addEventListener("submit", async (e) => {
       localStorage.setItem("user", JSON.stringify(resData.data.user));
     }
 
-    showAlert("Login successful! Redirecting...", false);
+    showToast("Login successful! Redirecting...");
 
     setTimeout(() => {
       const user = JSON.parse(localStorage.getItem("user"));
 
       if (!user) {
         showAlert("User information is missing. Please log in again.");
+      };
+
+      if (user.profilePicture === null) {
+        window.location.href = "../../Authentication/Signup/Profile_picture.html";
+
+        return;
       }
 
       if (user && user.role === "Admin") {
@@ -90,7 +109,7 @@ loginForm.addEventListener("submit", async (e) => {
       } else if (user && user.role === "Citizen") {
         window.location.href = "../../Citizen-dashbord/dashboard.html";
       }
-    }, 1000);
+    }, 3000);
 
   } catch (error) {
     showAlert(error.message || "An unexpected error occurred. Please try again.");

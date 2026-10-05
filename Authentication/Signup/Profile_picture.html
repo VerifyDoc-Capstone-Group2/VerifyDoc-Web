@@ -11,7 +11,6 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="./Verifydoc.js" defer></script>
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,6 +18,9 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <!-- For Croppie -->
+    <link rel="stylesheet" href="../../node_modules/croppie/croppie.css" />
+    <script src="../../node_modules/croppie/croppie.js"></script>
     <!-- For Toastify -->
     <link rel="stylesheet" href="../../node_modules/toastify-js/src/toastify.css" />
 
@@ -126,11 +128,11 @@
   </head>
 
   <body
-    class="font-inter text-dark bg-slate-100 bg-[linear-gradient(to_right,rgba(37,99,235,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(37,99,235,0.08)_1px,transparent_1px)] bg-[size:40px_40px]"
+    class="flex flex-col items-center font-inter text-dark bg-slate-100 bg-[linear-gradient(to_right,rgba(37,99,235,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(37,99,235,0.08)_1px,transparent_1px)] bg-[size:40px_40px]"
   >
     <!-- NAVBAR -->
     <header
-      class="bg-blue-500/10 backdrop-blur-xl border-b border-blue-200/20 sticky top-0 z-20"
+      class="bg-blue-500/10 backdrop-blur-xl w-full border-b border-blue-200/20 sticky top-0 z-20"
     >
       <nav
         class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between"
@@ -149,95 +151,66 @@
       </nav>
     </header>
 
-    <main class="p-8 max-w-md mx-auto mt-12">
-      <h1 class="text-2xl font-bold text-center">Welcome back</h1>
-      <p class="text-center text-slate-500 text-muted mt-2">
-        Login to your VerifyDoc account
-      </p>
-      <form id="loginForm" class="flex flex-col mt-6 gap-4">
-        <div class="flex flex-col gap-4">
-          <div>
-            <label for="email" class="block text-sm font-medium text-slate-700"
-              >Email</label
-            >
-            <input
-              type="email"
-              id="email"
-              required
-              name="email"
-              placeholder="ada@example.com"
-              class="mt-1 p-2 block w-full border border-slate-400 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            />
+    <section
+      class="p-4 flex flex-col mt-5 gap-y-6 max-w-full lg:w-1/2 items-center lg:mt-10 lg:p-0"
+    >
+      <!--Heading text-->
+      <div class="flex flex-col gap-y-2 text-center">
+        <h3
+          class="text-[28px] font-[Inter] lg:text-[40px] font-extrabold text-[#171717]"
+          id="header"
+        ></h3>
+      </div>
+
+      <!-- Profile Picture Upload -->
+      <div class="profile-upload relative h-[250px] w-[250px]">
+        
+        <label for="profile-picker" class="avatar-label group relative block h-full w-full overflow-hidden rounded-full border-3 border-[#ccc] cursor-pointer">
+          
+          
+          <img src="/images/user.avif" alt="Profile Picture" class="h-full w-full object-cover" id="avatar-preview">
+          
+          
+          <div class="upload-overlay absolute bottom-4 left-0 w-full bg-black/60 py-1.25 text-center text-[16px] text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            Change Photo
           </div>
-          <div>
-            <label
-              for="password"
-              class="block text-sm font-medium text-slate-700"
-              >Password</label
-            >
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="••••••••"
-              class="mt-1 p-2 block w-full border border-slate-400 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-          <button
-            type="submit"
-            class="px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700 transition disabled:cursor-not-allowed disabled:opacity-50"
-            id="login"
-          >
-            Log in
+        </label>
+
+        
+        <input type="file" name="profile_picture" id="profile-picker" accept="image/png, image/jpeg, image/webp" class="hidden" onchange="previewImage(event)"/>
+      </div>
+
+      
+      <dialog id="cropper-modal" class="rounded-lg p-6 shadow-2xl backdrop:bg-black/50 backdrop:backdrop-blur-sm w-[90%] max-w-[400px]">
+        <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">Crop Your Profile Picture</h3>
+        
+        
+        <div id="cropper-container" class="mx-auto mb-4"></div>
+        
+        
+        <div class="flex justify-end gap-3">
+          <button type="button" id="cancel-crop" class="px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-50">
+            Cancel
           </button>
-          <a
-            href="../../index.html"
-            class="text-primary border border-blue-500 hover:bg-blue-50 rounded-md py-2 px-4 text-center font-medium"
-            >Back</a
-          >
+          <button type="button" id="save-crop" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+            Save Changes
+          </button>
         </div>
-      </form>
+      </dialog>
 
-      <p class="text-center text-sm text-muted mt-4">
-        Don't have an account?
+
+      <!--Skip text-->
+      <div class="mb-5 mt-12 flex items-center justify-center flex-col gap-y-1 text-center lg:mb-10">
         <a
-          href="../../Verify_register.html"
-          class="text-primary hover:underline"
-          >Sign up</a
+          href="../Login/login.html"
+          class="font-[Inter] cursor-pointer text-white font-bold"
         >
-      </p>
-
-      <!-- Forgot Password Link -->
-      <div class="text-center mt-2">
-        <a
-          href="./forgot_password.html"
-          class="text-sm text-blue-600 hover:underline"
-          >Forgot password?</a
-        >
+          <span class="bg-[#155eef] px-4 py-2 rounded-lg">Skip</span>
+        </a>
       </div>
-    </main>
-
-    <!-- <footer class="bg-dark text-white mt-16">
-      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-10">
-        <div class="flex flex-col md:flex-row justify-between gap-6">
-          <div>
-            <div class="text-xl font-bold">
-              Verify <span class="text-blue-400">Doc</span>
-            </div>
-
-            <p class="mt-2 text-sm text-slate-400">
-              Digital credential verification platform.
-            </p>
-          </div>
-
-          <p class="text-sm text-slate-400">
-            © 2026 VerifyDoc. All rights reserved.
-          </p>
-        </div>
-      </div>
-    </footer> -->
+    </section>
 
     <script src="../../node_modules/toastify-js/src/toastify.js"></script>
-
+    <script src="Profile_picture.js"></script>
   </body>
 </html>
