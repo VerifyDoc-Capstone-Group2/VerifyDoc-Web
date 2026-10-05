@@ -45,8 +45,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const data = await responseData.data
 
-  console.log(userData);
-
   // Populate the card
   citizenPopulation.textContent = data.users.citizens;
   pendingInstitutionPopulation.textContent = data.institutions.pending;

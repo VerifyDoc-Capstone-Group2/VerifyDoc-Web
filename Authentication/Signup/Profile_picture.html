@@ -18,6 +18,9 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <!-- For Croppie -->
+    <link rel="stylesheet" href="../../node_modules/croppie/croppie.css" />
+    <script src="../../node_modules/croppie/croppie.js"></script>
     <!-- For Toastify -->
     <link rel="stylesheet" href="../../node_modules/toastify-js/src/toastify.css" />
 
@@ -147,6 +150,7 @@
         </a>
       </nav>
     </header>
+
     <section
       class="p-4 flex flex-col mt-5 gap-y-6 max-w-full lg:w-1/2 items-center lg:mt-10 lg:p-0"
     >
@@ -156,125 +160,57 @@
           class="text-[28px] font-[Inter] lg:text-[40px] font-extrabold text-[#171717]"
           id="header"
         ></h3>
-        <span
-          class="text-base text-[#737373] lg:text-[18px] font-medium font-[Inter]"
-          >Create your account to create and share credentials</span
-        >
       </div>
 
-      <!--Input form-->
-      <form action="" class="flex flex-col gap-y-8 w-full">
-        <!--Input field-->
-        <div class="flex flex-col gap-y-4">
-          <div class="grid grid-cols-2 gap-4">
-            <div class="flex flex-col gap-y-2">
-              <label class="text-xs font-[Inter] text-[#111827]"
-                >First name</label
-              >
-              <input
-                type="text"
-                class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
-                placeholder="John"
-                id="firstName"
-              />
-            </div>
-            <div class="flex flex-col gap-y-2">
-              <label class="text-xs font-[Inter] text-[#111827]"
-                >Last name</label
-              >
-              <input
-                type="text"
-                class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
-                placeholder="Doe"
-                id="last_name"
-              />
-            </div>
-          </div>
+      <!-- Profile Picture Upload -->
+      <div class="profile-upload relative h-[250px] w-[250px]">
+        
+        <label for="profile-picker" class="avatar-label group relative block h-full w-full overflow-hidden rounded-full border-3 border-[#ccc] cursor-pointer">
           
-          <div class="flex flex-col gap-y-2">
-            <label class="text-xs font-[Inter] text-[#111827]" id="email_text"
-              >Email Address</label
-            >
-            <input
-              type="email"
-              class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
-              placeholder="johndoe@gmail.com"
-              id="email"
-            />
+          
+          <img src="/images/user.avif" alt="Profile Picture" class="h-full w-full object-cover" id="avatar-preview">
+          
+          
+          <div class="upload-overlay absolute bottom-4 left-0 w-full bg-black/60 py-1.25 text-center text-[16px] text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            Change Photo
           </div>
+        </label>
 
-          <div class="flex flex-col gap-y-2" >
-            <label class="text-xs font-[Inter] text-[#111827]"
-              >Phone Number <span class="text-gray-500">(Optional)</span></label
-            >
-            <input
-              type="tel"
-              class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
-              placeholder="+234 801 234 2345"
-              id="phoneNumber"
-            />
-          </div>
+        
+        <input type="file" name="profile_picture" id="profile-picker" accept="image/png, image/jpeg, image/webp" class="hidden" onchange="previewImage(event)"/>
+      </div>
 
-          <div class="flex flex-col gap-y-2">
-            <label class="text-xs font-[Inter] text-[#111827]">Password</label>
-            <input
-              type="password"
-              class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
-              placeholder="••••••••"
-              id="password"
-            />
-
-            <!-- <p class="text-xs font-[Inter] text-[#111827]" id="digit">
-              password must be more than 8digits
-            </p> -->
-          </div>
-          <div class="flex flex-col gap-y-2">
-            <label class="text-xs font-[Inter] text-[#111827]"
-              >Confirm password</label
-            >
-            <input
-              type="password"
-              class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
-              placeholder="••••••••"
-              id="confirm_password"
-            />
-          </div>
-
-          <!-- Password error message -->
-           <p id="passwordErrorMessage" class="text-red-500 text-xs"></p>
-        </div>
-        <!--buttons-->
-
-        <div class="flex flex-col gap-y-4">
-          <button
-            type="submit"
-            class="bg-[#155eef] text-white py-2.5 font-[Inter] cursor-pointer hover:bg-[#0b1f3a] px-5 rounded-lg disabled:cursor-not-allowed disabled:opacity-50"
-            id="create_account"
-          >
-            Create account
+      
+      <dialog id="cropper-modal" class="rounded-lg p-6 shadow-2xl backdrop:bg-black/50 backdrop:backdrop-blur-sm w-[90%] max-w-[400px]">
+        <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">Crop Your Profile Picture</h3>
+        
+        
+        <div id="cropper-container" class="mx-auto mb-4"></div>
+        
+        
+        <div class="flex justify-end gap-3">
+          <button type="button" id="cancel-crop" class="px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-50">
+            Cancel
           </button>
-          <a
-            href="../../Verify_register.html"
-            class="border border-[#155eef] py-2.5 text-center font-[Inter] cursor-pointer px-5 rounded-lg text-[#155eef]"
-          >
-            Back
-          </a>
+          <button type="button" id="save-crop" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+            Save Changes
+          </button>
         </div>
-      </form>
+      </dialog>
 
-      <!--Login text-->
-      <div class="mb-5 flex flex-col gap-y-1 text-center lg:mb-10">
-        <span class="text-[#404040] font-[Inter]">Already have an account?</span
-        ><a
+
+      <!--Skip text-->
+      <div class="mb-5 mt-12 flex items-center justify-center flex-col gap-y-1 text-center lg:mb-10">
+        <a
           href="../Login/login.html"
-          class="font-[Inter] cursor-pointer text-[#155eef] font-bold"
+          class="font-[Inter] cursor-pointer text-white font-bold"
         >
-          Login
+          <span class="bg-[#155eef] px-4 py-2 rounded-lg">Skip</span>
         </a>
       </div>
     </section>
 
     <script src="../../node_modules/toastify-js/src/toastify.js"></script>
-    <script src="../Signup.js"></script>
+    <script src="Profile_picture.js"></script>
   </body>
 </html>
