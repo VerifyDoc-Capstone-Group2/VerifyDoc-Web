@@ -321,8 +321,9 @@ submitButton.addEventListener("click", async (event) => {
       user.email
     );
 
-    window.location.href =
-      "Registration_complete.html";
+    window.location.href = "./Registration_complete.html";
+
+    submitButton.textContent = "Create account";
 
 
   } catch (error) {

@@ -77,17 +77,23 @@ cancelCropBtn.addEventListener("click", () => {
   document.getElementById("profile-picker").value = "";
 });
 
+localStorage.setItem("profileSetupSeen", "true");
+
 const uploadProfilePicture = async () => {
   const file = profilePicker.files[0];
 
   if (!file) {
-    alert("Please select a profile picture before submitting.");
+    showToast("Please select a profile picture before submitting.", {
+      background: "red",
+      color: "white",
+      borderRadius: "8px"
+    });
     return;
   };
 
   const formData = new FormData();
 
-  formData.append("profile_picture", file); 
+  formData.append("profilePicture", file); 
 
   const token = localStorage.getItem("authorization");
 
@@ -114,6 +120,10 @@ const uploadProfilePicture = async () => {
   };
 
   if (response.status === 200) {
-    showToast("Profile picture uploaded successfully!")
+    showToast("Profile picture uploaded successfully!");
+
+    setTimeout(() => {
+      window.location.href = "../../Citizen-dashbord/dashboard.html";
+    }, 1500);
   }
 };

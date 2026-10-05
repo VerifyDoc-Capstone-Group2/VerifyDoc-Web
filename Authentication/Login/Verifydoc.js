@@ -94,7 +94,10 @@ loginForm.addEventListener("submit", async (e) => {
         showAlert("User information is missing. Please log in again.");
       };
 
-      if (user.profilePicture === null) {
+      const profileSetup = localStorage.getItem("profileSetupSeen")
+
+      if (!profileSetup && !user.profilePicture?.url) {
+
         window.location.href = "../../Authentication/Signup/Profile_picture.html";
 
         return;
@@ -112,7 +115,7 @@ loginForm.addEventListener("submit", async (e) => {
     }, 3000);
 
   } catch (error) {
-    showAlert(error.message || "An unexpected error occurred. Please try again.");
+    showToast("An unexpected error occurred. Please try again.");
     loginBtn.innerText = "Log in";
     updateButtonState();
   }
