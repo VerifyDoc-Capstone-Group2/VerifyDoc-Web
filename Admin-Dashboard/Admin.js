@@ -109,51 +109,13 @@ document.addEventListener("click", () => {
 
 
 
+const backdrop = document.getElementById("backdrop");
+    const close = () => backdrop.classList.add("hidden");
 
-
-
-
-
-
-
-// ================================
-// NEW DROPDOWN
-// ================================
-
-const newDropdowns = document.querySelectorAll(".dropdowns");
-
-newDropdowns.forEach((dropdown) => {
-  const btn = dropdown.querySelector(".dropdown-btns");
-  const menu = dropdown.querySelector(".menus");
-  const label = dropdown.querySelector(".labels");
-  const arrow = dropdown.querySelector(".arrows");
-
-  if (!btn || !menu || !label || !arrow) return;
-
-  btn.addEventListener("click", (e) => {
-    e.stopPropagation();
-
-    // Close other new dropdowns
-    newDropdowns.forEach((otherDropdown) => {
-      if (otherDropdown !== dropdown) {
-        otherDropdown.querySelector(".menus")?.classList.add("hidden");
-        otherDropdown.querySelector(".arrows")?.classList.remove("rotate-180");
-      }
+    document.getElementById("cancel").addEventListener("click", close);
+    document.getElementById("confirm").addEventListener("click", () => {
+      // TODO: send the approve request here, then close
+      close();
     });
-
-    // Open / close this dropdown
-    menu.classList.toggle("hidden");
-    arrow.classList.toggle("rotate-180");
-  });
-
-  // Select an option
-  menu.querySelectorAll("li").forEach((item) => {
-    item.addEventListener("click", () => {
-      label.textContent = item.textContent.trim();
-
-      menu.classList.add("hidden");
-      arrow.classList.remove("rotate-180");
-    });
-  });
-});
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
 

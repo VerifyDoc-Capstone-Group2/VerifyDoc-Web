@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VerifyDoc - A simple document verification platform">
+  <title>Approve this application?</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] },
+          boxShadow: {
+            modal: "0 28px 50px -12px rgba(0, 0, 0, 0.18)",
+          },
+        },
+      },
+    };
+  </script>
+</head>
+
+<body class="min-h-screen bg-neutral-100 font-sans text-neutral-900">
+
+  <!-- Backdrop + centered dialog -->
+  <div id="backdrop" class="fixed inset-0 flex items-center justify-center bg-black/30 p-4">
+
+    <div role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc"
+         class="w-full max-w-[560px] rounded-3xl border border-neutral-200 bg-white px-5 pb-6 pt-8 text-center shadow-modal sm:px-[43px] sm:pb-[30px] sm:pt-[36px]">
+
+      <h1 id="modal-title" class="text-2xl font-semibold tracking-tight text-black sm:text-[29px] sm:leading-tight">
+        Approve this application?
+      </h1>
+
+      <div id="modal-desc" class="mt-4 sm:mt-[18px]">
+        <p class="text-base font-semibold text-neutral-500">Metro University</p>
+        <p class="mt-0.5 text-base leading-6 text-neutral-400">
+          will be granted access to VerifyDoc<br class="hidden sm:block"> as an approved Institution.
+        </p>
+      </div>
+
+      
+      <div class="mt-6 flex flex-col gap-3 sm:mt-7 sm:flex-row sm:gap-5">
+        <button id="cancel" type="button"
+                class="h-[52px] rounded-xl border border-red-600 bg-white text-lg text-red-600 transition hover:bg-red-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 sm:h-[60px] sm:flex-[4]">
+          Cancel
+        </button>
+        <button id="confirm" type="button"
+                class="h-[52px] rounded-xl bg-blue-600 text-lg text-white transition hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:h-[60px] sm:flex-[5] sm:text-xl">
+          Approve application
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    
+    const backdrop = document.getElementById("backdrop");
+    const close = () => backdrop.classList.add("hidden");
+
+    document.getElementById("cancel").addEventListener("click", close);
+    document.getElementById("confirm").addEventListener("click", () => {
+    
+      close();
+    });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  </script>
+  
+</body>
+</html>
