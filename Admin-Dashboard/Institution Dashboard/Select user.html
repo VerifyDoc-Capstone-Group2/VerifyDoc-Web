@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VerifyDoc - A simple document verification platform">
+    <title>VerifyDoc</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="instit tailwind config.js"></script>
+    <script src="Institute.js" defer></script>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+  .table-scroll::-webkit-scrollbar { height: 8px; }
+  .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+</style>
+  
+</head>
+
+
+
+<body class="font-inter text-gray-900 bg-white">
+  <div class="flex min-h-screen">
+
+   <aside class="flex h-screen w-64 sticky top-0  hidden lg:block flex-col border border-[#14305a] bg-[#0b1f3a] text-white">
+
+    <!-- Logo -->
+    <div class="px-[25px] pt-[26px]">
+      <a href="#" class="flex items-center gap-[9px]">
+        <span class="grid h-[36px] w-[36px] place-items-center rounded-lg bg-blue-600 text-[16px] font-bold">V</span>
+        <span class="text-[22px] font-semibold tracking-tight">VerifyDoc</span>
+      </a>
+    </div>
+
+    <!-- Divider -->
+    <div class="mt-6 border border-gray-600/50 px-4"></div>
+
+    <!-- Navigation -->
+    <nav class="mt-4 flex flex-col gap-6 px-[17px]" aria-label="Main">
+
+      <a href="institute dashboard.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 3l8 7.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" /><path d="M9.5 21v-6h5v6" /></svg>
+        Dashboard
+      </a>
+
+      <!-- Active item -->
+      <a href="Credentials.html" aria-current="page" class="flex h-[52px] items-center gap-2 rounded-lg bg-[#243f6b] px-2 text-base">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6" /><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8" /></svg>
+        Credentials
+      </a>
+
+      <a href="Issue credentials.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" /><path d="M14 3v5h5" /><path d="M12 12v6M9 15h6" /></svg>
+        Issue credentials
+      </a>
+
+      <a href="Verification request.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.2 8 8 9 4.8-1 8-4.5 8-9V6l-8-3Z" /><path d="m8.5 12 2.5 2.5 4.5-5" /></svg>
+        Verification
+      </a>
+
+    </nav>
+
+
+    <div class="mt-[95px] px-[17px]">
+      <div class="mt-6 border border-gray-600/50 px-4"></div>
+
+      <div class="flex items-cente gap-16 px-2 pb-[49px] pt-[29px]">
+        <div class="flex items-center gap-2">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-blue-300 text-[22px] font-bold text-blue-900">U</span>
+          <span class="text-lg font-medium">User</span>
+        </div>
+
+        <!-- Log out -->
+        <button type="button" aria-label="Log out" class="rounded p-1 hover:bg-[#1a335c]">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6v12" /><path d="M9 12h12" /><path d="m16 7 5 5-5 5" /></svg>
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- MOBILE MENU (phone + tablet) -->
+  <div id="mobileMenu" class="fixed inset-0 z-50 hidden w-64  bg-[hsl(214,68%,14%)] p-4 text-white lg:hidden">
+    <a href="../VerifyDoc.html" class="flex items-center gap-2">
+      <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary"><span class="font-bold text-white">V</span></div>
+      <div class="text-xl font-bold tracking-tight text-white">VerifyDoc</div>
+    </a>
+    <div class="mt-6 border border-gray-600/50 px-4"></div>
+
+    <button id="closeBtn" class="absolute right-4 top-4 p-2 text-white" aria-label="Close menu">
+      <i data-lucide="x" class="h-6 w-6"></i>
+    </button>
+    <nav class="mt-12 space-y-2">
+     <a href="institute dashboard.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 3l8 7.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" /><path d="M9.5 21v-6h5v6" /></svg>
+        Dashboard
+      </a>
+
+      <!-- Active item -->
+      <a href="Credentials.html" aria-current="page" class="flex h-[52px] items-center gap-2 rounded-lg bg-[#243f6b] px-2 text-base">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6" /><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8" /></svg>
+        Credentials
+      </a>
+
+      <a href="Issue credentials.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" /><path d="M14 3v5h5" /><path d="M12 12v6M9 15h6" /></svg>
+        Issue credentials
+      </a>
+
+      <a href="Verification request.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.2 8 8 9 4.8-1 8-4.5 8-9V6l-8-3Z" /><path d="m8.5 12 2.5 2.5 4.5-5" /></svg>
+        Verification
+      </a>
+
+
+    
+    </nav>
+  </div>
+
+    <!----MAIN ----->
+   <section class="min-w-0 flex-1">
+    
+    <div class="flex justify-between items-center mt-4 px-4">
+     <button id="openBtn" class="p-2 lg:hidden" aria-label="Open menu">
+      <i data-lucide="menu" class="h-6 w-6"></i>
+    </button>
+
+    <nav aria-label="Breadcrumb" class="lg:block hidden">
+  <ol class="flex items-center gap-2 text-xs">
+
+    <li>
+      <a href="institute dashboard.html" class="text-gray-800 hover:text-blue-600">
+        <i data-lucide="house" class="w-6 h-6"></i>
+      </a>
+    </li>
+
+    <li class="text-gray-500"><i data-lucide="chevron-right" class="w-8 h-8"></i></li>
+
+
+    <li>
+      <a href="institute dashboard.html" class="text-gray-600 hover:text-blue-600">Dashboard</a>
+    </li>
+
+
+<li class="text-gray-500"><i data-lucide="chevron-right" class="w-8 h-8"></i></li>
+
+    <li class="text-blue-600 font-medium" aria-current="page"><a href="Issue credentials.html" class="text-gray-600 hover:text-blue-600">Issue credentials</a> </li>
+
+    <li class="text-gray-500"><i data-lucide="chevron-right" class="w-8 h-8"></i></li>
+
+    <li class="text-gray-600 font-medium" aria-current="page">Select user</li>
+  </ol>
+</nav>
+     <div class="flex items-center gap-3 px-4">
+        <span class="w-8 h-8 grid place-items-center bg-[hsl(211,95%,78%)] font-bold text-lg rounded-full">I</span>
+         <p class="font-semibold text-md">Institution</p> 
+ </div>
+    </div>
+     <div class="mt-2 border-b border-gray-600/50 px-4"></div>
+
+
+
+
+
+     <main class="px-4 pb-10 pt-8 sm:px-6 lg:pt-[37px]">
+
+    <h1 class="text-center text-[22px] font-bold leading-8 tracking-tight sm:text-[26px]">Select existing credential holder</h1>
+
+    <!-- Card: centered, 621px wide -->
+    <section class="mx-auto mt-6 w-full max-w-[621px] rounded-[14px] border border-neutral-300 p-4 sm:mt-8 sm:p-[22px]">
+
+      <!-- Search -->
+      <label class="relative block">
+        <span class="sr-only">Search user by email</span>
+        <svg class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7.5" /><path d="m20.5 20.5-4.8-4.8" /></svg>
+        <input type="search" placeholder="Search user by email"
+               class="h-[41px] w-full rounded-lg border border-slate-300 bg-white pl-[41px] pr-3 text-[15px] text-neutral-900 placeholder:text-slate-400" />
+      </label>
+
+      <p class="mt-2 text-[14px] leading-[18px] text-neutral-500">Search citizens by email</p>
+
+      <div class="mt-[27px] border-t border-neutral-300"></div>
+
+      <p class="mt-[14px] text-[13px] leading-[18px] text-neutral-500">Select from your recently issued credential</p>
+
+      <!-- User list -->
+      <ul class="mt-[7px] flex flex-col gap-[15px]">
+
+        <li>
+          <a href="#" class="flex h-[61px] items-center gap-[15px] rounded-xl border border-neutral-300 px-[21px] transition hover:border-blue-400 hover:bg-neutral-50">
+            <svg class="h-5 w-5 shrink-0 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7.5" r="4.5" /><path d="M3 21v-1.5A5.5 5.5 0 0 1 8.500 14h7a5.500 5.500 0 0 1 5.500 5.500V21" /></svg>
+            <span class="min-w-0">
+              <span class="block text-[14px] font-medium leading-5">Adeola Johnson</span>
+              <span class="block truncate text-[13px] leading-4 text-neutral-600">adeola@example.com</span>
+            </span>
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="flex h-[61px] items-center gap-[15px] rounded-xl border border-neutral-300 px-[21px] transition hover:border-blue-400 hover:bg-neutral-50">
+            <svg class="h-5 w-5 shrink-0 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7.5" r="4.5" /><path d="M3 21v-1.5A5.5 5.5 0 0 1 8.500 14h7a5.500 5.500 0 0 1 5.500 5.500V21" /></svg>
+            <span class="min-w-0">
+              <span class="block text-[14px] font-medium leading-5">Adeola Johnson</span>
+              <span class="block truncate text-[13px] leading-4 text-neutral-600">adeola@example.com</span>
+            </span>
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="flex h-[61px] items-center gap-[15px] rounded-xl border border-neutral-300 px-[21px] transition hover:border-blue-400 hover:bg-neutral-50">
+            <svg class="h-5 w-5 shrink-0 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7.5" r="4.5" /><path d="M3 21v-1.5A5.5 5.5 0 0 1 8.500 14h7a5.500 5.500 0 0 1 5.500 5.500V21" /></svg>
+            <span class="min-w-0">
+              <span class="block text-[14px] font-medium leading-5">Adeola Johnson</span>
+              <span class="block truncate text-[13px] leading-4 text-neutral-600">adeola@example.com</span>
+            </span>
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="flex h-[61px] items-center gap-[15px] rounded-xl border border-neutral-300 px-[21px] transition hover:border-blue-400 hover:bg-neutral-50">
+            <svg class="h-5 w-5 shrink-0 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7.5" r="4.5" /><path d="M3 21v-1.5A5.5 5.5 0 0 1 8.500 14h7a5.500 5.500 0 0 1 5.500 5.500V21" /></svg>
+            <span class="min-w-0">
+              <span class="block text-[14px] font-medium leading-5">Adeola Johnson</span>
+              <span class="block truncate text-[13px] leading-4 text-neutral-600">adeola@example.com</span>
+            </span>
+          </a>
+        </li>
+
+      </ul>
+    </section>
+
+  </main>
+</body>
+</html>

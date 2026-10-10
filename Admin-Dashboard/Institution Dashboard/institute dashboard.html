@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VerifyDoc - A simple document verification platform">
+    <title>VerifyDoc</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="instit tailwind config.js"></script>
+    <script src="Institute.js" defer></script>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+  .table-scroll::-webkit-scrollbar { height: 8px; }
+  .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+</style>
+  
+</head>
+
+
+
+<body class="font-inter text-gray-900 bg-white">
+  <div class="flex min-h-screen">
+
+   <aside class="flex h-screen w-64 sticky top-0  hidden lg:block flex-col border border-[#14305a] bg-[#0b1f3a] text-white">
+
+    <!-- Logo -->
+    <div class="px-[25px] pt-[26px]">
+      <a href="#" class="flex items-center gap-[9px]">
+        <span class="grid h-[36px] w-[36px] place-items-center rounded-lg bg-blue-600 text-[16px] font-bold">V</span>
+        <span class="text-[22px] font-semibold tracking-tight">VerifyDoc</span>
+      </a>
+    </div>
+
+    <!-- Divider -->
+    <div class="mt-6 border border-gray-600/50 px-4"></div>
+
+    <!-- Navigation -->
+    <nav class="mt-4 flex flex-col gap-6 px-[17px]" aria-label="Main">
+
+      <a href="institute dashboard.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 3l8 7.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" /><path d="M9.5 21v-6h5v6" /></svg>
+        Dashboard
+      </a>
+
+      <!-- Active item -->
+      <a href="Credentials.html" aria-current="page" class="flex h-[52px] items-center gap-2 rounded-lg bg-[#243f6b] px-2 text-base">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6" /><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8" /></svg>
+        Credentials
+      </a>
+
+      <a href="Issue credentials.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" /><path d="M14 3v5h5" /><path d="M12 12v6M9 15h6" /></svg>
+        Issue credentials
+      </a>
+
+      <a href="Verification request.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.2 8 8 9 4.8-1 8-4.5 8-9V6l-8-3Z" /><path d="m8.5 12 2.5 2.5 4.5-5" /></svg>
+        Verification
+      </a>
+
+    </nav>
+
+    <!-- Bottom: divider + user (pushed to the bottom with mt-auto) -->
+    <div class="mt-[95px] px-[17px]">
+      <div class="mt-6 border border-gray-600/50 px-4"></div>
+
+      <div class="flex items-cente gap-16 px-2 pb-[49px] pt-[29px]">
+        <div class="flex items-center gap-2">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-blue-300 text-[22px] font-bold text-blue-900">U</span>
+          <span class="text-lg font-medium">User</span>
+        </div>
+
+        <!-- Log out -->
+        <button type="button" aria-label="Log out" class="rounded p-1 hover:bg-[#1a335c]">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6v12" /><path d="M9 12h12" /><path d="m16 7 5 5-5 5" /></svg>
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- MOBILE MENU (phone + tablet) -->
+  <div id="mobileMenu" class="fixed inset-0 z-50 hidden w-64  bg-[hsl(214,68%,14%)] p-4 text-white lg:hidden">
+    <a href="../VerifyDoc.html" class="flex items-center gap-2">
+      <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary"><span class="font-bold text-white">V</span></div>
+      <div class="text-xl font-bold tracking-tight text-white">VerifyDoc</div>
+    </a>
+    <div class="mt-6 border border-gray-600/50 px-4"></div>
+
+    <button id="closeBtn" class="absolute right-4 top-4 p-2 text-white" aria-label="Close menu">
+      <i data-lucide="x" class="h-6 w-6"></i>
+    </button>
+    <nav class="mt-12 space-y-2">
+     <a href="institute dashboard.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 3l8 7.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" /><path d="M9.5 21v-6h5v6" /></svg>
+        Dashboard
+      </a>
+
+      <!-- Active item -->
+      <a href="Credentials.html" aria-current="page" class="flex h-[52px] items-center gap-2 rounded-lg bg-[#243f6b] px-2 text-base">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6" /><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8" /></svg>
+        Credentials
+      </a>
+
+      <a href="Issue credentials.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" /><path d="M14 3v5h5" /><path d="M12 12v6M9 15h6" /></svg>
+        Issue credentials
+      </a>
+
+      <a href="Verification request.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.2 8 8 9 4.8-1 8-4.5 8-9V6l-8-3Z" /><path d="m8.5 12 2.5 2.5 4.5-5" /></svg>
+        Verification
+      </a>
+
+
+    
+    </nav>
+  </div>
+
+    <!----MAIN ----->
+   <section class="min-w-0 flex-1">
+    
+    <div class="flex justify-between items-center mt-4 px-4">
+     <button id="openBtn" class="p-2 lg:hidden" aria-label="Open menu">
+      <i data-lucide="menu" class="h-6 w-6"></i>
+    </button>
+
+    <nav aria-label="Breadcrumb" class="lg:block hidden">
+  <ol class="flex items-center gap-2 text-xs">
+
+    <li>
+      <a href="institute dashboard.html" class="text-gray-800 hover:text-blue-600">
+        <i data-lucide="house" class="w-6 h-6"></i>
+      </a>
+    </li>
+
+    <li class="text-gray-500"><i data-lucide="chevron-right" class="w-8 h-8"></i></li>
+
+
+    <li>
+      <a href="institute dashboard.html" class="text-gray-600 hover:text-blue-600">Dashboard</a>
+    </li>
+
+   
+  </ol>
+</nav>
+      <div class="flex items-center gap-3 px-4">
+        <span class="w-8 h-8 grid place-items-center bg-[hsl(211,95%,78%)] font-bold text-lg rounded-full">I</span>
+         <p class="font-semibold text-md">Institution</p> 
+ </div>
+    </div>
+     <div class="mt-2 border-b border-gray-600/50 px-4"></div>
+
+
+
+     <main class="mx-auto max-w-[1600px] px-4 pb-12 pt-5 sm:px-6 sm:pt-8 lg:px-[24px] lg:pb-24 lg:pt-[55px]">
+
+    
+    <section class="rounded-2xl border border-blue-300 bg-blue-100 px-4 py-5 sm:px-6 sm:py-7 lg:px-[18px] lg:py-[15px]">
+      <h1 class="text-greeting font-bold tracking-tight text-blue-700">Good morning, User</h1>
+      <p class="mt-2 text-sub text-neutral-500 sm:mt-3">Manage your credential and verification activites</p>
+    </section>
+
+    
+    <section aria-label="Overview" class="mt-5 grid grid-cols-1 gap-3 sm:mt-8 sm:grid-cols-2 sm:gap-5 lg:mt-[49px] max-w-[400px] lg:max-w-full lg:grid-cols-4 lg:gap-[36px]">
+
+      <!-- Credential issued -->
+      <div class="flex flex-col justify-between gap-3 rounded-xl border border-blue-600 bg-blue-50 p-4 text-blue-700 lg:min-h-[191px]">
+        <div class="flex items-center gap-2 text-statlbl">
+          <svg class="h-5 w-5 shrink-0 sm:h-6 sm:w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5" /><path d="M12 11v5.5M12 7.8h.01" /></svg>
+          Platform info
+        </div>
+        <p class="text-statnum font-bold">20</p>
+        <p class="text-statlbl">Credential issued</p>
+      </div>
+
+      <!-- Verified credential -->
+      <div class="flex flex-col justify-between gap-3 rounded-xl border border-blue-600 bg-blue-50 p-4 text-blue-700 lg:min-h-[191px]">
+        <div class="flex items-center gap-2 text-statlbl">
+          <svg class="h-5 w-5 shrink-0 sm:h-6 sm:w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5" /><path d="M12 11v5.5M12 7.8h.01" /></svg>
+          Platform info
+        </div>
+        <p class="text-statnum font-bold">4</p>
+        <p class="text-statlbl">Verified credential</p>
+      </div>
+
+      <!-- Pending verification request -->
+      <div class="flex flex-col justify-between gap-3 rounded-xl border border-amber-500 bg-amber-100 p-4 text-amber-600 lg:min-h-[191px]">
+        <div class="flex items-center gap-2 text-statlbl">
+          <svg class="h-5 w-5 shrink-0 sm:h-6 sm:w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5" /><path d="M12 6.5V12l3.5 2" /></svg>
+          Pending
+        </div>
+        <p class="text-statnum font-bold">5</p>
+        <p class="text-statlbl">Verification request</p>
+      </div>
+
+      <!-- Pending manual review -->
+      <div class="flex flex-col justify-between gap-3 rounded-xl border border-amber-500 bg-amber-100 p-4 text-amber-600 lg:min-h-[191px]">
+        <div class="flex items-center gap-2 text-statlbl">
+          <svg class="h-5 w-5 shrink-0 sm:h-6 sm:w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5" /><path d="M12 6.5V12l3.5 2" /></svg>
+          Pending
+        </div>
+        <p class="text-statnum font-bold">0</p>
+        <p class="text-statlbl">Manual review</p>
+      </div>
+    </section>
+
+    
+    <section aria-labelledby="recent-title" class="mt-8 sm:mt-10 lg:mt-[50px]">
+      <div class="flex items-baseline justify-between gap-4">
+        <h2 id="recent-title" class="text-heading font-semibold tracking-tight">Recent verification activity</h2>
+        <a href="#" class="shrink-0 text-base font-medium text-blue-600 hover:underline sm:text-th">See more</a>
+      </div>
+
+      
+      <div role="table" aria-label="Recent verification activity" class="mt-3 sm:mt-5">
+        <div role="row" class="hidden grid-cols-4 border-b border-neutral-300 px-[16px] pb-[14px] pt-[10px] text-th text-neutral-700 md:grid">
+          <div role="columnheader">Activity</div>
+          <div role="columnheader">Credential</div>
+          <div role="columnheader">Time</div>
+          <div role="columnheader">Status</div>
+        </div>
+
+        <!-- Row 1 -->
+        <div role="row" class="grid grid-cols-2 gap-x-4 gap-y-1.5 border-b border-neutral-300 px-1 py-4 text-td text-neutral-500 md:grid-cols-4 md:items-center md:px-[16px] md:py-0 md:min-h-[75px]">
+          <div role="cell" class="col-span-2 font-medium text-neutral-900 md:col-span-1 md:font-normal md:text-neutral-500">Organization 1</div>
+          <div role="cell"><span class="md:hidden text-neutral-400">Credential: </span>Employer</div>
+          <div role="cell"><span class="md:hidden text-neutral-400">Time: </span>28-09-2026</div>
+          <div role="cell" class="col-span-2 md:col-span-1">
+            <span class="inline-flex items-center gap-1 rounded-full border border-green-300 bg-green-100 px-2 py-0.5 text-sm font-semibold text-green-800">
+              <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.2 8 8 9 4.8-1 8-4.5 8-9V6l-8-3Z" /><path d="m8.5 12 2.5 2.5 4.5-5" /></svg>
+              Verified
+            </span>
+          </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div role="row" class="grid grid-cols-2 gap-x-4 gap-y-1.5 border-b border-neutral-300 px-1 py-4 text-td text-neutral-500 md:grid-cols-4 md:items-center md:px-[16px] md:py-0 md:min-h-[75px]">
+          <div role="cell" class="col-span-2 font-medium text-neutral-900 md:col-span-1 md:font-normal md:text-neutral-500">Organization 2</div>
+          <div role="cell"><span class="md:hidden text-neutral-400">Credential: </span>Employer</div>
+          <div role="cell"><span class="md:hidden text-neutral-400">Time: </span>28-09-2026</div>
+          <div role="cell" class="col-span-2 md:col-span-1">
+            <span class="inline-flex items-center gap-1 rounded-full border border-amber-400 bg-amber-100 px-2 py-0.5 text-sm font-semibold text-amber-800">
+              <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18.5A2 2 0 0 0 3.5 21.5h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" /><path d="M12 9v5M12 17.5h.01" /></svg>
+              Manual verification
+            </span>
+          </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div role="row" class="grid grid-cols-2 gap-x-4 gap-y-1.5 border-b border-neutral-300 px-1 py-4 text-td text-neutral-500 md:grid-cols-4 md:items-center md:px-[16px] md:py-0 md:min-h-[75px]">
+          <div role="cell" class="col-span-2 font-medium text-neutral-900 md:col-span-1 md:font-normal md:text-neutral-500">Metro University</div>
+          <div role="cell"><span class="md:hidden text-neutral-400">Credential: </span>Institution</div>
+          <div role="cell"><span class="md:hidden text-neutral-400">Time: </span>28-09-2026</div>
+          <div role="cell" class="col-span-2 md:col-span-1">
+            <span class="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2 py-0.5 text-sm font-semibold text-red-700">
+              <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5" /><path d="M12 11v5.5M12 7.8h.01" /></svg>
+              Declined
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section aria-labelledby="quick-title" class="mt-8 sm:mt-10 lg:mt-[55px]">
+      <h2 id="quick-title" class="text-heading font-semibold tracking-tight">Quick actions</h2>
+      <p class="mt-1 text-qdesc text-neutral-500">Start a new task or go to a key selection</p>
+
+  
+      <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:gap-[22px]">
+
+        <a href="#" class="group relative block rounded-xl border border-neutral-300 bg-white p-4 shadow-sm transition hover:border-blue-400 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+          <svg class="h-6 w-6 text-neutral-900 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6" /><path d="m8.5 14 -1.500 8L12 19.500 17 22l-1.500-8" /></svg>
+          <svg class="absolute right-4 top-4 h-5 w-5 text-blue-600 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+          <h3 class="mt-3 text-qtitle font-semibold tracking-tight sm:mt-4">Issue credential</h3>
+          <p class="mt-1 text-qdesc text-neutral-500">Create and issue new credential</p>
+        </a>
+
+        <a href="#" class="group relative block rounded-xl border border-neutral-300 bg-white p-4 shadow-sm transition hover:border-blue-400 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+          <svg class="h-6 w-6 text-neutral-900 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.2 8 8 9 4.8-1 8-4.5 8-9V6l-8-3Z" /><path d="m8.5 12 2.5 2.5 4.5-5" /></svg>
+          <svg class="absolute right-4 top-4 h-5 w-5 text-blue-600 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+          <h3 class="mt-3 text-qtitle font-semibold tracking-tight sm:mt-4">View verification request</h3>
+          <p class="mt-1 text-qdesc text-neutral-500">Create and issue new credential</p>
+        </a>
+
+        <a href="#" class="group relative block rounded-xl border border-neutral-300 bg-white p-4 shadow-sm transition hover:border-blue-400 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:col-span-2 lg:col-span-1">
+          <svg class="h-6 w-6 text-neutral-900 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.500" y="5" width="19" height="14" rx="2.500" /><circle cx="8.500" cy="11" r="2" /><path d="M5.500 16c.5-1.800 1.600-2.500 3-2.500s2.500.7 3 2.500M14.500 10h4M14.500 14h4" /></svg>
+          <svg class="absolute right-4 top-4 h-5 w-5 text-blue-600 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+          <h3 class="mt-3 text-qtitle font-semibold tracking-tight sm:mt-4">View issued credential</h3>
+          <p class="mt-1 text-qdesc text-neutral-500">Create and issue new credential</p>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
