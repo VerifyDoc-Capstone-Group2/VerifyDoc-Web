@@ -13,7 +13,7 @@ const submitButton = document.getElementById("create_account");
 
 const API_URL = "https://verifydoc-api-v1.onrender.com";
 
-function showToast (message, toastStyle) {
+function showToast(message, toastStyle) {
   Toastify({
     text: message,
     duration: 3000,
@@ -21,20 +21,16 @@ function showToast (message, toastStyle) {
     style: toastStyle || {
       background: "green",
       color: "white",
-      borderRadius: "8px"
-    }
+      borderRadius: "8px",
+    },
   }).showToast();
-};
-
+}
 
 // ==========================================
 // GET ROLE FROM URL
 // ==========================================
 
-const role = new URLSearchParams(
-  window.location.search
-).get("role");
-
+const role = new URLSearchParams(window.location.search).get("role");
 
 // ==========================================
 // CONFIGURE PAGE BASED ON ROLE
@@ -42,26 +38,26 @@ const role = new URLSearchParams(
 
 if (role === "Institution") {
   header.textContent = "Create an institution account";
-  emailText.textContent = "Institution email";
+  emailText.textContent = "Email";
+  submitButton.textContent = "Continue";
 
   // CAC belongs to organizations, not institutions
   if (cac) {
     cac.style.display = "none";
   }
-
 } else if (role === "Organization") {
   header.textContent = "Create an organization account";
-  emailText.textContent = "Organization email";
-
+  emailText.textContent = "Email";
+  submitButton.textContent = "Continue";
 } else {
   header.textContent = "Create an account";
   emailText.textContent = "Email Address";
+  submitButton.textContent = "Create account";
 
   if (cac) {
     cac.style.display = "none";
   }
 }
-
 
 // ==========================================
 // FORM VALIDATION
@@ -75,51 +71,39 @@ function checkFields() {
     password.value.trim() !== "" &&
     confirmPassword.value.trim() !== "";
 
-  // Organization must provide CAC number
-  const roleFieldsValid =
-    role !== "Organization" ||
-    (cac && cac.value.trim() !== "");
+  // // Organization must provide CAC number
+  // const roleFieldsValid =
+  //   role !== "Organization" || (cac && cac.value.trim() !== "");
 
-  submitButton.disabled =
-    !(basicFieldsValid && roleFieldsValid);
+  submitButton.disabled = !basicFieldsValid;
 }
 
-
 // Listen for changes to required fields
-[
-  firstName,
-  lastName,
-  email,
-  password,
-  confirmPassword,
-  cac
-].forEach((input) => {
-  if (!input) return;
+[firstName, lastName, email, password, confirmPassword, cac].forEach(
+  (input) => {
+    if (!input) return;
 
-  input.addEventListener("input", checkFields);
-  input.addEventListener("change", checkFields);
-});
+    input.addEventListener("input", checkFields);
+    input.addEventListener("change", checkFields);
+  },
+);
 
 checkFields();
-
 
 // ==========================================
 // CITIZEN REGISTRATION
 // ==========================================
 
 async function signUpCitizen(userData) {
-  const response = await fetch(
-    `${API_URL}/auth/register`,
-    {
-      method: "POST",
+  const response = await fetch(`${API_URL}/auth/register`, {
+    method: "POST",
 
-      headers: {
-        "Content-Type": "application/json"
-      },
+    headers: {
+      "Content-Type": "application/json",
+    },
 
-      body: JSON.stringify(userData)
-    }
-  );
+    body: JSON.stringify(userData),
+  });
 
   const result = await response.json();
 
@@ -127,30 +111,30 @@ async function signUpCitizen(userData) {
     showToast(result.message || "Registration failed", {
       background: "red",
       color: "white",
-      borderRadius: "8px"
+      borderRadius: "8px",
     });
 
     throw new Error(
-      result.message ||
-      `Registration failed (${response.status})`
+      result.message || `Registration failed (${response.status})`,
     );
   }
 
   if (response.status === 201) {
-    showToast("Account created successfully!")
-  };
+    showToast("Account created successfully!");
+  }
 
   return result;
-};
+}
 
 // ------------------------------------------
 // PASSWORD CHECK
 // ------------------------------------------
 password.addEventListener("input", () => {
   if (password.value.length < 8) {
-    passwordErrorMessage.textContent = "Password must contain at least 8 characters.";
+    passwordErrorMessage.textContent =
+      "Password must contain at least 8 characters.";
     return;
-  };
+  }
 
   if (password.value.length >= 8) {
     passwordErrorMessage.textContent = "";
@@ -161,12 +145,13 @@ password.addEventListener("input", () => {
     passwordErrorMessage.textContent = "";
 
     return;
-  };
+  }
 });
 
 confirmPassword.addEventListener("input", () => {
   if (confirmPassword.value.length < 8) {
-    passwordErrorMessage.textContent = "Password must contain at least 8 characters.";
+    passwordErrorMessage.textContent =
+      "Password must contain at least 8 characters.";
     return;
   }
 
@@ -177,15 +162,14 @@ confirmPassword.addEventListener("input", () => {
   if (password.value !== confirmPassword.value) {
     passwordErrorMessage.textContent = "Passwords do not match.";
     return;
-  };
+  }
 
   if (confirmPassword.value === "") {
     passwordErrorMessage.textContent = "";
 
     return;
-  };
+  }
 });
-
 
 // ==========================================
 // SUBMIT
@@ -204,11 +188,7 @@ submitButton.addEventListener("click", async (event) => {
   // ------------------------------------------
 
   const userRole =
-    role === "Organization" ||
-    role === "Institution"
-      ? role
-      : "Citizen";
-
+    role === "Organization" || role === "Institution" ? role : "Citizen";
 
   // ------------------------------------------
   // BUILD USER DATA
@@ -223,64 +203,47 @@ submitButton.addEventListener("click", async (event) => {
 
     password: password.value,
 
-    role: userRole
+    role: userRole,
   };
 
-
   // Phone number is optional
-  if (
-    phoneNumber &&
-    phoneNumber.value.trim().length > 0
-  ) {
+  if (phoneNumber && phoneNumber.value.trim().length > 0) {
     if (phoneNumber.value.startsWith("+234")) {
       if (phoneNumber.value.length !== 14) {
-        showToast(
-          "Invalid phone number.",
-          {
-            background: "red",
-            color: "white",
-            borderRadius: "8px"
-          }
-        );
+        showToast("Invalid phone number.", {
+          background: "red",
+          color: "white",
+          borderRadius: "8px",
+        });
 
         return;
       }
-    };
+    }
 
     if (phoneNumber.value.startsWith("0")) {
       if (phoneNumber.value.length !== 11) {
-        showToast(
-          "Invalid phone number.",
-          {
-            background: "red",
-            color: "white",
-            borderRadius: "8px"
-          }
-        );
+        showToast("Invalid phone number.", {
+          background: "red",
+          color: "white",
+          borderRadius: "8px",
+        });
 
         return;
       }
-    };
+    }
 
-    user.phoneNumber =
-      phoneNumber.value.trim();
+    user.phoneNumber = phoneNumber.value.trim();
   }
-
 
   // ==========================================
   // ORGANIZATION / INSTITUTION
   // ==========================================
 
-  if (
-    userRole === "Organization" ||
-    userRole === "Institution"
-  ) {
-
+  if (userRole === "Organization" || userRole === "Institution") {
     // CAC NUMBER — NOT CAC CERTIFICATE
-    if (userRole === "Organization") {
-      user.cacNumber = cac.value.trim();
-    }
-
+    // if (userRole === "Organization") {
+    //   user.cacNumber = cac.value.trim();
+    // }
 
     /*
       This is temporary registration data.
@@ -290,64 +253,41 @@ submitButton.addEventListener("click", async (event) => {
       make the actual registration request.
     */
 
-    sessionStorage.setItem(
-      "registrationUser",
-      JSON.stringify(user)
-    );
+    sessionStorage.setItem("registrationUser", JSON.stringify(user));
 
-
-    window.location.href =
-      `Details.html?role=${userRole}`;
+    window.location.href = `Details.html?role=${userRole}`;
 
     return;
   }
-
 
   // ==========================================
   // CITIZEN
   // ==========================================
 
   try {
-
     submitButton.disabled = true;
-    submitButton.textContent =
-      "Creating account...";
-
+    submitButton.textContent = "Creating account...";
 
     await signUpCitizen(user);
 
-    sessionStorage.setItem(
-      "verificationEmail",
-      user.email
-    );
+    sessionStorage.setItem("verificationEmail", user.email);
 
     window.location.href = "./Registration_complete.html";
 
     submitButton.textContent = "Create account";
-
-
   } catch (error) {
+    console.error("Registration error:", error);
 
-    console.error(
-      "Registration error:",
-      error
-    );
-
-    showToast(
-      error.message ||
-      "An error occurred during registration.", {
-        background: "red",
-        color: "white",
-        borderRadius: "8px"
-      }
-    );
-
+    showToast(error.message || "An error occurred during registration.", {
+      background: "red",
+      color: "white",
+      borderRadius: "8px",
+    });
 
     // Keep their entered information.
     // Don't make them fill everything again.
 
-    submitButton.textContent =
-      "Create account";
+    submitButton.textContent = "Create account";
 
     checkFields();
   }

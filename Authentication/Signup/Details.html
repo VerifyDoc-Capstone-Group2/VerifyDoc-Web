@@ -175,9 +175,10 @@
             />
           </div>
           <div class="flex flex-col gap-y-2">
-            <label class="text-xs font-[Inter] text-[#111827]" id="type"
-              >Organization type</label
-            >
+            <label
+              class="text-xs font-[Inter] text-[#111827]"
+              id="type"
+            ></label>
             <input
               type="text"
               class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
@@ -185,23 +186,96 @@
               id="organization_type"
             />
           </div>
+
+          <div class="flex flex-col gap-y-2" id="cacnumber">
+            <label class="text-xs font-[Inter] text-[#111827]" id="type"
+              >CAC number</label
+            >
+            <div class="bg-white w-full p-3 border border-[#D1D5DB] rounded-lg">
+              <select id="cac_type">
+                <option class="border-r-2 border-r-[#D1D5DB]" value="RC">
+                  RC
+                </option>
+                <option
+                  id="it"
+                  class="border-r-2 border-r-[#D1D5DB]"
+                  value="IT"
+                >
+                  IT
+                </option>
+                <option
+                  id="bn"
+                  class="border-r-2 border-r-[#D1D5DB]"
+                  value="BN"
+                >
+                  BN
+                </option>
+              </select>
+              <input
+                type="text"
+                class="outline-none font-[Inter] ml-5"
+                placeholder="1234567"
+                id="cac_number"
+              />
+            </div>
+          </div>
           <div class="flex flex-col gap-y-2">
             <label
               class="text-xs font-[Inter] text-[#111827]"
-              for="organization_document"
               id="document_label"
             ></label>
+            <div>
+              <label
+                for="organization_document"
+                class="flex flex-col items-center p-5 cursor-pointer justify-center gap-2 bg-[#EFF6FF] mt-2 border border-[#93C5FD] border-dashed rounded-[16px]"
+              >
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 32 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15.9998 17.3333V28M21.3331 22.6667L15.9998 17.3333L10.6665 22.6667M5.33313 19.8653C4.34252 18.8532 3.59523 17.6289 3.14785 16.2852C2.70047 14.9415 2.56474 13.5136 2.75095 12.1097C2.93715 10.7058 3.44041 9.36265 4.22259 8.18203C5.00478 7.00141 6.04538 6.01427 7.26558 5.29539C8.48578 4.5765 9.85357 4.14472 11.2654 4.03276C12.6771 3.92079 14.0959 4.13157 15.4142 4.64913C16.7324 5.1667 17.9156 5.97747 18.8741 7.02004C19.8326 8.0626 20.5413 9.30963 20.9465 10.6667H23.3331C24.6205 10.6665 25.8737 11.0804 26.9078 11.8472C27.9418 12.6141 28.7018 13.6931 29.0755 14.9251C29.4492 16.157 29.4167 17.4764 28.9829 18.6885C28.5491 19.9005 27.737 20.9409 26.6665 21.656"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke="#155EEF"
+                  />
+                </svg>
+
+                <h3 class="font-xs text-[#111827]">
+                  Click to upload or drag & drop
+                </h3>
+                <label for="" class="font-sm font-inter text-[#737373]"
+                  >Pdf required only</label
+                >
+              </label>
+              <input
+                type="file"
+                class="hidden"
+                accept="application/pdf"
+                id="organization_document"
+                required
+              />
+            </div>
+            <p id="file_preview"></p>
+          </div>
+          <div class="flex flex-col gap-y-2">
+            <label class="text-xs font-[Inter] text-[#111827]"
+              >Official Email</label
+            >
             <input
-              type="file"
+              type="email"
               class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
-              accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg"
-              id="organization_document"
-              required
+              placeholder="johndoe@gmail.com"
+              id="official_email"
             />
           </div>
           <div class="flex flex-col gap-y-2">
             <label class="text-xs font-[Inter] text-[#111827]"
-              >Phone number</label
+              >Phone number (optional)</label
             >
             <input
               type="tel"
@@ -209,6 +283,27 @@
               placeholder="+234 1234983920"
               id="number"
               maxlength="15"
+            />
+          </div>
+
+          <div class="flex flex-col gap-y-2">
+            <label class="text-xs font-[Inter] text-[#111827]">Address</label>
+            <input
+              type="text"
+              class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
+              placeholder="No 123, araromi street, Lagos"
+              id="address"
+            />
+          </div>
+          <div class="flex flex-col gap-y-2">
+            <label class="text-xs font-[Inter] text-[#111827]"
+              >Website (optional)</label
+            >
+            <input
+              type="text"
+              class="rounded-lg border border-[#D1D5DB] p-3 outline-none font-[Inter]"
+              placeholder="www.google.com"
+              id="website"
             />
           </div>
         </div>

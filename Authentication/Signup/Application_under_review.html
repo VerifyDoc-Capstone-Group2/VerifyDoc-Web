@@ -146,9 +146,11 @@
         </a>
       </nav>
     </header>
-    <section class="p-4 flex flex-col gap-y-6 lg:p-0">
+    <section class="p-4 flex flex-col gap-y-6 w-1/2 lg:mt-5 lg:p-0">
       <!--Heading text-->
-      <div class="flex flex-col gap-y-2 text-center">
+      <div
+        class="flex flex-col items-center justify-center gap-y-2 text-center"
+      >
         <h3
           class="text-[28px] font-[Inter] lg:text-[40px] font-extrabold text-[#171717]"
         >
@@ -158,6 +160,44 @@
           class="text-base text-[#737373] lg:text-[18px] font-medium font-[Inter]"
           >Your organization application is currently reviewed by
           VerifyDoc.</span
+        >
+
+        <!--progress bar-->
+        <div class="mt-5">
+          <progress
+            class="w-10 h-1 appearance-none overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-[#155EEF] [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-[#155EEF]"
+          ></progress>
+          <progress
+            class="w-27 h-1 appearance-none overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-[#DBEAFE] [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-[#155EEF]"
+          ></progress>
+          <progress
+            class="w-10 h-1 appearance-none overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-[#DBEAFE] [&::-webkit-progress-value]:bg-blue-600 [&::-moz-progress-bar]:bg-[#155EEF]"
+          ></progress>
+        </div>
+        <svg
+          width="52"
+          height="52"
+          viewBox="0 0 52 52"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="52" height="52" rx="26" fill="#155EEF" />
+          <path
+            d="M22.6668 26H29.3335M22.6668 19.3333H29.3335M29.3335 41V36C29.3335 35.1159 28.9823 34.2681 28.3572 33.643C27.7321 33.0179 26.8842 32.6667 26.0002 32.6667C25.1161 32.6667 24.2683 33.0179 23.6431 33.643C23.018 34.2681 22.6668 35.1159 22.6668 36V41M29.3335 41H22.6668M29.3335 41H36.0002M22.6668 41H16.0002M16.0002 22.6667H12.6668C11.7828 22.6667 10.9349 23.0179 10.3098 23.643C9.68469 24.2681 9.3335 25.1159 9.3335 26V37.6667C9.3335 38.5507 9.68469 39.3986 10.3098 40.0237C10.9349 40.6488 11.7828 41 12.6668 41H16.0002M16.0002 22.6667V41M16.0002 22.6667V14.3333C16.0002 13.4493 16.3514 12.6014 16.9765 11.9763C17.6016 11.3512 18.4494 11 19.3335 11H32.6668C33.5509 11 34.3987 11.3512 35.0239 11.9763C35.649 12.6014 36.0002 13.4493 36.0002 14.3333V17.6667M36.0002 41H39.3335C40.2176 41 41.0654 40.6488 41.6905 40.0237C42.3156 39.3986 42.6668 38.5507 42.6668 37.6667V21C42.6668 20.1159 42.3156 19.2681 41.6905 18.643C41.0654 18.0179 40.2176 17.6667 39.3335 17.6667H36.0002M36.0002 41V17.6667"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke="#DBEAFE"
+          />
+        </svg>
+
+        <span
+          class="text-base mt-5 text-[#737373] lg:text-[18px] font-medium font-[Inter]"
+          >Status: <b class="text-[#171717]">Pending</b></span
+        ><span
+          class="text-base text-[#404040] lg:text-base font-normal font-[Inter]"
+          >Your application has been submitted successfully and is now awaiting
+          review. We'll let you know once a decision has been made.</span
         >
       </div>
     </section>
