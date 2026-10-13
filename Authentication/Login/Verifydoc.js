@@ -1,7 +1,7 @@
 // VerifyDoc API Base URL
 const API_BASE_URL = "https://verifydoc-api-v1.onrender.com";
 
-function showToast (message, toastStyle) {
+function showToast(message, toastStyle) {
   Toastify({
     text: message,
     duration: 3000,
@@ -9,10 +9,10 @@ function showToast (message, toastStyle) {
     style: toastStyle || {
       background: "green",
       color: "white",
-      borderRadius: "8px"
-    }
+      borderRadius: "8px",
+    },
   }).showToast();
-};
+}
 
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
@@ -44,7 +44,8 @@ const loginForm = document.getElementById("loginForm");
 // }
 
 function updateButtonState() {
-  const isValid = emailInput.value.trim() !== "" && passwordInput.value.trim() !== "";
+  const isValid =
+    emailInput.value.trim() !== "" && passwordInput.value.trim() !== "";
   loginBtn.disabled = !isValid;
 }
 
@@ -92,13 +93,13 @@ loginForm.addEventListener("submit", async (e) => {
 
       if (!user) {
         showAlert("User information is missing. Please log in again.");
-      };
+      }
 
-      const profileSetup = localStorage.getItem("profileSetupSeen")
+      const profileSetup = localStorage.getItem("profileSetupSeen");
 
       if (!profileSetup && !user.profilePicture?.url) {
-
-        window.location.href = "../../Authentication/Signup/Profile_picture.html";
+        window.location.href =
+          "../../Authentication/Signup/Profile_picture.html";
 
         return;
       }
@@ -108,12 +109,12 @@ loginForm.addEventListener("submit", async (e) => {
       } else if (user && user.role === "Organization") {
         window.location.href = "../../Employer-dashbord/dashboard.html";
       } else if (user && user.role === "Institution") {
-        window.location.href = "../../Institution-dashbord/dashboard.html";
+        window.location.href =
+          "../../Institution-Dashboard/institute dashboard.html";
       } else if (user && user.role === "Citizen") {
-        window.location.href = "../../Citizen-dashbord/dashboard.html";
+        window.location.href = "../../Citizen-Dashboard/Dashboard.html";
       }
     }, 3000);
-
   } catch (error) {
     showToast("An unexpected error occurred. Please try again.");
     loginBtn.innerText = "Log in";

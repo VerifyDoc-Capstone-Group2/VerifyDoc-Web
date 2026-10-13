@@ -6,28 +6,35 @@ const organizationType = document.getElementById("organization_type");
 const phoneNumber = document.getElementById("number");
 const documentInput = document.getElementById("organization_document");
 const documentLabel = document.getElementById("document_label");
+const official_email = document.getElementById("official_email");
+const address = document.getElementById("address");
+const website = document.getElementById("website");
+const cac_number = document.getElementById("cac_number");
+const cacnumber = document.getElementById("cacnumber");
 const filePreview = document.getElementById("file_preview");
 const submitApplication = document.getElementById("submit_application");
 const applicationMessage = document.getElementById("application_message");
 const applicationForm = submitApplication.form;
 const header = document.getElementById("header");
 const description = document.getElementById("text");
+const cac_type = document.getElementById("cac_type");
 const role = new URLSearchParams(window.location.search).get("role") || "";
-const isInstitution = role.toLowerCase() === "Institution";
+// const isInstitution = role.toLowerCase() === "Institution";
 const apiUrl = "https://verifydoc-api-v1.onrender.com";
 let previewUrl;
 
-if (isInstitution) {
+if (role === "Institution") {
   header.textContent = "Institution details";
   description.textContent = "Tell us about your institution";
   documentLabel.textContent = "Accreditation document";
   type.textContent = "Institution type";
   name1.textContent = "Institution name";
+  cacnumber.style.display = "none";
 } else {
   header.textContent = "Organization details";
   description.textContent = "Tell us about your organization";
   documentLabel.textContent = "CAC Certificate";
-  type.textContent = "Organization Type";
+  type.textContent = "Organization type";
   name1.textContent = "Organization name";
 }
 
@@ -35,8 +42,9 @@ function checkDetails() {
   submitApplication.disabled =
     organizationName.value.trim() === "" ||
     organizationType.value.trim() === "" ||
-    phoneNumber.value.trim() === "" ||
-    documentInput.files.length === 0;
+    documentInput.files.length === 0 ||
+    address.value.trim() === "" ||
+    (role === "Organization" && cac_number.value.trim() === "");
 }
 
 function showFilePreview() {
@@ -59,31 +67,23 @@ function showFilePreview() {
   fileName.textContent = selectedFile.name;
   filePreview.append(fileName);
 
-  if (
-    selectedFile.type === "application/pdf" ||
-    selectedFile.type.startsWith("image/")
-  ) {
-    previewUrl = URL.createObjectURL(selectedFile);
-    if (selectedFile.type === "application/pdf") {
-      const pdf = document.createElement("iframe");
-      pdf.src = previewUrl;
-      pdf.title = `Preview of ${selectedFile.name}`;
-      pdf.className = "mt-3 h-80 w-full rounded border";
-      filePreview.append(pdf);
-    } else {
-      const image = document.createElement("img");
-      image.src = previewUrl;
-      image.alt = `Preview of ${selectedFile.name}`;
-      image.className = "mt-3 max-h-80 max-w-full rounded object-contain";
-      filePreview.append(image);
-    }
+  if (selectedFile.type === "application/pdf") {
+    filePreview.textContent = selectedFile.name;
   }
 
   filePreview.classList.remove("hidden");
   checkDetails();
 }
 
-[organizationName, organizationType, phoneNumber].forEach((input) => {
+[
+  organizationName,
+  organizationType,
+  phoneNumber,
+  official_email,
+  cac_number,
+  address,
+  website,
+].forEach((input) => {
   input.addEventListener("input", checkDetails);
 });
 documentInput.addEventListener("change", showFilePreview);
@@ -101,7 +101,7 @@ applicationForm.addEventListener("submit", async (event) => {
 
   let user;
   try {
-    user = JSON.parse(localStorage.getItem("user") || "null");
+    user = JSON.parse(sessionStorage.getItem("registrationUser") || "null");
   } catch (error) {
     console.error("Unable to read saved signup details:", error);
   }
@@ -114,28 +114,46 @@ applicationForm.addEventListener("submit", async (event) => {
   }
 
   const formData = new FormData();
-  Object.entries({
+
+  //CAC number
+
+  const userData = {
     ...user,
+  };
+
+  const organization = {
     organizationName: organizationName.value.trim(),
     organizationType: organizationType.value.trim(),
+    cacNumber: `${cac_type.value} ${cac_number.value.trim()}`,
+    officialEmail: official_email.value.trim(),
+    address: address.value.trim(),
+    website: website.value.trim(),
     phoneNumber: phoneNumber.value.trim(),
-  }).forEach(([key, value]) => {
-    if (value !== undefined && value !== null) {
-      formData.append(key, String(value));
-    }
-  });
+  };
+
+  const institution = {
+    institutionName: organizationName.value.trim(),
+    institutionType: organizationType.value.trim(),
+    officialEmail: official_email.value.trim(),
+    address: address.value.trim(),
+    website: website.value.trim(),
+    phoneNumber: phoneNumber.value.trim(),
+  };
+
+  formData.append("user", JSON.stringify(userData));
   formData.append(
-    isInstitution ? "accreditedDocument" : "cacCertificate",
+    role === "Organization" ? "organization" : "institution",
+    JSON.stringify(role === "Organization" ? organization : institution),
+  );
+  formData.append(
+    role === "Institution" ? "accreditationDocument" : "cacCertificate",
     documentInput.files[0],
   );
 
-  console.log({
-    ...user,
-    organizationName: organizationName.value.trim(),
-    organizationType: organizationType.value.trim(),
-    phoneNumber: phoneNumber.value.trim(),
-  });
-
+  console.log(
+    `cacNumber: ${cac_type.value} ${cac_number.value.trim()}`,
+    `role:${organization.role}`,
+  );
   submitApplication.disabled = true;
   applicationMessage.textContent = "Submitting your application...";
   applicationMessage.className = "text-sm text-[#737373]";
