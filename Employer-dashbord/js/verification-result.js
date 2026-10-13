@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (subtitle) subtitle.textContent = data.isValid
       ? "This credential is verified and active."
       : "This credential is not currently verified and active.";
-    const fields = [data.title || data.credentialType, "Not provided by verification API", data.issuerName, data.credentialId, data.issueDate ? new Date(data.issueDate).toLocaleDateString() : "Not provided", "Not provided by verification API", data.status];
+    const fields = [data.title || data.credentialType, data.holderName || "Not provided", data.issuerName, data.credentialId, data.issueDate ? new Date(data.issueDate).toLocaleDateString() : "Not provided", "Not provided by verification API", data.status];
     rows.forEach((row, index) => {
       const value = row.children[1];
       if (value) value.textContent = fields[index] || "Not provided";
