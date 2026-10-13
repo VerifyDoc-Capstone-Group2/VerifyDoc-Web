@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       const url = new URL(raw);
       if (url.protocol !== "https:" && !(url.protocol === "http:" && url.hostname === "localhost")) return null;
-      const match = /^\\/verify\\/(VDOC-CRED-[0-9]{8})$/.exec(url.pathname);
+      const match = new RegExp("^/verify/(VDOC-CRED-[0-9]{8})$").exec(url.pathname);
       const token = url.searchParams.get("token");
       if (!match || !/^[a-f0-9]{64}$/.test(token || "")) return null;
       return { credentialId: match[1], token };
