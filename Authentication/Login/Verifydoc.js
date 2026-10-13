@@ -80,6 +80,8 @@ loginForm.addEventListener("submit", async (e) => {
       throw new Error(resData.message || "Invalid email or password.");
     }
 
+    if (!resData.data?.token || !resData.data?.user) throw new Error("Incomplete login response");
+
     // Extract JWT token and user info per API spec
     if (resData.data && resData.data.token) {
       localStorage.setItem("authorization", resData.data.token);
@@ -92,12 +94,13 @@ loginForm.addEventListener("submit", async (e) => {
       const user = JSON.parse(localStorage.getItem("user"));
 
       if (!user) {
-        showAlert("User information is missing. Please log in again.");
+        showToast("User information is missing. Please log in again.");
+        return;
       }
 
       const profileSetup = localStorage.getItem("profileSetupSeen");
 
-      if (!profileSetup && !user.profilePicture?.url) {
+      if (user.role !== "Organization" && !profileSetup && !user.profilePicture?.url) {
         window.location.href =
           "../../Authentication/Signup/Profile_picture.html";
 
@@ -116,7 +119,7 @@ loginForm.addEventListener("submit", async (e) => {
       }
     }, 3000);
   } catch (error) {
-    showToast("An unexpected error occurred. Please try again.");
+    showToast(error.message || "Unable to log in. Please try again.", { background: "#DC2626", color: "white" });
     loginBtn.innerText = "Log in";
     updateButtonState();
   }
