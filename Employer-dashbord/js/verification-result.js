@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!card) return;
   const header = card.querySelector("h1");
   const subtitle = header?.nextElementSibling;
-  const badge = card.querySelector(".rounded-full.bg-\\[\\#10B981\\]");
+  const badge = card.querySelector(".w-14.h-14.rounded-full");
   const setBadge = (valid) => {
     if (!badge) return;
     badge.style.backgroundColor = valid ? "#10B981" : "#DC2626";
