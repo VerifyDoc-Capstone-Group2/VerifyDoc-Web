@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!card) return;
   const brief = card.querySelector('h2');
   const submitted = card.querySelector('.border-t.border-b p.text-slate-400');
+  const briefDetails = card.querySelectorAll('.bg-slate-50\\/60 p');
+  briefDetails.forEach(p => { p.textContent = '—'; });
   const timeline = card.querySelector('.relative.pl-8');
   if (brief) brief.textContent = 'Loading confirmation request…';
   if (submitted) submitted.textContent = '—';
@@ -34,7 +36,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (brief) brief.textContent = 'No confirmation request found';
       return;
     }
-    if (brief) brief.textContent = `Credential reference: ${found.credentialId || 'Unavailable'}`;
+    if (brief) brief.textContent = 'Confirmation request: ' + String(found.id || 'Unavailable');
+    if (briefDetails[0]) briefDetails[0].textContent = 'Credential details available in Shared Credentials';
+    if (briefDetails[1]) briefDetails[1].textContent = 'Status: ' + (found.status || 'Unavailable');
     if (submitted) submitted.textContent = found.createdAt ? new Date(found.createdAt).toLocaleString() : '—';
     if (timeline) {
       const stages = [
