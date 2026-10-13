@@ -35,8 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const parseVerificationLink = (value) => {
     try {
       const url = new URL(value);
-      if (url.origin !== "https://verifydoc-api-v1.onrender.com") return null;
-      const match = /^\/credentials\/verify\/(VDOC-CRED-[0-9]{8})$/.exec(url.pathname);
+      if (url.protocol !== "https:" && !(url.protocol === "http:" && url.hostname === "localhost")) return null;
+      const match = /^\\/(?:credentials\\/verify|verify)\\/(VDOC-CRED-[0-9]{8})$/.exec(url.pathname);
+      if (url.pathname.startsWith("/credentials/verify/") && url.origin !== "https://verifydoc-api-v1.onrender.com") return null;
       const token = url.searchParams.get("token");
       if (!match || !/^[a-f0-9]{64}$/.test(token || "")) return null;
       return { credentialId: match[1], token };
