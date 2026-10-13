@@ -23,17 +23,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!session || !(await session.ready)) return;
 
   try {
-    let request;
-    for (let page = 1; page <= 20; page++) {
-      const response = await fetch(`https://verifydoc-api-v1.onrender.com/credential-confirmations/organization?page=${page}&limit=50`, {
-        headers: { Authorization: `Bearer ${session.getToken()}` },
-        cache: "no-store"
-      });
-      const body = await response.json();
-      if (!response.ok) throw new Error(body.message || "Could not load confirmation request");
-      request = body.data?.requests?.find(item => String(item.id) === requestId);
-      if (request || page >= (body.data?.pagination?.totalPages || 1)) break;
-    }
+    const response = await fetch("https://verifydoc-api-v1.onrender.com/credential-confirmations/organization/" + encodeURIComponent(requestId), {
+      headers: { Authorization: "Bearer " + session.getToken() }, cache: "no-store"
+    });
+    const body = await response.json();
+    if (!response.ok) throw new Error(body.message || "Could not load confirmation request");
+    const request = body.data;
     if (!request) throw new Error("Confirmation request not found.");
     heading.textContent = "Confirmation Requested";
     if (subtitle) subtitle.textContent = "Your request has been recorded by VerifyDoc.";
