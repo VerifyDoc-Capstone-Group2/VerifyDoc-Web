@@ -52,80 +52,54 @@ document.addEventListener("DOMContentLoaded", async () => {
     return body.data;
   };
 
-  // Walk paginated APIs to avoid presenting first-page counts as totals.
-  const allPages = async (path, key, totalPagesKey = "totalPages") => {
-    const collected = [];
-    for (let page = 1; page <= 200; page++) {
-      const join = path.includes("?") ? "&" : "?";
-      const data = await get(`${path}${join}page=${page}&limit=50`);
-      const items = data?.[key];
-      if (!Array.isArray(items)) throw new Error("Invalid dashboard API response");
-      collected.push(...items);
-      const totalPages = data.pagination?.[totalPagesKey];
-      if (Number.isInteger(totalPages)) {
-        if (page >= totalPages) return collected;
-      } else if (items.length < 50) {
-        return collected;
+  try {
+    const data = await get("/organization/dashboard");
+    const metric = (index, value, label) => {
+      const card = cards[index];
+      const count = card?.querySelector(".text-3xl");
+      const description = card?.querySelector(".text-xs.font-medium.mt-2");
+      if (count) count.textContent = value === null || value === undefined ? "—" : String(value);
+      if (description) description.textContent = label;
+    };
+    metric(0, data.totalVerifications, "Verification analytics not yet available");
+    metric(1, data.pendingRequests, "Pending fresh confirmations");
+    metric(2, data.completedRequests, "Responded fresh confirmations");
+    if (sharedCount) sharedCount.textContent = String(data.sharedCredentials ?? "—");
+    const description = sharedCount?.nextElementSibling;
+    if (description) description.textContent = "Active shared credentials";
+
+    if (activity) {
+      const entries = Array.isArray(data.recentActivity) ? data.recentActivity : [];
+      if (!entries.length) {
+        const empty = document.createElement("p");
+        empty.className = "text-sm text-slate-500";
+        empty.textContent = "No recent activity.";
+        activity.append(empty);
+      }
+      for (const entry of entries) {
+        const row = document.createElement("div");
+        row.className = "flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg border border-slate-100 gap-3";
+        const left = document.createElement("div");
+        const title = document.createElement("p");
+        title.className = "text-sm font-semibold text-slate-800";
+        title.textContent = entry.title || "Activity";
+        const detail = document.createElement("p");
+        detail.className = "text-xs text-slate-500";
+        detail.textContent = entry.detail || "";
+        left.append(title, detail);
+        const right = document.createElement("div");
+        right.className = "text-xs text-slate-500";
+        right.textContent = `${entry.createdAt ? new Date(entry.createdAt).toLocaleDateString() : ""} • ${entry.status || ""}`;
+        row.append(left, right);
+        activity.append(row);
       }
     }
-    throw new Error("Too many pages to calculate a reliable total");
-  };
-
-  const [sharesResult, confirmationsResult] = await Promise.allSettled([
-    allPages("/credential-shares/organization", "shares"),
-    allPages("/credential-confirmations/organization", "requests")
-  ]);
-  const shares = sharesResult.status === "fulfilled" ? sharesResult.value : null;
-  const requests = confirmationsResult.status === "fulfilled" ? confirmationsResult.value : null;
-
-  // No verification-event tracking exists in the current backend.
-  if (cards[0]) {
-    const trend = cards[0].querySelector(".text-xs.font-medium.mt-2");
-    if (trend) trend.textContent = "Verification analytics not yet available";
-  }
-  if (cards[1]) {
-    const count = cards[1].querySelector(".text-3xl");
-    if (count && requests) count.textContent = String(requests.filter(r => r.status === "Pending").length);
-    const trend = cards[1].querySelector(".text-xs.font-medium.mt-2");
-    if (trend) trend.textContent = requests ? "Pending fresh confirmations" : "Unable to load requests";
-  }
-  if (cards[2]) {
-    const count = cards[2].querySelector(".text-3xl");
-    if (count && requests) count.textContent = String(requests.filter(r => ["Confirmed", "Disputed"].includes(r.status)).length);
-    const trend = cards[2].querySelector(".text-xs.font-medium.mt-2");
-    if (trend) trend.textContent = requests ? "Responded fresh confirmations" : "Unable to load requests";
-  }
-  if (sharedCount) sharedCount.textContent = shares ? String(shares.length) : "—";
-  const sharedDescription = sharedCount?.nextElementSibling;
-  if (sharedDescription) sharedDescription.textContent = shares ? "Active shared credentials" : "Unable to load shared credentials";
-
-  if (activity) {
-    const entries = [
-      ...(shares || []).map(s => ({ title: "Credential shared", detail: [s.credential?.title, s.credential?.issuerName].filter(Boolean).join(" • "), time: s.createdAt, status: s.status })),
-      ...(requests || []).map(r => ({ title: "Fresh confirmation request", detail: r.reason || "Confirmation requested", time: r.createdAt, status: r.status }))
-    ].sort((a,b) => new Date(b.time || 0) - new Date(a.time || 0)).slice(0,5);
-    if (!entries.length) {
-      const empty = document.createElement("p");
-      empty.className = "text-sm text-slate-500";
-      empty.textContent = shares === null && requests === null ? "Activity unavailable." : "No recent activity.";
-      activity.append(empty);
-    }
-    for (const entry of entries) {
-      const row = document.createElement("div");
-      row.className = "flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg border border-slate-100 gap-3";
-      const left = document.createElement("div");
-      const title = document.createElement("p");
-      title.className = "text-sm font-semibold text-slate-800";
-      title.textContent = entry.title;
-      const detail = document.createElement("p");
-      detail.className = "text-xs text-slate-500";
-      detail.textContent = entry.detail;
-      left.append(title, detail);
-      const right = document.createElement("div");
-      right.className = "text-xs text-slate-500";
-      right.textContent = `${entry.time ? new Date(entry.time).toLocaleDateString() : ""} • ${entry.status || ""}`;
-      row.append(left, right);
-      activity.append(row);
+  } catch (error) {
+    if (activity) {
+      const notice = document.createElement("p");
+      notice.className = "text-sm text-slate-500";
+      notice.textContent = error.message || "Dashboard unavailable";
+      activity.append(notice);
     }
   }
 });
