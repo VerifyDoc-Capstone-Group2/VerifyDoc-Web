@@ -52,15 +52,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     return body.data;
   };
 
-  const [sharesResult, confirmationsResult] = await Promise.allSettled([
-    get("/credential-shares/organization?page=1&limit=50"),
-    get("/credential-confirmations/organization?page=1&limit=50")
-  ]);
-  const shares = sharesResult.status === "fulfilled" ? sharesResult.value.shares || [] : null;
-  const requests = confirmationsResult.status === "fulfilled" ? confirmationsResult.value.requests || [] : null;
-  const totalRequests = confirmationsResult.status === "fulfilled" ? confirmationsResult.value.pagination?.total : null;
+  // Walk paginated APIs to avoid presenting first-page counts as totals.
+  const allPages = async (path, key, totalPagesKey = "totalPages") => {
+    const collected = [];
+    for (let page = 1; page <= 200; page++) {
+      const join = path.includes("?") ? "&" : "?";
+      const data = await get(`${path}${join}page=${page}&limit=50`);
+      const items = data?.[key];
+      if (!Array.isArray(items)) throw new Error("Invalid dashboard API response");
+      collected.push(...items);
+      const totalPages = data.pagination?.[totalPagesKey];
+      if (Number.isInteger(totalPages)) {
+        if (page >= totalPages) return collected;
+      } else if (items.length < 50) {
+        return collected;
+      }
+    }
+    throw new Error("Too many pages to calculate a reliable total");
+  };
 
-  // There is no organization verification-history endpoint yet. Never fabricate that count.
+  const [sharesResult, confirmationsResult] = await Promise.allSettled([
+    allPages("/credential-shares/organization", "shares"),
+    allPages("/credential-confirmations/organization", "requests")
+  ]);
+  const shares = sharesResult.status === "fulfilled" ? sharesResult.value : null;
+  const requests = confirmationsResult.status === "fulfilled" ? confirmationsResult.value : null;
+
+  // No verification-event tracking exists in the current backend.
   if (cards[0]) {
     const trend = cards[0].querySelector(".text-xs.font-medium.mt-2");
     if (trend) trend.textContent = "Verification analytics not yet available";
@@ -69,17 +87,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     const count = cards[1].querySelector(".text-3xl");
     if (count && requests) count.textContent = String(requests.filter(r => r.status === "Pending").length);
     const trend = cards[1].querySelector(".text-xs.font-medium.mt-2");
-    if (trend) trend.textContent = requests ? "Pending among the latest 50 requests" : "Unable to load requests";
+    if (trend) trend.textContent = requests ? "Pending fresh confirmations" : "Unable to load requests";
   }
   if (cards[2]) {
     const count = cards[2].querySelector(".text-3xl");
     if (count && requests) count.textContent = String(requests.filter(r => ["Confirmed", "Disputed"].includes(r.status)).length);
     const trend = cards[2].querySelector(".text-xs.font-medium.mt-2");
-    if (trend) trend.textContent = requests ? "Responded among the latest 50 requests" : "Unable to load requests";
+    if (trend) trend.textContent = requests ? "Responded fresh confirmations" : "Unable to load requests";
   }
   if (sharedCount) sharedCount.textContent = shares ? String(shares.length) : "—";
   const sharedDescription = sharedCount?.nextElementSibling;
-  if (sharedDescription) sharedDescription.textContent = shares ? "Active shared credentials (up to 50)" : "Unable to load shared credentials";
+  if (sharedDescription) sharedDescription.textContent = shares ? "Active shared credentials" : "Unable to load shared credentials";
 
   if (activity) {
     const entries = [
