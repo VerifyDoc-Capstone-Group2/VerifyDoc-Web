@@ -92,6 +92,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         finally { view.disabled = false; }
       });
       right.append(view);
+      const request = element("a", "px-4 py-1.5 text-xs font-medium text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 transition shrink-0", "Request Confirmation");
+      request.href = `request-fresh-confirmation.html?shareId=${encodeURIComponent(share.shareId)}`;
+      right.append(request);
       row.append(left, right);
       list.append(row);
     }
