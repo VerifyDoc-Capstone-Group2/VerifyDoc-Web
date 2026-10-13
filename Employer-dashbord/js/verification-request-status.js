@@ -20,20 +20,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!session || !(await session.ready)) return;
   const requestedId = new URLSearchParams(location.search).get('requestId');
   try {
-    let page = 1;
-    let found = null;
-    // Request IDs are not individually addressable; look through authorized pages.
-    while (page <= 20) {
-      const response = await fetch(`https://verifydoc-api-v1.onrender.com/credential-confirmations/organization?page=${page}&limit=50`, {
-        headers: { Authorization: `Bearer ${session.getToken()}` }, cache: 'no-store'
-      });
-      const body = await response.json();
-      if (!response.ok) throw new Error(body.message || 'Unable to retrieve confirmations');
-      const requests = body.data?.requests || [];
-      found = requestedId ? requests.find((item) => String(item.id) === requestedId) : requests[0];
-      if (found || page >= (body.data?.pagination?.totalPages || 1)) break;
-      page++;
-    }
+    const url = requestedId
+      ? "https://verifydoc-api-v1.onrender.com/credential-confirmations/organization/" + encodeURIComponent(requestedId)
+      : "https://verifydoc-api-v1.onrender.com/credential-confirmations/organization?page=1&limit=1";
+    if (requestedId && !/^[a-f0-9]{24}$/i.test(requestedId)) throw new Error("Invalid confirmation request ID");
+    const response = await fetch(url, {
+      headers: { Authorization: "Bearer " + session.getToken() }, cache: "no-store"
+    });
+    const body = await response.json();
+    if (!response.ok) throw new Error(body.message || "Unable to retrieve confirmation");
+    const found = requestedId ? body.data : body.data?.requests?.[0];
     if (!found) {
       if (brief) brief.textContent = 'No confirmation request found';
       return;
