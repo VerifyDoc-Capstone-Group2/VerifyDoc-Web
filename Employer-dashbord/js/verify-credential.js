@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const url = new URL(input.value.trim());
       const allowedProtocol = url.protocol === "https:" ||
         (url.protocol === "http:" && url.hostname === "localhost");
-      const match = /^\\/verify\\/(VDOC-CRED-[0-9]{8})$/.exec(url.pathname);
+      const match = new RegExp("^/verify/(VDOC-CRED-[0-9]{8})$").exec(url.pathname);
       const token = url.searchParams.get("token");
       if (!allowedProtocol || !match || !/^[a-f0-9]{64}$/.test(token || "")) {
         throw new Error("Enter a valid signed VerifyDoc verification link.");
