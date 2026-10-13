@@ -26,6 +26,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!card) return;
   const header = card.querySelector("h1");
   const subtitle = header?.nextElementSibling;
+  const badge = card.querySelector(".rounded-full.bg-\\[\\#10B981\\]");
+  const setBadge = (valid) => {
+    if (!badge) return;
+    badge.style.backgroundColor = valid ? "#10B981" : "#DC2626";
+    const icon = badge.querySelector("[data-lucide]");
+    if (icon) icon.setAttribute("data-lucide", valid ? "check" : "x");
+    if (window.lucide) window.lucide.createIcons();
+  };
   const rows = Array.from(card.querySelectorAll(".grid.grid-cols-12"));
   const actionButtons = document.querySelector("main .grid.grid-cols-1.sm\\:grid-cols-2");
   const params = new URLSearchParams(window.location.search);
@@ -38,6 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (value) value.textContent = "—";
   });
   if (actionButtons) actionButtons.hidden = true;
+  if (badge) badge.hidden = true;
   if (header) {
     header.textContent = "Checking credential";
     header.className = "text-xl sm:text-2xl font-bold text-slate-900";
@@ -45,6 +54,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (subtitle) subtitle.textContent = "Contacting VerifyDoc to validate this credential.";
 
   const fail = (message) => {
+    if (badge) badge.hidden = false;
+    setBadge(false);
     if (header) {
       header.textContent = "Verification unavailable";
       header.className = "text-xl sm:text-2xl font-bold text-red-600";
@@ -67,6 +78,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!response.ok) throw new Error(payload.message || "Verification could not be completed.");
     const data = payload.data;
     if (!data || data.credentialId !== credentialId) throw new Error("Invalid verification response.");
+    if (badge) badge.hidden = false;
+    setBadge(data.isValid);
     if (header) {
       header.textContent = data.isValid ? "Credential Verified" : "Credential Not Verified";
       header.className = `text-xl sm:text-2xl font-bold ${data.isValid ? "text-emerald-600" : "text-red-600"}`;
