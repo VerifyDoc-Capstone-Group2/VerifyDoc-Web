@@ -27,9 +27,9 @@
   
 </head>
 
-<body class="font-inter text-gray-900 bg-white flex ">
+<body class="font-inter bg-white text-gray-900">
     <!--Sidebar-->
-  <div class="flex min-h-screen">
+  <div class="contents">
 
    <aside class="flex min-h-screen w-64 fixed justify-between hidden  top-0 lg:flex flex-col border border-[#14305a] bg-[#0b1f3a] text-white">
 
@@ -98,7 +98,7 @@
   
 
   <!-- MOBILE MENU (phone + tablet) -->
-  <div id="mobileMenu" class="fixed inset-0 z-50 hidden w-64  bg-[hsl(214,68%,14%)] p-4 text-white lg:hidden">
+  <div id="mobileMenu" class="fixed inset-0 z-50 hidden w-64  bg-[#0b1f3a] p-4 text-white lg:hidden">
     <a href="../VerifyDoc.html" class="flex items-center gap-2">
       <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary"><span class="font-bold text-white">V</span></div>
       <div class="text-xl font-bold tracking-tight text-white">VerifyDoc</div>
@@ -150,42 +150,118 @@
   </div>
   </div>
     <!----MAIN Content ----->
- <section class="min-h-screen min-w-0 lg:ml-64 w-full">    
+ <section class="min-h-screen min-w-0 w-full lg:ml-64 lg:w-[calc(100%-16rem)]">
 
   <!--NavBar-->
-    <div class="flex justify-between items-center mt-4 px-4 pb-5 border-b border-b-grey-600/50">
-     <button id="openBtn" class="p-2 lg:hidden" aria-label="Open menu">
-      <i data-lucide="menu" class="h-6 w-6"></i>
-    </button>
+    <div class="flex h-14 items-center justify-between border-b border-slate-200 px-4 sm:px-6 lg:px-8">
+     <div class="flex items-center gap-2 lg:hidden">
+       <span class="grid h-8 w-8 place-items-center rounded-full bg-blue-200 text-xs font-bold text-blue-800">S</span>
+       <span class="text-xs font-medium text-slate-900">Good Morning Sarah</span>
+     </div>
+     <span class="grid h-8 w-8 place-items-center rounded-full text-slate-700 lg:hidden" aria-label="Notifications">
+       <i data-lucide="bell" class="h-4 w-4"></i>
+     </span>
 
-    <nav aria-label="Breadcrumb" class="lg:block hidden">
-  <ol class="flex items-center gap-2 text-xs">
-
-    <li>
-      <a href="./Dashboard.html" class="text-gray-800 hover:text-blue-600">
-        <i data-lucide="house" class="w-6 h-6"></i>
-      </a>
-    </li>
-
-    <li class="text-gray-500"><i data-lucide="chevron-right" class="w-8 h-8"></i></li>
-
-
-    <li>
-      <a href="./Dashboard.html" class="text-gray-600 hover:text-blue-600">Dashboard</a>
-    </li>
-
-   
-  </ol>
-</nav>
-      <div class="flex items-center gap-3 px-4">
+    <nav aria-label="Breadcrumb" class="hidden lg:block">
+            <ol class="flex items-center gap-2 text-xs">
+              <li>
+                <a
+                  href="./Dashboard.html"
+                  aria-label="Dashboard"
+                  class="text-slate-700 hover:text-blue-700"
+                  ><i data-lucide="house" class="h-4 w-4"></i
+                ></a>
+              </li>
+              <li class="text-slate-400">
+                <i data-lucide="chevron-right" class="h-4 w-4"></i>
+              </li>
+              <li>
+                <a
+                  href="./Dashboard.html"
+                  class="text-slate-600 hover:text-blue-700"
+                  >Dashboard</a
+                >
+              </li>
+             
+            </ol>
+          </nav>
+      <div class="hidden items-center gap-3 px-4 lg:flex">
         <span class="w-8 h-8 grid place-items-center bg-[hsl(211,95%,78%)] font-bold text-lg rounded-full">U</span>
-         <p class="font-semibold text-md">User</p> 
+         <p class="font-semibold text-md">User</p>
  </div>
     </div>
 
 
 
-     <main class="mx-auto px-4 pb-12 pt-5 sm:px-6 sm:pt-8 lg:px-[24px] lg:pb-24 lg:pt-[55px]">
+     <!-- Mobile dashboard follows the supplied compact card and activity layout. -->
+     <main class="mx-auto max-w-md px-3 pb-20 pt-2 lg:hidden">
+       <p class="text-[8px] leading-[1.45] text-slate-500">Here is the overview of your credential and recent activity</p>
+
+       <section aria-label="Credential summary" class="mt-2 rounded-md bg-blue-600 p-1.5 text-white">
+         <div class="flex items-center justify-between">
+           <div>
+             <h1 class="text-[8px] font-medium">Total Credentials</h1>
+             <p class="mt-0.5 text-sm font-bold leading-none">10</p>
+           </div>
+           <a href="./Credential-Wallet.html" class="rounded border border-white/70 px-2 py-1 text-[7px] leading-none hover:bg-blue-700">View Wallet</a>
+         </div>
+         <p class="mt-1 flex items-center gap-1 text-[7px]"><i data-lucide="arrow-up" class="h-2 w-2"></i>15% from last 7 days</p>
+       </section>
+
+       <section aria-label="Credential status summary" class="mt-2 grid grid-cols-2 gap-1">
+         <article class="rounded-md border border-emerald-300 bg-emerald-50 p-1 text-emerald-700">
+           <div class="flex items-center justify-between text-[7px]"><h2>Verified</h2><i data-lucide="circle-check" class="h-2.5 w-2.5 fill-emerald-200"></i></div>
+           <p class="mt-0.5 text-[10px] font-semibold leading-none text-slate-900">5</p>
+           <p class="mt-0.5 flex items-center gap-0.5 text-[6px]"><i data-lucide="arrow-up" class="h-2 w-2"></i>15%</p>
+         </article>
+         <article class="rounded-md border border-amber-300 bg-amber-50 p-1 text-amber-700">
+           <div class="flex items-center justify-between text-[7px]"><h2>Pending</h2><i data-lucide="clock-3" class="h-2.5 w-2.5"></i></div>
+           <p class="mt-0.5 text-[10px] font-semibold leading-none text-slate-900">2</p>
+           <p class="mt-0.5 flex items-center gap-0.5 text-[6px]"><i data-lucide="arrow-up" class="h-2 w-2"></i>8%</p>
+         </article>
+         <article class="rounded-md border border-red-300 bg-red-50 p-1 text-red-700">
+           <div class="flex items-center justify-between text-[7px]"><h2>Rejected</h2><i data-lucide="circle-x" class="h-2.5 w-2.5"></i></div>
+           <p class="mt-0.5 text-[10px] font-semibold leading-none text-slate-900">0</p>
+           <p class="mt-0.5 flex items-center gap-0.5 text-[6px]"><i data-lucide="arrow-down" class="h-2 w-2"></i>0%</p>
+         </article>
+         <article class="rounded-md border border-blue-300 bg-blue-50 p-1 text-blue-700">
+           <div class="flex items-center justify-between text-[7px]"><h2>Shared</h2><i data-lucide="link" class="h-2.5 w-2.5"></i></div>
+           <p class="mt-0.5 text-[10px] font-semibold leading-none text-slate-900">3</p>
+           <p class="mt-0.5 flex items-center gap-0.5 text-[6px]"><i data-lucide="arrow-up" class="h-2 w-2"></i>10%</p>
+         </article>
+       </section>
+
+       <section aria-labelledby="mobileRecentTitle" class="mt-2">
+         <div class="mb-1 flex items-center justify-between">
+           <h2 id="mobileRecentTitle" class="text-[10px] font-medium text-slate-900">Recent Activity</h2>
+           <a href="./Credential-Wallet.html" class="text-[8px] font-medium text-blue-600">View all</a>
+         </div>
+         <div class="space-y-1.5">
+           <article class="flex items-center gap-1.5 rounded-md border border-slate-200 px-1.5 py-1">
+             <span class="grid h-2.5 w-2.5 shrink-0 place-items-center rounded-full bg-emerald-100 text-emerald-600"><i data-lucide="check" class="h-2 w-2"></i></span>
+             <div class="min-w-0 flex-1"><p class="truncate text-[8px] font-medium">Credential verified</p><p class="truncate text-[7px] text-slate-500">Adeola Johnson · B.Sc. Computer Science</p></div>
+             <div class="shrink-0 text-right"><p class="text-[7px] text-slate-400">3h ago</p><span class="rounded bg-emerald-100 px-1 text-[7px] text-emerald-700">Verified</span></div>
+           </article>
+           <article class="flex items-center gap-1.5 rounded-md border border-slate-200 px-1.5 py-1">
+             <span class="grid h-2.5 w-2.5 shrink-0 place-items-center rounded bg-blue-100 text-blue-600"><i data-lucide="share-2" class="h-2 w-2"></i></span>
+             <div class="min-w-0 flex-1"><p class="truncate text-[8px] font-medium">Shared credential request</p><p class="truncate text-[7px] text-slate-500">Mary Jane · B.Sc. Nursing</p></div>
+             <div class="shrink-0 text-right"><p class="text-[7px] text-slate-400">5h ago</p><span class="rounded bg-blue-100 px-1 text-[7px] text-blue-700">Shared</span></div>
+           </article>
+           <article class="flex items-center gap-1.5 rounded-md border border-slate-200 px-1.5 py-1">
+             <span class="grid h-2.5 w-2.5 shrink-0 place-items-center rounded bg-blue-100 text-blue-600"><i data-lucide="file-check-2" class="h-2 w-2"></i></span>
+             <div class="min-w-0 flex-1"><p class="truncate text-[8px] font-medium">Verification request received</p><p class="truncate text-[7px] text-slate-500">Felix Peter · HND Business Admin</p></div>
+             <div class="shrink-0 text-right"><p class="text-[7px] text-slate-400">1h ago</p><span class="rounded bg-amber-100 px-1 text-[7px] text-amber-700">Pending</span></div>
+           </article>
+           <article class="flex items-center gap-1.5 rounded-md border border-slate-200 px-1.5 py-1">
+             <span class="grid h-2.5 w-2.5 shrink-0 place-items-center rounded bg-emerald-100 text-emerald-600"><i data-lucide="check" class="h-2 w-2"></i></span>
+             <div class="min-w-0 flex-1"><p class="truncate text-[8px] font-medium">Verification request received</p><p class="truncate text-[7px] text-slate-500">Felix Peter · HND Business Admin</p></div>
+             <div class="shrink-0 text-right"><p class="text-[7px] text-slate-400">1h ago</p><span class="rounded bg-emerald-100 px-1 text-[7px] text-emerald-700">Verified</span></div>
+           </article>
+         </div>
+       </section>
+     </main>
+
+     <main class="mx-auto hidden px-4 pb-12 pt-5 sm:px-6 sm:pt-8 lg:block lg:px-[24px] lg:pb-24 lg:pt-[55px]">
 
 <!--Card content-->    
     <section class="rounded-2xl border border-blue-300 bg-blue-100 px-4 py-5 sm:px-6 sm:py-7 lg:px-[18px] lg:py-[15px]">
@@ -326,6 +402,16 @@
     </section>
 </div>
   </main>
-  </section>    
+  </section>
+  <nav aria-label="Mobile navigation" class="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-slate-700 bg-[#0b1f3a] px-1 pb-[max(0.25rem,env(safe-area-inset-bottom))] pt-1 text-[7px] leading-none text-slate-300 lg:hidden">
+    <a href="./Dashboard.html" aria-current="page" class="flex flex-col items-center gap-0.5 py-0.5 font-medium text-white"><i data-lucide="house" class="h-2.5 w-2.5"></i>Home</a>
+    <a href="./Credential-Wallet.html" class="flex flex-col items-center gap-0.5 py-0.5"><i data-lucide="wallet-cards" class="h-2.5 w-2.5"></i>Credential</a>
+    <a href="./Shared-Credential.html" class="flex flex-col items-center gap-0.5 py-0.5"><i data-lucide="scan-line" class="h-2.5 w-2.5"></i>Scan</a>
+    <a href="./Upload-Credential.html" class="flex flex-col items-center gap-0.5 py-0.5"><i data-lucide="send" class="h-2.5 w-2.5"></i>Request</a>
+    <a href="./Shared-Credential.html" class="flex flex-col items-center gap-0.5 py-0.5"><i data-lucide="ellipsis" class="h-2.5 w-2.5"></i>More</a>
+  </nav>
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+  </script>
 </body>
 </html>

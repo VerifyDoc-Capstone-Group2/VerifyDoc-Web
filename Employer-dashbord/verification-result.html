@@ -17,10 +17,10 @@
   <div class="flex min-h-screen">
     
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed md:sticky top-0 h-screen w-64 bg-[#0F172A] text-slate-300 flex flex-col justify-between p-4 z-30 transition-transform -translate-x-full md:translate-x-0 overflow-y-auto shrink-0">
+    <aside id="sidebar" class="fixed md:sticky top-0 z-30 h-screen w-64 shrink-0 bg-[#0b1f3a] text-white flex flex-col justify-between p-4 transition-transform -translate-x-full md:translate-x-0 overflow-y-auto border-r border-[#14305a]">
       <div>
         <!-- Logo -->
-        <div class="flex items-center gap-2 px-3 py-4 text-white font-bold text-xl">
+        <div class="flex items-center gap-[9px] border-b border-gray-600/50 px-3 pb-6 pt-[26px] text-2xl font-bold tracking-tight text-white">
           <div class="bg-blue-600 p-1.5 rounded-lg text-white">
             <i data-lucide="shield-check" class="w-6 h-6"></i>
           </div>
@@ -28,39 +28,39 @@
         </div>
 
         <!-- Navigation Links -->
-        <nav class="mt-6 space-y-1">
-          <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
-            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+        <nav class="mt-4 flex flex-col gap-6">
+          <a href="dashboard.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base font-medium transition hover:bg-[#1a335c] hover:text-white">
+            <i data-lucide="layout-dashboard" class="h-6 w-6 shrink-0"></i>
             <span>Dashboard</span>
           </a>
-          <a href="shared-credentials.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
-            <i data-lucide="share-2" class="w-5 h-5"></i>
+          <a href="shared-credentials.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base font-medium transition hover:bg-[#1a335c] hover:text-white">
+            <i data-lucide="share-2" class="h-6 w-6 shrink-0"></i>
             <span>Shared Credentials</span>
           </a>
           <!-- Active Nav Link -->
-          <a href="verify-credential.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-600 text-white font-medium transition">
-            <i data-lucide="file-check" class="w-5 h-5"></i>
+          <a href="verify-credential.html" class="flex h-[52px] items-center gap-2 rounded-lg bg-[#1a335c] px-2 text-base font-medium transition">
+            <i data-lucide="file-check" class="h-6 w-6 shrink-0"></i>
             <span>Verify Credential</span>
           </a>
-          <a href="verification-request-status.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
-            <i data-lucide="clock" class="w-5 h-5"></i>
+          <a href="verification-request-status.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base font-medium transition hover:bg-[#1a335c] hover:text-white">
+            <i data-lucide="clock" class="h-6 w-6 shrink-0"></i>
             <span>Verification Requests</span>
           </a>
-          <a href="organization.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
-            <i data-lucide="building-2" class="w-5 h-5"></i>
+          <a href="organization.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base font-medium transition hover:bg-[#1a335c] hover:text-white">
+            <i data-lucide="building-2" class="h-6 w-6 shrink-0"></i>
             <span>Organization</span>
           </a>
-          <a href="settings.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 hover:text-white font-medium transition">
-            <i data-lucide="settings" class="w-5 h-5"></i>
+          <a href="settings.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base font-medium transition hover:bg-[#1a335c] hover:text-white">
+            <i data-lucide="settings" class="h-6 w-6 shrink-0"></i>
             <span>Settings</span>
           </a>
         </nav>
       </div>
 
       <!-- Footer Organization Badge -->
-      <div class="border-t border-slate-800 pt-4 px-2 flex items-center gap-3">
-        <div class="p-2 rounded-lg bg-slate-800 text-slate-300">
-          <i data-lucide="building" class="w-5 h-5"></i>
+      <div class="flex items-center gap-3 border-t border-gray-600/50 px-2 pb-[39px] pt-[29px]">
+        <div class="rounded-lg bg-[#1a335c] p-2 text-slate-300">
+          <i data-lucide="building" class="h-6 w-6 shrink-0"></i>
         </div>
         <div class="text-xs">
           <p class="font-semibold text-white">TechCrush Solutions</p>
