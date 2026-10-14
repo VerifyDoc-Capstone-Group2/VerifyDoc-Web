@@ -5,7 +5,7 @@
   const search = document.querySelector('input[aria-label="Search organizations"]');
   const pills = [...document.querySelectorAll("main .mt-2.flex.gap-2 > button")];
   const dropdowns = [...document.querySelectorAll("main .dropdown")];
-  const token = (localStorage.getItem("authorization") || "").replace(/^Bearer\\s+/i, "").trim();
+  const token = (localStorage.getItem("authorization") || "").replace(/^Bearer\s+/i, "").trim();
   let entities = [];
   let category = "";
   let selectedType = "";
