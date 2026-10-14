@@ -2,7 +2,7 @@ const organizationName = document.getElementById("organization_name");
 const type = document.getElementById("type");
 const name1 = document.getElementById("name");
 
-const organizationType = document.getElementById("organization_type");
+let organizationType = document.getElementById("organization_type");
 const phoneNumber = document.getElementById("number");
 const documentInput = document.getElementById("organization_document");
 const documentLabel = document.getElementById("document_label");
@@ -56,6 +56,7 @@ if (role === "Institution") {
   select.append(new Option("Select organization type", "", true, true));
   for (const value of validOrganizationTypes) select.add(new Option(value, value));
   organizationType.replaceWith(select);
+  organizationType = select;
 }
 
 function checkDetails() {
