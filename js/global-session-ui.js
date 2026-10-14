@@ -8,7 +8,7 @@
   const token = () => (localStorage.getItem("authorization") || "").replace(/^Bearer\s+/i, "").trim();
 
   function logout(event) {
-    const control = event.target.closest?.(logoutSelector);
+    const control = event.target instanceof Element ? event.target.closest(logoutSelector) : null;
     if (!control) return;
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -79,6 +79,9 @@
     document.querySelectorAll('#NavprofilePicture, #profilePicture, img[alt="Admin profile"], img[alt="Organization user profile"], img[data-user-avatar]').forEach(img => {
       img.onerror = () => { img.onerror = null; img.src = FALLBACK; };
     });
+    let cached = null;
+    try { cached = JSON.parse(localStorage.getItem("user") || "null"); } catch { /* invalid cache */ }
+    applyProfile(cached && typeof cached === "object" ? cached : {});
     loadProfile();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
