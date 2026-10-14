@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const user = session.getUser();
   const header = document.querySelector("main > header");
-  const profileBlock = header?.querySelector('img[alt="John Doe"]')?.parentElement;
+  const profileBlock = header?.querySelector('img[alt="Organization user profile"]')?.parentElement;
   const avatar = profileBlock?.querySelector("img");
   const profileName = profileBlock?.querySelector(".font-semibold");
   const profileType = profileBlock?.querySelector(".text-xs.text-slate-500");
