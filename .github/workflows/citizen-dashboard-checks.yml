@@ -1,0 +1,26 @@
+name: Citizen dashboard integration checks
+on:
+  push:
+    branches:
+      - integration/citizen-dashboard-api
+  pull_request:
+    branches:
+      - main
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate dashboard JavaScript
+        run: node --check Citizen-Dashboard/citizen-dashboard-api.js
+      - name: Verify dashboard script is linked
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const html = fs.readFileSync('Citizen-Dashboard/Dashboard.html', 'utf8');
+          if (!html.includes('src="./citizen-dashboard-api.js"')) throw new Error('Citizen dashboard script not linked');
+          if (!fs.existsSync('Citizen-Dashboard/citizen-dashboard-api.js')) throw new Error('Citizen dashboard script missing');
+          EOF
