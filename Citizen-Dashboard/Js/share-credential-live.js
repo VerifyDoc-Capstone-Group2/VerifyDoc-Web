@@ -13,6 +13,7 @@
   let organizations = [];
   let credential = null;
   let shareResults = [];
+  const selectedOrgIds = new Set();
   const checked = name => [...document.querySelectorAll('input[name="' + name + '"]:checked')].map(x => x.value);
   const error = message => { feedback.textContent = message; feedback.className = "mt-3 min-h-4 text-xs text-red-700"; };
   const request = async (path, options = {}) => {
@@ -22,7 +23,7 @@
     return body.data;
   };
   const update = () => {
-    const selected = checked("employer");
+    const selected = [...selectedOrgIds];
     get("summaryEmployers").textContent = selected.length ? selected.map(id => organizations.find(o => String(o._id) === id)?.organizationName || "Organization").join(", ") : "Select at least one employer";
     get("summaryPurpose").textContent = checked("purpose")[0] || "Select a sharing purpose";
     get("summaryDuration").textContent = checked("duration")[0] || "Select an access duration";
@@ -30,7 +31,7 @@
   };
   const renderOrganizations = () => {
     const query = search.value.trim().toLowerCase();
-    const previouslySelected = checked("employer");
+    const previouslySelected = [...selectedOrgIds];
     choices.replaceChildren();
     const filtered = organizations.filter(o => o.organizationName.toLowerCase().includes(query));
     get("employerEmpty").classList.toggle("hidden", filtered.length > 0);
@@ -89,7 +90,13 @@
       button.disabled = true;
     }
   }
-  form.addEventListener("change", update);
+  form.addEventListener("change", event => {
+    if (event.target.matches('input[name="employer"]')) {
+      if (event.target.checked) selectedOrgIds.add(event.target.value);
+      else selectedOrgIds.delete(event.target.value);
+    }
+    update();
+  });
   search.addEventListener("input", renderOrganizations);
   form.addEventListener("submit", async event => {
     event.preventDefault();
