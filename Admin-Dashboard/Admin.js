@@ -17,6 +17,15 @@ const pendingOrganizationPopulation = document.getElementById('pendingOrganizati
 const totalUsers = document.getElementById('totalUsers');
 const activeInstitutions = document.getElementById('activeInstitutions');
 const profilePicture = document.getElementById('profilePicture');
+const NavprofilePicture = document.getElementById('NavprofilePicture');
+const NavAdminName = document.getElementById('NavAdminName');
+const logoutBtn = document.getElementById('logout');
+
+logoutBtn.addEventListener('click', () => {
+  localStorage.removeItem('authorization');
+  localStorage.removeItem('user');
+  window.location.href = '../Authentication/Login/login.html';
+});
 
 openBtn.addEventListener("click", () => {
     mobileMenu.classList.remove("hidden");
@@ -31,6 +40,22 @@ closeBtn.addEventListener("click", () => {
 overlay.addEventListener("click", () => {
     mobileMenu.classList.add("hidden");
     overlay.classList.add("hidden");
+});
+
+document.addEventListener("DOMContentLoaded", async() => {
+  const response = await fetch(`${API_BASE_URL}/auth/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  });
+
+  const responseData = await response.json();
+
+  const data = await responseData.data;
+
+  NavAdminName.textContent = data.firstName + " " + data.lastName;
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -55,9 +80,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Display user profile
   if (!userData.profilePicture.url) {
-    profilePicture.src = 'https://res.cloudinary.com/qo5vllhj/image/upload/v1790994017/image_8_paptwo.jpg'
+    profilePicture.src = '../images/user.avif'
+    NavprofilePicture.src = '../images/user.avif'
   } else {
     profilePicture.src = userData.profilePicture.url
+    NavprofilePicture.src = userData.profilePicture.url
   }
 });
 
