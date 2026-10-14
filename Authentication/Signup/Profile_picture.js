@@ -123,7 +123,7 @@ const uploadProfilePicture = async () => {
     showToast("Profile picture uploaded successfully!");
 
     setTimeout(() => {
-      window.location.href = "../../Citizen-dashbord/dashboard.html";
+      window.location.href = "../../Citizen-Dashboard/Dashboard.html";
     }, 1500);
   }
 };
