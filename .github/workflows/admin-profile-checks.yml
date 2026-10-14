@@ -1,0 +1,26 @@
+name: Admin profile integration checks
+on:
+  push:
+    branches:
+      - integration/admin-onboarding-api
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: node --check Admin-Dashboard/admin-profile.js
+      - name: Verify admin profile linked on all sidebar pages
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          for (const file of fs.readdirSync('Admin-Dashboard').filter(x => x.endsWith('.html'))) {
+            const html = fs.readFileSync('Admin-Dashboard/' + file, 'utf8');
+            if (html.includes('<aside') && !html.includes('src="admin-profile.js"')) {
+              throw new Error(file + ': missing admin profile script');
+            }
+          }
+          EOF
