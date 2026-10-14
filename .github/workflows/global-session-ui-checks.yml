@@ -1,0 +1,29 @@
+name: Shared dashboard session UI checks
+on:
+  push:
+    branches: [integration/global-logout-profile-avatar]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check js/global-session-ui.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const dirs = ['Admin-Dashboard', 'Citizen-Dashboard', 'Employer-dashbord', 'Institution-Dashboard'];
+          let count = 0;
+          for (const dir of dirs) {
+            for (const file of fs.readdirSync(dir).filter(x => x.endsWith('.html'))) {
+              const html = fs.readFileSync(dir + '/' + file, 'utf8');
+              if (!html.includes('src="../js/global-session-ui.js"')) throw new Error(dir + '/' + file + ' missing shared session UI');
+              count++;
+            }
+          }
+          console.log('Verified shared session UI on ' + count + ' dashboard pages');
+          EOF
