@@ -1,0 +1,23 @@
+name: Citizen dashboard API checks
+on:
+  push:
+    branches: [integration/citizen-dashboard-live-v2]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Citizen-Dashboard/citizen-dashboard-api.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const html = fs.readFileSync('Citizen-Dashboard/Dashboard.html','utf8');
+          const js = fs.readFileSync('Citizen-Dashboard/citizen-dashboard-api.js','utf8');
+          if (!html.includes('src="./citizen-dashboard-api.js"')) throw new Error('Citizen dashboard script not loaded');
+          if (!js.includes('/citizen/dashboard')) throw new Error('Missing backend endpoint');
+          EOF
