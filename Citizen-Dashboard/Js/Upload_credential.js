@@ -11,6 +11,61 @@
   const token = () => (localStorage.getItem("authorization") || "").replace(/^Bearer\s+/i, "").trim();
   let currentProfile = null;
   let previewUrl = null;
+  const institutionInput = get("institutionName");
+  const institutionResults = get("institutionResults");
+  const institutionHelp = get("institutionHelp");
+  let selectedInstitution = null;
+  let searchTimer = null;
+  let searchRequest = null;
+
+  const hideInstitutions = () => {
+    institutionResults.classList.add("hidden");
+    institutionResults.replaceChildren();
+  };
+  institutionInput.addEventListener("input", () => {
+    selectedInstitution = null;
+    clearTimeout(searchTimer);
+    searchRequest?.abort();
+    hideInstitutions();
+    institutionHelp.textContent = "If your institution is not listed, its name will be saved as an unregistered issuer.";
+    const query = institutionInput.value.trim();
+    if (query.length < 2) return;
+    searchTimer = setTimeout(async () => {
+      const controller = new AbortController();
+      searchRequest = controller;
+      try {
+        const response = await fetch(API + "/institutions/search?q=" + encodeURIComponent(query), {
+          headers: { Accept: "application/json" }, signal: controller.signal
+        });
+        if (!response.ok) throw new Error("Institution search is unavailable");
+        const result = await response.json();
+        if (controller.signal.aborted || institutionInput.value.trim() !== query) return;
+        hideInstitutions();
+        const institutions = Array.isArray(result.data) ? result.data : [];
+        for (const institution of institutions) {
+          const option = document.createElement("button");
+          option.type = "button";
+          option.setAttribute("role", "option");
+          option.className = "block w-full px-3 py-2 text-left text-xs hover:bg-blue-50 focus:bg-blue-50";
+          option.textContent = institution.institutionName + (institution.institutionType ? " — " + institution.institutionType : "");
+          option.addEventListener("click", () => {
+            selectedInstitution = { id: institution._id, name: institution.institutionName };
+            institutionInput.value = institution.institutionName;
+            institutionHelp.textContent = "Registered institution selected. Your upload will remain Pending until reviewed.";
+            hideInstitutions();
+          });
+          institutionResults.appendChild(option);
+        }
+        if (institutions.length) institutionResults.classList.remove("hidden");
+      } catch (e) {
+        if (e.name !== "AbortError") institutionHelp.textContent =
+          "Unable to search registered institutions right now. You can enter the issuer name manually.";
+      }
+    }, 300);
+  });
+  document.addEventListener("click", e => {
+    if (e.target !== institutionInput && !institutionResults.contains(e.target)) hideInstitutions();
+  });
 
   const menu = get("mobileMenu"), backdrop = get("mobileMenuBackdrop");
   const open = get("openBtn"), close = get("closeBtn");
@@ -86,7 +141,11 @@
     if (issueDate > new Date().toISOString().slice(0, 10)) { error("Issue date cannot be in the future."); return; }
     if (year && (Number(year) < 1900 || Number(year) > new Date().getFullYear())) { error("Enter a valid graduation year."); return; }
     const data = new FormData();
-    data.append("issuerName", get("institutionName").value.trim());
+    if (selectedInstitution && institutionInput.value.trim() === selectedInstitution.name) {
+      data.append("institution", selectedInstitution.id);
+    } else {
+      data.append("issuerName", institutionInput.value.trim());
+    }
     data.append("title", get("programName").value.trim());
     data.append("credentialType", get("credentialType").value.trim());
     data.append("issueDate", issueDate);
@@ -130,6 +189,11 @@
   });
   get("uploadAnotherButton")?.addEventListener("click", () => {
     form.reset();
+    selectedInstitution = null;
+    clearTimeout(searchTimer);
+    searchRequest?.abort();
+    hideInstitutions();
+    institutionHelp.textContent = "Select a registered institution from the results, or enter its name manually if it is not listed.";
     if (currentProfile) {
       get("firstName").value = currentProfile.firstName || "";
       get("lastName").value = currentProfile.lastName || "";
