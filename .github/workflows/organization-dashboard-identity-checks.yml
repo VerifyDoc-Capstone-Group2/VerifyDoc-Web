@@ -1,0 +1,21 @@
+name: Organization dashboard identity checks
+on:
+  push:
+    branches: [integration/organization-dashboard-identity]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Employer-dashbord/js/dashboard.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const html = fs.readFileSync('Employer-dashbord/dashboard.html','utf8');
+          if (html.includes('TechCrush Solutions') || html.includes('alt="John Doe"')) throw new Error('Hardcoded identity remains');
+          EOF
