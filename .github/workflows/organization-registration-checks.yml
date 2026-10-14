@@ -1,0 +1,24 @@
+name: Organization registration checks
+on:
+  push:
+    branches: [fix/organization-registration-validation]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Authentication/Details.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const script = fs.readFileSync('Authentication/Details.js','utf8');
+          for (const type of ['Employer', 'Recruitment Agency', 'HR Firm', 'Other']) {
+            if (!script.includes(type)) throw Error('Missing organization type: ' + type);
+          }
+          if (!script.includes('result.message')) throw Error('Backend validation messages not surfaced');
+          EOF
