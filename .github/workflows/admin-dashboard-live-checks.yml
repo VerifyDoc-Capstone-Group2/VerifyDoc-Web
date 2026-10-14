@@ -1,0 +1,26 @@
+name: Admin dashboard live data checks
+on:
+  push:
+    branches:
+      - integration/admin-dashboard-live-data
+  pull_request:
+    branches:
+      - main
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Admin-Dashboard/admin-dashboard-live.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const html = fs.readFileSync('Admin-Dashboard/Admin.html', 'utf8');
+          if (!html.includes('src="admin-dashboard-live.js"')) throw new Error('Missing dashboard API script');
+          for (const example of ['Organization 1', 'Metro University', 'NovaBridge', '2h ago']) {
+            if (html.includes(example)) throw new Error('Hardcoded sample remains: ' + example);
+          }
+          EOF
