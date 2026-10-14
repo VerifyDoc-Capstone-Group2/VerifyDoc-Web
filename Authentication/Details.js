@@ -21,6 +21,18 @@ const cac_type = document.getElementById("cac_type");
 const role = new URLSearchParams(window.location.search).get("role") || "";
 // const isInstitution = role.toLowerCase() === "Institution";
 const apiUrl = "https://verifydoc-api-v1.onrender.com";
+const validOrganizationTypes = ["Employer", "Recruitment Agency", "HR Firm", "Other"];
+function showApplicationError(message) {
+  applicationMessage.textContent = message;
+  applicationMessage.className = "text-sm text-red-600";
+  applicationMessage.classList.remove("hidden");
+}
+function normalizedWebsite(value) {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  return /^https?:\/\//i.test(trimmed) ? trimmed : "https://" + trimmed;
+}
+
 let previewUrl;
 
 if (role === "Institution") {
@@ -36,6 +48,14 @@ if (role === "Institution") {
   documentLabel.textContent = "CAC Certificate";
   type.textContent = "Organization type";
   name1.textContent = "Organization name";
+  // Organization types must match the backend enum. Use a native select without altering layout.
+  const select = document.createElement("select");
+  select.id = organizationType.id;
+  select.className = organizationType.className;
+  select.required = true;
+  select.append(new Option("Select organization type", "", true, true));
+  for (const value of validOrganizationTypes) select.add(new Option(value, value));
+  organizationType.replaceWith(select);
 }
 
 function checkDetails() {
@@ -121,13 +141,27 @@ applicationForm.addEventListener("submit", async (event) => {
     ...user,
   };
 
+  if (role === "Organization" && !validOrganizationTypes.includes(organizationType.value)) {
+    showApplicationError("Select a valid organization type.");
+    return;
+  }
+  if (!official_email.value.trim()) {
+    showApplicationError("Enter your organization's official email.");
+    return;
+  }
+  const selectedFile = documentInput.files[0];
+  if (!selectedFile || (selectedFile.type !== "application/pdf" && !selectedFile.name.toLowerCase().endsWith(".pdf"))) {
+    showApplicationError("Please upload a PDF document.");
+    return;
+  }
+
   const organization = {
     organizationName: organizationName.value.trim(),
     organizationType: organizationType.value.trim(),
     cacNumber: `${cac_type.value} ${cac_number.value.trim()}`,
     officialEmail: official_email.value.trim(),
     address: address.value.trim(),
-    website: website.value.trim(),
+    website: normalizedWebsite(website.value),
     phoneNumber: phoneNumber.value.trim(),
   };
 
@@ -150,10 +184,6 @@ applicationForm.addEventListener("submit", async (event) => {
     documentInput.files[0],
   );
 
-  console.log(
-    `cacNumber: ${cac_type.value} ${cac_number.value.trim()}`,
-    `role:${organization.role}`,
-  );
   submitApplication.disabled = true;
   applicationMessage.textContent = "Submitting your application...";
   applicationMessage.className = "text-sm text-[#737373]";
@@ -171,17 +201,21 @@ applicationForm.addEventListener("submit", async (event) => {
       body: formData,
     });
 
+    const result = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new Error(`Registration failed with status ${response.status}`);
+      const safeMessage = typeof result.message === "string" && result.message.length < 240
+        ? result.message
+        : "Registration failed. Please check your details.";
+      throw new Error(safeMessage);
     }
 
     localStorage.removeItem("user");
     window.location.href = `Registration_complete.html?role=${role}`;
   } catch (error) {
     console.error("Unable to submit application:", error);
-    applicationMessage.textContent =
-      `Unable to submit application. Please try again later.`;
-    applicationMessage.className = "text-sm text-red-600";
+    showApplicationError(error instanceof TypeError
+      ? "Could not reach the server. Check your connection and try again."
+      : error.message || "Unable to submit application. Please try again.");
     submitApplication.disabled = false;
   }
 });
