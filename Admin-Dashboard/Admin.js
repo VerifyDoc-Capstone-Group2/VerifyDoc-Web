@@ -4,7 +4,7 @@ const API_BASE_URL = "https://verifydoc-api-v1.onrender.com";
 const token = localStorage.getItem('authorization');
 const userData = JSON.parse(localStorage.getItem('user'));
 
-lucide.createIcons();
+if (window.lucide?.createIcons) window.lucide.createIcons();
 
 
 const openBtn = document.getElementById("openBtn");
@@ -19,13 +19,7 @@ const activeInstitutions = document.getElementById('activeInstitutions');
 const profilePicture = document.getElementById('profilePicture');
 const NavprofilePicture = document.getElementById('NavprofilePicture');
 const NavAdminName = document.getElementById('NavAdminName');
-const logoutBtn = document.getElementById('logout');
-
-logoutBtn.addEventListener('click', () => {
-  localStorage.removeItem('authorization');
-  localStorage.removeItem('user');
-  window.location.href = '../Authentication/Login/login.html';
-});
+// Logout is handled for desktop and mobile by admin-logout.js.
 
 openBtn.addEventListener("click", () => {
     mobileMenu.classList.remove("hidden");
@@ -79,7 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   activeInstitutions.textContent = data.institutions.active
 
   // Display user profile
-  if (!userData.profilePicture.url) {
+  if (!userData?.profilePicture?.url) {
     profilePicture.src = '../images/user.avif'
     NavprofilePicture.src = '../images/user.avif'
   } else {
@@ -137,10 +131,10 @@ document.addEventListener("click", () => {
 
 
 const backdrop = document.getElementById("backdrop");
-    const close = () => backdrop.classList.add("hidden");
+    const close = () => backdrop?.classList.add("hidden");
 
-    document.getElementById("cancel").addEventListener("click", close);
-    document.getElementById("confirm").addEventListener("click", () => {
+    document.getElementById("cancel")?.addEventListener("click", close);
+    document.getElementById("confirm")?.addEventListener("click", () => {
       // TODO: send the approve request here, then close
       close();
     });
