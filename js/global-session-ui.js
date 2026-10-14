@@ -33,6 +33,19 @@
     const raw = user.profilePicture?.url;
     const photo = typeof raw === "string" && /^https:\/\//i.test(raw) ? raw : FALLBACK;
 
+    document.querySelectorAll("aside, header").forEach(region => {
+      region.querySelectorAll("span.rounded-full, img.rounded-full").forEach(node => {
+        const parent = node.parentElement;
+        const label = [...(parent?.children || [])].find(el =>
+          el !== node && el.tagName === "SPAN" &&
+          (el.textContent.trim() === "User" || el.dataset.verifydocProfileName === "true")
+        );
+        if (label) {
+          label.textContent = fullName;
+          label.dataset.verifydocProfileName = "true";
+        }
+      });
+    });
     // Existing profile image elements only; do not modify decorative images.
     document.querySelectorAll('#NavprofilePicture, #profilePicture, img[alt="Admin profile"], img[alt="Organization user profile"], img[data-user-avatar]').forEach(img => avatar(img, photo, fullName));
 

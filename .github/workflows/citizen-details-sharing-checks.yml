@@ -1,0 +1,28 @@
+name: Citizen credential detail and sharing checks
+on:
+  push:
+    branches: [fix/citizen-details-sharing-identity]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Citizen-Dashboard/Js/credential-details-live.js
+      - run: node --check Citizen-Dashboard/Js/share-credential-live.js
+      - run: node --check js/global-session-ui.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const details = fs.readFileSync('Citizen-Dashboard/Credential-Details.html','utf8');
+          const share = fs.readFileSync('Citizen-Dashboard/Share-Credential.html','utf8');
+          const js = fs.readFileSync('Citizen-Dashboard/Js/share-credential-live.js','utf8');
+          if (!details.includes('credential-details-live.js')) throw Error('Credential details integration missing');
+          if (!share.includes('share-credential-live.js')) throw Error('Share integration missing');
+          if (share.includes('Microsoft Nigeria') || share.includes('Northstar Technologies')) throw Error('Hardcoded organizations remain');
+          if (!js.includes('/credential-shares/eligible-organizations') || !js.includes('method: "POST"')) throw Error('Share backend integration missing');
+          EOF
