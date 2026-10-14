@@ -41,6 +41,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!session || !(await session.ready)) return;
 
   const user = session.getUser();
+  const header = document.querySelector("main > header");
+  const profileBlock = header?.querySelector('img[alt="John Doe"]')?.parentElement;
+  const avatar = profileBlock?.querySelector("img");
+  const profileName = profileBlock?.querySelector(".font-semibold");
+  const profileType = profileBlock?.querySelector(".text-xs.text-slate-500");
+  const organizationLabel = document.querySelector("aside .border-t .font-semibold");
+  const fallbackAvatar = "../images/user.avif";
+  const personName = [user?.firstName, user?.lastName].filter(Boolean).join(" ").trim() || "Organization user";
+  if (profileName) profileName.textContent = personName;
+  if (profileType) profileType.textContent = user?.role || "Organization";
+  if (avatar) {
+    avatar.src = /^https:\/\//i.test(user?.profilePicture?.url || "") ? user.profilePicture.url : fallbackAvatar;
+    avatar.alt = personName + " profile picture";
+    avatar.onerror = () => { avatar.onerror = null; avatar.src = fallbackAvatar; };
+  }
+  if (organizationLabel) organizationLabel.textContent = "Loading organization…";
+
   if (welcome) welcome.textContent = `Welcome, ${[user?.firstName, user?.lastName].filter(Boolean).join(" ") || "Organization"}`;
 
   const get = async (path) => {
@@ -54,6 +71,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     const data = await get("/organization/dashboard");
+    if (organizationLabel) organizationLabel.textContent = data.organization?.organizationName || "Organization";
+    if (profileType) profileType.textContent = data.organization?.organizationType || user?.role || "Organization";
     const metric = (index, value, label) => {
       const card = cards[index];
       const count = card?.querySelector(".text-3xl");
@@ -95,6 +114,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
   } catch (error) {
+    if (organizationLabel) organizationLabel.textContent = "Organization unavailable";
     if (activity) {
       const notice = document.createElement("p");
       notice.className = "text-sm text-slate-500";
