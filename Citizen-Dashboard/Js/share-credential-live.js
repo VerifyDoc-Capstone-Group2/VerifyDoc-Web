@@ -30,6 +30,7 @@
   };
   const renderOrganizations = () => {
     const query = search.value.trim().toLowerCase();
+    const previouslySelected = checked("employer");
     choices.replaceChildren();
     const filtered = organizations.filter(o => o.organizationName.toLowerCase().includes(query));
     get("employerEmpty").classList.toggle("hidden", filtered.length > 0);
@@ -42,8 +43,7 @@
       input.name = "employer";
       input.value = String(org._id);
       input.className = "choice-input sr-only";
-      const selected = checked("employer");
-      input.checked = selected.includes(String(org._id));
+      input.checked = previouslySelected.includes(String(org._id));
       const card = document.createElement("span");
       card.className = "choice-card block min-h-12 rounded-md border border-slate-200 p-2 transition hover:border-blue-300";
       const name = document.createElement("span");
