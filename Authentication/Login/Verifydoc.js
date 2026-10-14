@@ -19,30 +19,6 @@ const passwordInput = document.getElementById("password");
 const loginBtn = document.getElementById("login");
 const loginForm = document.getElementById("loginForm");
 
-// Create dynamic alert container for feedback
-// let alertBox = document.getElementById("loginAlert");
-// if (!alertBox) {
-//   alertBox = document.createElement("div");
-//   alertBox.id = "loginAlert";
-//   alertBox.className = "hidden text-sm rounded-md p-3 text-center mb-2 font-medium transition-all";
-//   loginForm.parentNode.insertBefore(alertBox, loginForm);
-// }
-
-// function showAlert(message, isError = true) {
-//   alertBox.innerText = message;
-//   alertBox.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700");
-//   if (isError) {
-//     alertBox.classList.add("bg-red-100", "text-red-700");
-//   } else {
-//     alertBox.classList.add("bg-green-100", "text-green-700");
-//   }
-// }
-
-// function clearAlert() {
-//   alertBox.innerText = "";
-//   alertBox.classList.add("hidden");
-// }
-
 function updateButtonState() {
   const isValid =
     emailInput.value.trim() !== "" && passwordInput.value.trim() !== "";

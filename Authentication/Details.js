@@ -176,7 +176,7 @@ applicationForm.addEventListener("submit", async (event) => {
     }
 
     localStorage.removeItem("user");
-    window.location.href = "Application_submitted.html";
+    window.location.href = `Registration_complete.html?role=${role}`;
   } catch (error) {
     console.error("Unable to submit application:", error);
     applicationMessage.textContent =

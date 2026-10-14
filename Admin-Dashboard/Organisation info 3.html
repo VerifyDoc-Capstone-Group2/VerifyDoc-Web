@@ -24,6 +24,14 @@
   .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
 </style>
   
+<style id="mobileBottomNavStyles">
+body { padding-bottom: calc(3.5rem + env(safe-area-inset-bottom)) !important; }
+#mobileBottomNav { position: fixed; inset: auto 0 0; z-index: 40; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); height: calc(3.5rem + env(safe-area-inset-bottom)); box-sizing: border-box; padding: .25rem .5rem max(.25rem, env(safe-area-inset-bottom)); border-top: 1px solid #183657; background: #0b1f3a; color: #cbd5e1; }
+#mobileBottomNav a { display: flex; min-width: 0; flex-direction: column; align-items: center; justify-content: center; gap: .25rem; color: inherit; font: 400 10px/1 Inter, sans-serif; text-decoration: none; }
+#mobileBottomNav a[aria-current="page"] { color: #fff; font-weight: 600; }
+#mobileBottomNav i { width: 1rem; height: 1rem; }
+@media (min-width: 1024px) { body { padding-bottom: 0 !important; } #mobileBottomNav { display: none; } }
+</style>
 </head>
 
 
@@ -31,7 +39,7 @@
 <body class="font-inter text-gray-900 bg-white">
   <div class="flex min-h-screen">
 
-   <aside class="sticky top-0 z-20 hidden h-screen w-64 shrink-0 flex-col justify-between border border-[#14305a] bg-[#0b1f3a] text-white lg:flex">
+   <aside class="sticky top-0 z-20 hidden h-screen w-64 shrink-0 flex-col justify-between border border-[#14305a] bg-[#0b1f3a] font-inter text-white lg:flex">
     <a href="../VerifyDoc.html" class="flex items-center gap-[9px] border-b border-gray-600/50 px-[25px] pb-6 pt-[26px]">
       <div class="grid h-[36px] w-[36px] place-items-center rounded-lg bg-blue-600 text-[16px] font-bold"><span class="font-bold text-white">V</span></div>
       <div class="text-[24px] font-bold tracking-tight text-white">VerifyDoc</div>
@@ -76,7 +84,7 @@
   </aside>
 
   <!-- MOBILE MENU (phone + tablet) -->
-  <div id="mobileMenu" class="fixed inset-0 z-50 hidden w-64  bg-[#0b1f3a] p-4 text-white lg:hidden">
+  <div id="mobileMenu" class="fixed inset-0 z-50 hidden w-64 bg-[#0b1f3a] p-4 font-inter text-white lg:hidden">
     <a href="../VerifyDoc.html" class="flex items-center gap-[9px] border-b border-gray-600/50 px-[25px] pb-6 pt-[26px]">
       <div class="grid h-[36px] w-[36px] place-items-center rounded-lg bg-blue-600 text-[16px] font-bold"><span class="font-bold text-white">V</span></div>
       <div class="text-[24px] font-bold tracking-tight text-white">VerifyDoc</div>
@@ -285,5 +293,13 @@
     </aside>
 
   </main>
+<nav id="mobileBottomNav" aria-label="Mobile navigation">
+  <a href="Admin.html"><i data-lucide="house" aria-hidden="true"></i><span>Home</span></a>
+  <a href="Onboarding.html"><i data-lucide="briefcase-business" aria-hidden="true"></i><span>Onboard</span></a>
+  <a href="Organisation.html" aria-current="page"><i data-lucide="building-2" aria-hidden="true"></i><span>Orgs</span></a>
+  <a href="Admin credentail.html"><i data-lucide="award" aria-hidden="true"></i><span>Credentials</span></a>
+  <a href="Admin Verification.html"><i data-lucide="shield-check" aria-hidden="true"></i><span>Verify</span></a>
+</nav>
+<script>if (window.lucide) window.lucide.createIcons();</script>
 </body>
 </html>

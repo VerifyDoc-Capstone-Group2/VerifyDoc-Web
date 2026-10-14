@@ -2,7 +2,7 @@
 
 console.log("Registration.js loaded");
 
-function showToast (message, toastStyle) {
+function showToast(message, toastStyle) {
   Toastify({
     text: message,
     duration: 3000,
@@ -10,10 +10,10 @@ function showToast (message, toastStyle) {
     style: toastStyle || {
       background: "green",
       color: "white",
-      borderRadius: "8px"
-    }
+      borderRadius: "8px",
+    },
   }).showToast();
-};
+}
 
 const API_BASE_URL = "https://verifydoc-api-v1.onrender.com";
 
@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const otpInputs = document.querySelectorAll('section input[type="text"]');
   const timerDisplay = document.querySelector("span b");
   const resendBtn = document.querySelector("button");
+  const role = new URLSearchParams(window.location.search).get("role") || "";
 
   let countdownTimer = null;
   let timeLeft = 30;
@@ -32,36 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
     showToast("No email found for verification. Please sign up again.", {
       background: "red",
       color: "white",
-      borderRadius: "8px"
+      borderRadius: "8px",
     });
 
     return;
   }
-
-  // Dynamic feedback alert box
-  // const section = document.querySelector("section");
-  // let alertBox = document.getElementById("otpAlert");
-  // if (!alertBox) {
-  //   alertBox = document.createElement("div");
-  //   alertBox.id = "otpAlert";
-  //   alertBox.className = "hidden text-sm rounded-md p-3 text-center my-2 font-medium transition-all w-full max-w-xs";
-  //   section.insertBefore(alertBox, section.children[1]);
-  // }
-
-  // function showAlert(message, isError = true) {
-  //   alertBox.innerText = message;
-  //   alertBox.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700");
-  //   if (isError) {
-  //     alertBox.classList.add("bg-red-100", "text-red-700");
-  //   } else {
-  //     alertBox.classList.add("bg-green-100", "text-green-700");
-  //   }
-  // }
-
-  // function clearAlert() {
-  //   alertBox.innerText = "";
-  //   alertBox.classList.add("hidden");
-  // }
 
   let isVerifying = false;
 
@@ -78,7 +54,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Collect code when all 6 digits are typed
-      const otpCode = Array.from(otpInputs).map((i) => i.value).join("");
+      const otpCode = Array.from(otpInputs)
+        .map((i) => i.value)
+        .join("");
       if (otpCode.length === 6) {
         verifyOtp(otpCode);
       }
@@ -112,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showToast("Verifying code...", {
       background: "amber",
       color: "black",
-      borderRadius: "8px"
+      borderRadius: "8px",
     });
 
     try {
@@ -123,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         body: JSON.stringify({
           email: userEmail,
-          otp: code
+          otp: code,
         }),
       });
 
@@ -137,15 +115,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
       sessionStorage.removeItem("verificationEmail");
 
-      setTimeout(() => {
-        window.location.href = "../Login/login.html";
-      }, 1500);
-
+      if (role === "Organization" || role === "Institution") {
+        setTimeout(() => {
+          window.location.href = "Application_submitted.html";
+        }, 1500);
+      } else {
+        setTimeout(() => {
+          window.location.href = "../Login/login.html";
+        }, 1500);
+      }
     } catch (error) {
       showToast("Verification failed. Please try again.", {
         background: "red",
         color: "white",
-        borderRadius: "8px"
+        borderRadius: "8px",
       });
     } finally {
       isVerifying = false;
@@ -177,15 +160,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // clearAlert();
     showToast("Sending a new verification code...");
 
-
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/email/send-verification`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${API_BASE_URL}/auth/email/send-verification`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: userEmail }),
         },
-        body: JSON.stringify({ email: userEmail }),
-      });
+      );
 
       const data = await response.json();
 
@@ -193,20 +178,19 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast("Failed to resend code. Please try again.", {
           background: "red",
           color: "white",
-          borderRadius: "8px"
+          borderRadius: "8px",
         });
 
-        throw new Error(data.message );
+        throw new Error(data.message);
       }
 
       showToast("Verification code resent successfully!");
       startCountdown();
-
     } catch (error) {
       showToast("Could not resend code. Please try again.", {
         background: "red",
         color: "white",
-        borderRadius: "8px"
+        borderRadius: "8px",
       });
     }
   });

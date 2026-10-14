@@ -25,6 +25,14 @@
   .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
 </style>
   
+<style id="mobileBottomNavStyles">
+body { padding-bottom: calc(3.5rem + env(safe-area-inset-bottom)) !important; }
+#mobileBottomNav { position: fixed; inset: auto 0 0; z-index: 40; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); height: calc(3.5rem + env(safe-area-inset-bottom)); box-sizing: border-box; padding: .25rem .5rem max(.25rem, env(safe-area-inset-bottom)); border-top: 1px solid #183657; background: #0b1f3a; color: #cbd5e1; }
+#mobileBottomNav a { display: flex; min-width: 0; flex-direction: column; align-items: center; justify-content: center; gap: .25rem; color: inherit; font: 400 10px/1 Inter, sans-serif; text-decoration: none; }
+#mobileBottomNav a[aria-current="page"] { color: #fff; font-weight: 600; }
+#mobileBottomNav i { width: 1rem; height: 1rem; }
+@media (min-width: 1024px) { body { padding-bottom: 0 !important; } #mobileBottomNav { display: none; } }
+</style>
 </head>
 
 
@@ -32,13 +40,13 @@
 <body class="font-inter text-gray-900 bg-white">
   <div class="flex min-h-screen">
 
-   <aside class="sticky top-0 z-20 hidden h-screen w-64 shrink-0 flex-col justify-between border border-[#14305a] bg-[#0b1f3a] text-white lg:flex">
+   <aside class="sticky top-0 z-20 hidden h-screen w-64 shrink-0 flex-col justify-between border border-[#14305a] bg-[#0b1f3a] font-sans text-white lg:flex">
 
     <!-- Logo -->
     <div class="px-[25px] pt-[26px]">
       <a href="#" class="flex items-center gap-[9px]">
         <span class="grid h-[36px] w-[36px] place-items-center rounded-lg bg-blue-600 text-[16px] font-bold">V</span>
-        <span class="text-[22px] font-semibold tracking-tight">VerifyDoc</span>
+        <span class="text-[24px] font-bold tracking-tight">VerifyDoc</span>
       </a>
     </div>
 
@@ -48,13 +56,13 @@
     <!-- Navigation -->
     <nav class="mt-4 flex flex-col gap-6 px-[17px]" aria-label="Main">
 
-      <a href="institute dashboard.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+      <a href="institute dashboard.html" aria-current="page" class="flex h-[52px] items-center gap-2 rounded-lg bg-[#1a335c] px-2 text-base">
         <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 3l8 7.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" /><path d="M9.5 21v-6h5v6" /></svg>
         Dashboard
       </a>
 
       <!-- Active item -->
-      <a href="Credentials.html" aria-current="page" class="flex h-[52px] items-center gap-2 rounded-lg bg-[#1a335c] px-2 text-base">
+      <a href="Credentials.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
         <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6" /><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8" /></svg>
         Credentials
       </a>
@@ -92,7 +100,7 @@
   
 
   <!-- MOBILE MENU (phone + tablet) -->
-  <div id="mobileMenu" class="fixed inset-0 z-50 hidden w-64  bg-[#0b1f3a] p-4 text-white lg:hidden">
+  <div id="mobileMenu" class="fixed inset-0 z-50 hidden w-64 flex flex-col bg-[#0b1f3a] p-4 font-sans text-white lg:hidden">
     <a href="../VerifyDoc.html" class="flex items-center gap-2">
       <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary"><span class="font-bold text-white">V</span></div>
       <div class="text-xl font-bold tracking-tight text-white">VerifyDoc</div>
@@ -103,13 +111,13 @@
       <i data-lucide="x" class="h-6 w-6"></i>
     </button>
     <nav class="mt-12 flex flex-col gap-2">
-     <a href="institute dashboard.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
+     <a href="institute dashboard.html" aria-current="page" class="flex h-[52px] items-center gap-2 rounded-lg bg-[#1a335c] px-2 text-base">
         <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 3l8 7.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" /><path d="M9.5 21v-6h5v6" /></svg>
         Dashboard
       </a>
 
       <!-- Active item -->
-      <a href="Credentials.html" aria-current="page" class="flex h-[52px] items-center gap-2 rounded-lg bg-[#1a335c] px-2 text-base">
+      <a href="Credentials.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base hover:bg-[#1a335c]">
         <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6" /><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8" /></svg>
         Credentials
       </a>
@@ -125,7 +133,7 @@
       </a>
 
  <!-- Bottom: divider + user (pushed to the bottom with mt-auto) -->
-    <div class="mt-[95px]  px-[17px] ">
+    <div class="mt-auto px-[17px]">
       <div class="border-t border-gray-600/50"></div>
 
       <div class="flex items-center justify-between px-2 pb-[39px] pt-[29px]">
@@ -321,5 +329,13 @@
     </section>
 
   </main>
+<nav id="mobileBottomNav" aria-label="Mobile navigation">
+  <a href="institute dashboard.html" aria-current="page"><i data-lucide="house" aria-hidden="true"></i><span>Home</span></a>
+  <a href="Credentials.html"><i data-lucide="wallet-cards" aria-hidden="true"></i><span>Wallet</span></a>
+  <a href="Verification request.html"><i data-lucide="share-2" aria-hidden="true"></i><span>Share</span></a>
+  <a href="Issue credentials.html"><i data-lucide="upload" aria-hidden="true"></i><span>Upload</span></a>
+  <a href="institute dashboard.html#profile"><i data-lucide="user-round" aria-hidden="true"></i><span>Profile</span></a>
+</nav>
+<script>if (window.lucide) window.lucide.createIcons();</script>
 </body>
 </html>

@@ -1,7 +1,10 @@
  tailwind.config = {
       theme: {
         extend: {
-          fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] },
+          fontFamily: {
+            sans: ["Inter", "system-ui", "sans-serif"],
+            inter: ["Inter", "system-ui", "sans-serif"],
+          },
           /* Sizes match the design at 1600px wide and shrink smoothly on smaller screens */
           fontSize: {
             admin:    ["clamp(18px, 1.625vw, 26px)", "1.2"],

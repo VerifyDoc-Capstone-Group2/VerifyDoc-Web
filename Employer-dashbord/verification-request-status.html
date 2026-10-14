@@ -6,8 +6,27 @@
   <title>VerifyDoc - Verification Request Status</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    #sidebar {
+      font-family: Inter, sans-serif;
+    }
+  </style>
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
+<style id="mobileBottomNavStyles">
+body { padding-bottom: calc(3.5rem + env(safe-area-inset-bottom)) !important; }
+#mobileBottomNav { position: fixed; inset: auto 0 0; z-index: 40; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); height: calc(3.5rem + env(safe-area-inset-bottom)); box-sizing: border-box; padding: .25rem .5rem max(.25rem, env(safe-area-inset-bottom)); border-top: 1px solid #183657; background: #0b1f3a; color: #cbd5e1; }
+#mobileBottomNav a { display: flex; min-width: 0; flex-direction: column; align-items: center; justify-content: center; gap: .25rem; color: inherit; font: 400 10px/1 Inter, sans-serif; text-decoration: none; }
+#mobileBottomNav a[aria-current="page"] { color: #fff; font-weight: 600; }
+#mobileBottomNav i { width: 1rem; height: 1rem; }
+@media (min-width: 1024px) { body { padding-bottom: 0 !important; } #mobileBottomNav { display: none; } }
+</style>
 </head>
 <body class="bg-[#F8FAFC] font-sans antialiased text-slate-800">
 
@@ -17,18 +36,18 @@
   <div class="flex min-h-screen">
     
     <!-- Sidebar Navigation -->
-    <aside id="sidebar" class="fixed md:sticky top-0 z-30 h-screen w-64 shrink-0 bg-[#0b1f3a] text-white flex flex-col justify-between p-4 transition-transform -translate-x-full md:translate-x-0 overflow-y-auto border-r border-[#14305a]">
+    <aside id="sidebar" class="fixed md:sticky top-0 z-30 h-screen w-64 shrink-0 bg-[#0b1f3a] font-sans text-white flex flex-col justify-between transition-transform -translate-x-full md:translate-x-0 overflow-y-auto border-r border-[#14305a]">
       <div>
         <!-- Logo -->
-        <div class="flex items-center gap-[9px] border-b border-gray-600/50 px-3 pb-6 pt-[26px] text-2xl font-bold tracking-tight text-white">
-          <div class="bg-blue-600 p-1.5 rounded-lg text-white">
-            <i data-lucide="shield-check" class="w-6 h-6"></i>
+        <div class="flex items-center gap-[9px] border-b border-gray-600/50 px-[25px] pb-6 pt-[26px] text-[24px] font-bold tracking-tight text-white">
+          <div class="grid h-9 w-9 place-items-center rounded-lg bg-blue-600 text-base font-bold text-white">
+            V
           </div>
           <span>VerifyDoc</span>
         </div>
 
         <!-- Navigation Links -->
-        <nav class="mt-4 flex flex-col gap-6">
+        <nav class="mt-4 flex flex-col gap-6 px-[17px]">
           <a href="dashboard.html" class="flex h-[52px] items-center gap-2 rounded-lg px-2 text-base font-medium transition hover:bg-[#1a335c] hover:text-white">
             <i data-lucide="layout-dashboard" class="h-6 w-6 shrink-0"></i>
             <span>Dashboard</span>
@@ -58,13 +77,19 @@
       </div>
 
       <!-- Footer Organization Badge -->
-      <div class="flex items-center gap-3 border-t border-gray-600/50 px-2 pb-[39px] pt-[29px]">
-        <div class="rounded-lg bg-[#1a335c] p-2 text-slate-300">
-          <i data-lucide="building" class="h-6 w-6 shrink-0"></i>
-        </div>
-        <div class="text-xs">
-          <p class="font-semibold text-white">TechCorp Solutions</p>
-          <p class="text-slate-400">Verified Organization</p>
+      <div class="px-[17px]">
+        <div class="border-t border-gray-600/50"></div>
+        <div class="flex items-center justify-between px-2 pb-[39px] pt-[29px]">
+          <div class="flex items-center gap-2">
+            <span class="grid h-10 w-10 place-items-center rounded-full bg-blue-300 text-base font-bold text-blue-900">T</span>
+            <div>
+              <p class="text-base font-medium text-white">TechCorp Solutions</p>
+              <p class="text-xs text-slate-400">Verified Organization</p>
+            </div>
+          </div>
+          <button type="button" aria-label="Log out" class="rounded p-1 hover:bg-[#1a335c]">
+            <i data-lucide="log-out" class="h-5 w-5"></i>
+          </button>
         </div>
       </div>
     </aside>
@@ -212,5 +237,13 @@
   <!-- External JavaScript Files -->
   <script src="js/main.js"></script>
   <script src="js/verification-request-status.js"></script>
+<nav id="mobileBottomNav" aria-label="Mobile navigation">
+  <a href="dashboard.html"><i data-lucide="house" aria-hidden="true"></i><span>Home</span></a>
+  <a href="shared-credentials.html"><i data-lucide="wallet-cards" aria-hidden="true"></i><span>Credential</span></a>
+  <a href="verify-credential.html"><i data-lucide="file-check" aria-hidden="true"></i><span>Verify</span></a>
+  <a href="verification-request-status.html" aria-current="page"><i data-lucide="clock" aria-hidden="true"></i><span>Request</span></a>
+  <a href="dashboard.html#profile"><i data-lucide="user-round" aria-hidden="true"></i><span>Profile</span></a>
+</nav>
+<script>if (window.lucide) window.lucide.createIcons();</script>
 </body>
 </html>
