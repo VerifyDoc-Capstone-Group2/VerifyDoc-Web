@@ -57,6 +57,8 @@ if (role === "Institution") {
   for (const value of validOrganizationTypes) select.add(new Option(value, value));
   organizationType.replaceWith(select);
   organizationType = select;
+  const phoneLabel = phoneNumber.closest("div.flex")?.querySelector("label");
+  if (phoneLabel) phoneLabel.textContent = "Phone number (required)";
 }
 
 function checkDetails() {
@@ -65,6 +67,7 @@ function checkDetails() {
     organizationType.value.trim() === "" ||
     documentInput.files.length === 0 ||
     address.value.trim() === "" ||
+    (role === "Organization" && phoneNumber.value.trim() === "") ||
     (role === "Organization" && cac_number.value.trim() === "");
 }
 
@@ -162,8 +165,8 @@ applicationForm.addEventListener("submit", async (event) => {
     cacNumber: `${cac_type.value} ${cac_number.value.trim()}`,
     officialEmail: official_email.value.trim(),
     address: address.value.trim(),
-    website: normalizedWebsite(website.value),
     phoneNumber: phoneNumber.value.trim(),
+    ...(website.value.trim() ? { website: normalizedWebsite(website.value) } : {}),
   };
 
   const institution = {
