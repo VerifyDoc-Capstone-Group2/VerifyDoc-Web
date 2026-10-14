@@ -180,7 +180,7 @@ applicationForm.addEventListener("submit", async (event) => {
   } catch (error) {
     console.error("Unable to submit application:", error);
     applicationMessage.textContent =
-      `${error}`;
+      `Unable to submit application. Please try again later.`;
     applicationMessage.className = "text-sm text-red-600";
     submitApplication.disabled = false;
   }
