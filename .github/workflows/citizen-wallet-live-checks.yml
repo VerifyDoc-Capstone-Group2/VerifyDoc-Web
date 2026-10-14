@@ -1,0 +1,25 @@
+name: Citizen wallet live API checks
+on:
+  push:
+    branches: [integration/citizen-wallet-live-api]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Citizen-Dashboard/Js/Credential_wallet.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const js = fs.readFileSync('Citizen-Dashboard/Js/Credential_wallet.js', 'utf8');
+          const html = fs.readFileSync('Citizen-Dashboard/Credential-Wallet.html', 'utf8');
+          if (!html.includes('src="./Js/Credential_wallet.js"')) throw Error('Wallet JS not loaded');
+          if (!js.includes('/credentials/wallet?page=')) throw Error('Wallet endpoint missing');
+          if (!js.includes('list.replaceChildren')) throw Error('Dynamic list rendering missing');
+          if (js.includes('/credentials/wallet  ')) throw Error('Malformed wallet URL');
+          EOF
