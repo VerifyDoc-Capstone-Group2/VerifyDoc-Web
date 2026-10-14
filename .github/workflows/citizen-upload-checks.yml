@@ -1,0 +1,28 @@
+name: Citizen credential upload checks
+on:
+  push:
+    branches: [integration/citizen-credential-upload-api]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Citizen-Dashboard/Js/Upload_credential.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const html = fs.readFileSync('Citizen-Dashboard/Upload-Credential.html', 'utf8');
+          const js = fs.readFileSync('Citizen-Dashboard/Js/Upload_credential.js', 'utf8');
+          for (const id of ['fieldOfStudy','graduationYear','uploadedCredentialId','uploadedStatus','uploadApiMessage']) {
+            if (!html.includes('id="' + id + '"')) throw Error('Missing field: ' + id);
+          }
+          for (const field of ['issuerName','title','credentialType','issueDate','document']) {
+            if (!js.includes('data.append("' + field + '"')) throw Error('Missing API field: ' + field);
+          }
+          if (!js.includes('POST') || !js.includes('/credentials')) throw Error('Missing API request');
+          EOF

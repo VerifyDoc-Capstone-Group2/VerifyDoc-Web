@@ -1,149 +1,146 @@
-const mobileMenu = document.getElementById("mobileMenu");
-const mobileMenuBackdrop = document.getElementById("mobileMenuBackdrop");
-const openMenuButton = document.getElementById("openBtn");
-const closeMenuButton = document.getElementById("closeBtn");
-const credentialForm = document.getElementById("credentialForm");
-const credentialFile = document.getElementById("credentialFile");
-const fileName = document.getElementById("fileName");
-const fileError = document.getElementById("fileError");
-const program_name = document.getElementById("programName");
-const issue_date = document.getElementById("issueDate");
-const expiry_date = document.getElementById("expiryDate");
-const institution = document.getElementById("institutionName");
-const credential_type = document.getElementById("credentialType");
-const first_name = document.getElementById("firstName");
-const last_name = document.getElementById("lastName");
-const email = document.getElementById("recipientEmail");
+(() => {
+  "use strict";
+  const API = "https://verifydoc-api-v1.onrender.com";
+  const get = id => document.getElementById(id);
+  const form = get("credentialForm");
+  const fileInput = get("credentialFile");
+  const fileName = get("fileName");
+  const fileError = get("fileError");
+  const message = get("uploadApiMessage");
+  const submit = get("nextButton");
+  const token = () => (localStorage.getItem("authorization") || "").replace(/^Bearer\s+/i, "").trim();
+  let currentProfile = null;
+  let previewUrl = null;
 
-function setMobileMenuOpen(isOpen) {
-  mobileMenu.classList.toggle("hidden", !isOpen);
-  mobileMenu.classList.toggle("flex", isOpen);
-  mobileMenuBackdrop.classList.toggle("hidden", !isOpen);
-  openMenuButton.setAttribute("aria-expanded", String(isOpen));
-  if (isOpen) closeMenuButton.focus();
-  else openMenuButton.focus();
-}
-
-openMenuButton.addEventListener("click", () => setMobileMenuOpen(true));
-closeMenuButton.addEventListener("click", () => setMobileMenuOpen(false));
-mobileMenuBackdrop.addEventListener("click", () => setMobileMenuOpen(false));
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && !mobileMenu.classList.contains("hidden"))
-    setMobileMenuOpen(false);
-});
-mobileMenu
-  .querySelectorAll("a")
-  .forEach((link) =>
-    link.addEventListener("click", () => setMobileMenuOpen(false)),
-  );
-
-credentialFile.addEventListener("change", () => {
-  const selectedFile = credentialFile.files[0];
-  fileName.textContent = selectedFile ? selectedFile.name : "";
-  fileName.classList.toggle("hidden", !selectedFile);
-  fileError.classList.add("hidden");
-});
-const dropTarget = credentialFile.closest("label");
-dropTarget.addEventListener("dragover", (event) => {
-  event.preventDefault();
-  dropTarget.classList.add("bg-blue-100");
-});
-dropTarget.addEventListener("dragleave", () =>
-  dropTarget.classList.remove("bg-blue-100"),
-);
-dropTarget.addEventListener("drop", (event) => {
-  event.preventDefault();
-  dropTarget.classList.remove("bg-blue-100");
-  const [droppedFile] = event.dataTransfer.files;
-  if (
-    droppedFile &&
-    (droppedFile.type === "application/pdf" ||
-      droppedFile.type.startsWith("image/"))
-  ) {
-    const transfer = new DataTransfer();
-    transfer.items.add(droppedFile);
-    credentialFile.files = transfer.files;
-    credentialFile.dispatchEvent(new Event("change"));
-  } else {
-    fileError.classList.remove("hidden");
+  const menu = get("mobileMenu"), backdrop = get("mobileMenuBackdrop");
+  const open = get("openBtn"), close = get("closeBtn");
+  function toggleMenu(show) {
+    menu?.classList.toggle("hidden", !show);
+    menu?.classList.toggle("flex", show);
+    backdrop?.classList.toggle("hidden", !show);
+    open?.setAttribute("aria-expanded", String(show));
   }
-});
+  open?.addEventListener("click", () => toggleMenu(true));
+  close?.addEventListener("click", () => toggleMenu(false));
+  backdrop?.addEventListener("click", () => toggleMenu(false));
+  menu?.querySelectorAll("a").forEach(a => a.addEventListener("click", () => toggleMenu(false)));
+  document.addEventListener("keydown", e => { if (e.key === "Escape") toggleMenu(false); });
 
-// This prototype previews the uploaded details locally; it does not send files to a server.
-credentialForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const formData = new FormData(credentialForm);
-  formData.append("document", credentialFile.files[0]);
-
-  console.log({
-    credentialType: credential_type.value.trim(),
-    title: program_name.value.trim(),
-    expiryDate: expiry_date.value.trim(),
-    issueDate: issue_date.value.trim(),
-    institution: institution.value.trim(),
-    firstName: first_name.value.trim(),
-    lastName: last_name.value.trim(),
-    email: email.value.trim(),
-  });
-  if (!credentialForm.reportValidity()) return;
-  if (!credentialFile.files.length) {
-    fileError.classList.remove("hidden");
-    return;
-  }
-  const value = (id) => document.getElementById(id).value.trim();
-  const dateLabel = (id) => {
-    const date = value(id);
-    return date
-      ? new Date(`${date}T00:00:00`).toLocaleDateString("en-GB")
-      : "—";
+  const error = text => {
+    message.textContent = text;
+    message.classList.remove("hidden");
   };
-  document.getElementById("uploadedHolder").textContent =
-    `${value("firstName")} ${value("lastName")}`;
-  document.getElementById("uploadedInstitution").textContent =
-    value("institutionName");
-  document.getElementById("uploadedType").textContent = value("credentialType");
-  document.getElementById("uploadedProgram").textContent = value("programName");
-  document.getElementById("uploadedIssueDate").textContent =
-    dateLabel("issueDate");
-  document.getElementById("uploadedExpiryDate").textContent =
-    dateLabel("expiryDate");
-  const preview = document.getElementById("documentPreview");
-  const placeholder = document.getElementById("documentPlaceholder");
-
-  if (credentialFile.files[0].type.startsWith("image/")) {
-    preview.src = URL.createObjectURL(credentialFile.files[0]);
-    preview.classList.remove("hidden");
-    placeholder.classList.add("hidden");
-  } else {
-    preview.classList.add("hidden");
-    placeholder.textContent = credentialFile.files[0].name;
-    placeholder.classList.remove("hidden");
+  async function loadProfile() {
+    try {
+      if (!token()) throw new Error("Sign in to upload credentials.");
+      const response = await fetch(API + "/auth/me", {
+        headers: { Authorization: "Bearer " + token(), Accept: "application/json" },
+        cache: "no-store"
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.message || "Unable to load your account.");
+      if (result.data?.role !== "Citizen") throw new Error("Only citizens can upload credentials here.");
+      currentProfile = result.data;
+      get("firstName").value = currentProfile.firstName || "";
+      get("lastName").value = currentProfile.lastName || "";
+      get("recipientEmail").value = currentProfile.email || "";
+    } catch (e) {
+      error(e.message);
+      submit.disabled = true;
+    }
   }
-  document.getElementById("uploadFormScreen").classList.add("hidden");
-  document.getElementById("uploadedScreen").classList.remove("hidden");
-  const qrContainer = document.getElementById("uploadedQrCode");
-  qrContainer.replaceChildren();
-  if (window.QRCode) {
-    new QRCode(qrContainer, {
-      text: `VerifyDoc credential NU/1234678 for ${value("firstName")} ${value("lastName")}`,
-      width: 64,
-      height: 64,
-    });
+  loadProfile();
+
+  function validateFile(file) {
+    return !!file && (file.type === "application/pdf" || (file.type === "" && /\.pdf$/i.test(file.name))) && file.size <= 5 * 1024 * 1024 && file.size > 0;
   }
-  if (window.lucide) window.lucide.createIcons();
-});
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files?.[0];
+    fileName.textContent = file?.name || "";
+    fileName.classList.toggle("hidden", !file);
+    fileError.classList.toggle("hidden", !file || validateFile(file));
+  });
+  const drop = fileInput.closest("label");
+  drop?.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("bg-blue-100"); });
+  drop?.addEventListener("dragleave", () => drop.classList.remove("bg-blue-100"));
+  drop?.addEventListener("drop", e => {
+    e.preventDefault();
+    drop.classList.remove("bg-blue-100");
+    const file = e.dataTransfer?.files?.[0];
+    if (!validateFile(file)) { fileError.classList.remove("hidden"); return; }
+    const transfer = new DataTransfer();
+    transfer.items.add(file);
+    fileInput.files = transfer.files;
+    fileInput.dispatchEvent(new Event("change"));
+  });
 
-document.getElementById("uploadAnotherButton").addEventListener("click", () => {
-  credentialForm.reset();
-  fileName.textContent = "";
-  fileName.classList.add("hidden");
-  fileError.classList.add("hidden");
-  document.getElementById("documentPreview").classList.add("hidden");
-  document.getElementById("documentPlaceholder").classList.remove("hidden");
-  document.getElementById("documentPlaceholder").textContent =
-    "Credential document";
-  document.getElementById("uploadedScreen").classList.add("hidden");
-  document.getElementById("uploadFormScreen").classList.remove("hidden");
-});
-
-if (window.lucide) window.lucide.createIcons();
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    message.classList.add("hidden");
+    if (!form.reportValidity()) return;
+    const file = fileInput.files?.[0];
+    if (!validateFile(file)) { fileError.classList.remove("hidden"); error("Choose a PDF document of no more than 5 MB."); return; }
+    if (!currentProfile || !token()) { error("Your session is unavailable. Please sign in again."); return; }
+    const year = get("graduationYear").value.trim();
+    const issueDate = get("issueDate").value;
+    if (issueDate > new Date().toISOString().slice(0, 10)) { error("Issue date cannot be in the future."); return; }
+    if (year && (Number(year) < 1900 || Number(year) > new Date().getFullYear())) { error("Enter a valid graduation year."); return; }
+    const data = new FormData();
+    data.append("issuerName", get("institutionName").value.trim());
+    data.append("title", get("programName").value.trim());
+    data.append("credentialType", get("credentialType").value.trim());
+    data.append("issueDate", issueDate);
+    if (get("fieldOfStudy").value.trim()) data.append("fieldOfStudy", get("fieldOfStudy").value.trim());
+    if (year) data.append("graduationYear", year);
+    data.append("document", file);
+    submit.disabled = true;
+    submit.textContent = "Uploading…";
+    try {
+      const response = await fetch(API + "/credentials", {
+        method: "POST", headers: { Authorization: "Bearer " + token() }, body: data
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.message || "Upload failed (" + response.status + ").");
+      const credential = result.data;
+      if (!credential?.credentialId) throw new Error("Server did not return a credential ID. Check your wallet before retrying.");
+      const value = id => get(id).value.trim();
+      get("uploadedHolder").textContent = [currentProfile.firstName, currentProfile.lastName].filter(Boolean).join(" ");
+      get("uploadedCredentialId").textContent = credential.credentialId;
+      get("uploadedInstitution").textContent = credential.issuerName || value("institutionName");
+      get("uploadedType").textContent = credential.credentialType || value("credentialType");
+      get("uploadedProgram").textContent = credential.title || value("programName");
+      get("uploadedIssueDate").textContent = new Date(credential.issueDate || issueDate).toLocaleDateString("en-GB");
+      get("uploadedExpiryDate").textContent = "Not available";
+      get("uploadedStatus").textContent = credential.verificationStatus || "Pending";
+      const preview = get("documentPreview"), placeholder = get("documentPlaceholder");
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      previewUrl = null;
+      preview.classList.add("hidden");
+      placeholder.textContent = file.name;
+      placeholder.classList.remove("hidden");
+      get("uploadFormScreen").classList.add("hidden");
+      get("uploadedScreen").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (e) {
+      error(e.message || "Unable to upload credential.");
+    } finally {
+      submit.disabled = false;
+      submit.textContent = "Next";
+    }
+  });
+  get("uploadAnotherButton")?.addEventListener("click", () => {
+    form.reset();
+    if (currentProfile) {
+      get("firstName").value = currentProfile.firstName || "";
+      get("lastName").value = currentProfile.lastName || "";
+      get("recipientEmail").value = currentProfile.email || "";
+    }
+    fileName.textContent = "";
+    fileName.classList.add("hidden");
+    fileError.classList.add("hidden");
+    message.classList.add("hidden");
+    get("uploadedScreen").classList.add("hidden");
+    get("uploadFormScreen").classList.remove("hidden");
+  });
+  if (window.lucide?.createIcons) window.lucide.createIcons();
+})();
