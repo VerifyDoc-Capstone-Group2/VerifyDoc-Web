@@ -1,0 +1,26 @@
+name: Admin logout checks
+on:
+  push:
+    branches: [fix/admin-logout]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Admin-Dashboard/admin-logout.js
+      - run: node --check Admin-Dashboard/Admin.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          for (const name of fs.readdirSync('Admin-Dashboard').filter(x => x.endsWith('.html'))) {
+            const html = fs.readFileSync('Admin-Dashboard/' + name, 'utf8');
+            if (html.includes('aria-label="Log out"') && !html.includes('src="admin-logout.js"')) {
+              throw new Error(name + ': logout handler not loaded');
+            }
+          }
+          EOF
