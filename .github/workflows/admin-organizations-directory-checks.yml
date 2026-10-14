@@ -1,0 +1,18 @@
+name: Admin organization directory checks
+on:
+  push:
+    branches: [integration/admin-organizations-directory]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Admin-Dashboard/admin-organizations-api.js
+      - run: |
+          grep -q 'admin-organizations-api.js' Admin-Dashboard/Organisation.html
+          grep -q '/admin/entities' Admin-Dashboard/admin-organizations-api.js
