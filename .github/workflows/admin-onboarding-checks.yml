@@ -1,0 +1,27 @@
+name: Admin onboarding integration checks
+on:
+  push:
+    branches:
+      - integration/admin-onboarding-api
+  pull_request:
+    branches:
+      - main
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate admin integration syntax
+        run: node --check Admin-Dashboard/onboarding-api.js
+      - name: Verify admin pages load integration
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          for (const page of ['Onboarding.html', 'Application details.html']) {
+            const html = fs.readFileSync('Admin-Dashboard/' + page, 'utf8');
+            if (!html.includes('src="onboarding-api.js"')) throw new Error(page + ' missing API integration');
+          }
+          EOF
