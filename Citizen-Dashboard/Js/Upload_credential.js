@@ -18,18 +18,43 @@
   let searchTimer = null;
   let searchRequest = null;
 
+  let activeIndex = -1;
   const hideInstitutions = () => {
     institutionResults.classList.add("hidden");
     institutionResults.replaceChildren();
+    institutionInput.setAttribute("aria-expanded", "false");
+    activeIndex = -1;
   };
-  institutionInput.addEventListener("input", () => {
+  const showInstitutions = () => {
+    institutionResults.classList.remove("hidden");
+    institutionInput.setAttribute("aria-expanded", "true");
+  };
+  const selectInstitution = institution => {
+    selectedInstitution = { id: institution._id, name: institution.institutionName };
+    institutionInput.value = institution.institutionName;
+    institutionHelp.textContent = "Registered institution selected. Your credential will remain Pending until verified.";
+    hideInstitutions();
+  };
+  const messageOption = message => {
+    const item = document.createElement("div");
+    item.className = "px-3 py-2 text-xs text-slate-500";
+    item.setAttribute("role", "status");
+    item.textContent = message;
+    institutionResults.replaceChildren(item);
+    showInstitutions();
+  };
+  async function searchInstitutions() {
+    const query = institutionInput.value.trim();
     selectedInstitution = null;
     clearTimeout(searchTimer);
     searchRequest?.abort();
     hideInstitutions();
-    institutionHelp.textContent = "If your institution is not listed, its name will be saved as an unregistered issuer.";
-    const query = institutionInput.value.trim();
-    if (query.length < 2) return;
+    institutionHelp.textContent = "Choose a registered institution, or enter an unregistered issuer name manually.";
+    if (query.length < 2) {
+      if (query.length === 1) messageOption("Type at least 2 characters to search registered institutions.");
+      return;
+    }
+    messageOption("Searching registered institutions…");
     searchTimer = setTimeout(async () => {
       const controller = new AbortController();
       searchRequest = controller;
@@ -37,34 +62,61 @@
         const response = await fetch(API + "/institutions/search?q=" + encodeURIComponent(query), {
           headers: { Accept: "application/json" }, signal: controller.signal
         });
-        if (!response.ok) throw new Error("Institution search is unavailable");
+        if (!response.ok) throw new Error("Institution directory is unavailable");
         const result = await response.json();
         if (controller.signal.aborted || institutionInput.value.trim() !== query) return;
-        hideInstitutions();
         const institutions = Array.isArray(result.data) ? result.data : [];
-        for (const institution of institutions) {
+        institutionResults.replaceChildren();
+        if (!institutions.length) {
+          messageOption("No active registered institutions found. You can enter the institution name manually.");
+          return;
+        }
+        institutions.forEach((institution, index) => {
           const option = document.createElement("button");
           option.type = "button";
+          option.id = "institution-suggestion-" + index;
           option.setAttribute("role", "option");
+          option.setAttribute("aria-selected", "false");
           option.className = "block w-full px-3 py-2 text-left text-xs hover:bg-blue-50 focus:bg-blue-50";
           option.textContent = institution.institutionName + (institution.institutionType ? " — " + institution.institutionType : "");
-          option.addEventListener("click", () => {
-            selectedInstitution = { id: institution._id, name: institution.institutionName };
-            institutionInput.value = institution.institutionName;
-            institutionHelp.textContent = "Registered institution selected. Your upload will remain Pending until reviewed.";
-            hideInstitutions();
-          });
+          option.addEventListener("mousedown", event => event.preventDefault());
+          option.addEventListener("click", () => selectInstitution(institution));
           institutionResults.appendChild(option);
+        });
+        showInstitutions();
+      } catch (error) {
+        if (error.name !== "AbortError" && institutionInput.value.trim() === query) {
+          messageOption("Unable to load suggestions. You may still enter the institution name manually.");
         }
-        if (institutions.length) institutionResults.classList.remove("hidden");
-      } catch (e) {
-        if (e.name !== "AbortError") institutionHelp.textContent =
-          "Unable to search registered institutions right now. You can enter the issuer name manually.";
       }
-    }, 300);
+    }, 250);
+  }
+  institutionInput.setAttribute("role", "combobox");
+  institutionInput.setAttribute("aria-autocomplete", "list");
+  institutionInput.setAttribute("aria-expanded", "false");
+  institutionInput.addEventListener("input", searchInstitutions);
+  institutionInput.addEventListener("focus", () => {
+    if (institutionInput.value.trim().length >= 2 && !selectedInstitution) searchInstitutions();
   });
-  document.addEventListener("click", e => {
-    if (e.target !== institutionInput && !institutionResults.contains(e.target)) hideInstitutions();
+  institutionInput.addEventListener("keydown", event => {
+    const options = [...institutionResults.querySelectorAll('[role="option"]')];
+    if (event.key === "Escape") { hideInstitutions(); return; }
+    if (!options.length || institutionResults.classList.contains("hidden")) return;
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      activeIndex = (activeIndex + (event.key === "ArrowDown" ? 1 : -1) + options.length) % options.length;
+      options.forEach((option, index) => {
+        option.setAttribute("aria-selected", String(index === activeIndex));
+        option.classList.toggle("bg-blue-100", index === activeIndex);
+      });
+      institutionInput.setAttribute("aria-activedescendant", options[activeIndex].id);
+    } else if (event.key === "Enter" && activeIndex >= 0) {
+      event.preventDefault();
+      options[activeIndex].click();
+    }
+  });
+  document.addEventListener("click", event => {
+    if (event.target !== institutionInput && !institutionResults.contains(event.target)) hideInstitutions();
   });
 
   const menu = get("mobileMenu"), backdrop = get("mobileMenuBackdrop");
