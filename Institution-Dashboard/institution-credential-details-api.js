@@ -19,8 +19,12 @@
     // Static QR and verification history must never be mistaken for live verification evidence.
     const qrTitle = [...main.querySelectorAll("h2")].find(h => h.textContent.trim() === "QR Code");
     if (qrTitle) {
-      qrTitle.hidden = true;
-      if (qrTitle.nextElementSibling) qrTitle.nextElementSibling.hidden = true;
+      qrTitle.hidden = false;
+      if (qrTitle.nextElementSibling) {
+        qrTitle.nextElementSibling.hidden = false;
+        qrTitle.nextElementSibling.replaceChildren();
+        qrTitle.nextElementSibling.textContent = "Loading QR code…";
+      }
     }
     const history = [...main.querySelectorAll("h2")].find(h => h.textContent.trim() === "Verification history");
     if (history) {
@@ -68,6 +72,48 @@
       const meta = metadata?.querySelectorAll("p");
       if (meta?.[1]) meta[1].textContent = c.issuerName || "Unavailable";
       if (meta?.[3]) meta[3].textContent = date(c.createdAt);
+      const qrTitle = [...main.querySelectorAll("h2")].find(h => h.textContent.trim() === "QR Code");
+      const qrContainer = qrTitle?.nextElementSibling;
+      if (qrContainer) {
+        try {
+          const qrResponse = await fetch(API + "/credentials/" + encodeURIComponent(id) + "/qr", {
+            headers: { Authorization: "Bearer " + token, Accept: "application/json" },
+            cache: "no-store"
+          });
+          const qrBody = await qrResponse.json().catch(() => ({}));
+          if (!qrResponse.ok) throw new Error(qrBody.message || "Unable to generate credential QR code.");
+          const qr = qrBody.data;
+          if (!qr || typeof qr.qrCodeDataUrl !== "string" || !qr.qrCodeDataUrl.startsWith("data:image/png;base64,")) {
+            throw new Error("The server returned an invalid QR code.");
+          }
+          qrContainer.replaceChildren();
+          const image = document.createElement("img");
+          image.src = qr.qrCodeDataUrl;
+          image.alt = "Generated verification QR code for " + id;
+          image.width = 150;
+          image.height = 150;
+          image.className = "block h-[150px] w-[150px] bg-white";
+          qrContainer.append(image);
+          if (typeof qr.verificationUrl === "string") {
+            const verificationUrl = new URL(qr.verificationUrl);
+            if (verificationUrl.protocol === "https:" || (verificationUrl.protocol === "http:" && ["localhost", "127.0.0.1"].includes(verificationUrl.hostname))) {
+              const link = document.createElement("a");
+              link.href = verificationUrl.href;
+              link.target = "_blank";
+              link.rel = "noopener noreferrer";
+              link.className = "mt-2 block max-w-[250px] break-words text-xs text-blue-700 underline";
+              link.textContent = "Open verification result";
+              qrContainer.append(link);
+            }
+          }
+        } catch (qrError) {
+          qrContainer.replaceChildren();
+          const notice = document.createElement("p");
+          notice.className = "max-w-xs text-sm text-red-700";
+          notice.textContent = "QR unavailable: " + qrError.message;
+          qrContainer.append(notice);
+        }
+      }
     } catch (error) {
       if (heading) heading.textContent = error.message;
       for (const label of fields.keys()) set(label, "Unavailable");
