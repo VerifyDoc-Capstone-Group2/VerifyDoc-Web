@@ -1,0 +1,25 @@
+name: Institution dashboard integration checks
+on:
+  push:
+    branches: [integration/institution-dashboard-live]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Institution-Dashboard/institution-dashboard-api.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const html = fs.readFileSync('Institution-Dashboard/institute dashboard.html','utf8');
+          const js = fs.readFileSync('Institution-Dashboard/institution-dashboard-api.js','utf8');
+          if (!html.includes('src="./institution-dashboard-api.js"')) throw Error('Script not loaded');
+          for (const path of ['/credentials/institution', '/credential-confirmations/institution', '/auth/me']) {
+            if (!js.includes(path)) throw Error('Missing API: ' + path);
+          }
+          EOF
