@@ -22,6 +22,7 @@ const role = new URLSearchParams(window.location.search).get("role") || "";
 // const isInstitution = role.toLowerCase() === "Institution";
 const apiUrl = "https://verifydoc-api-v1.onrender.com";
 const validOrganizationTypes = ["Employer", "Recruitment Agency", "HR Firm", "Other"];
+const validInstitutionTypes = ["Government Institution", "University", "Polytechnic", "Other"];
 function showApplicationError(message) {
   applicationMessage.textContent = message;
   applicationMessage.className = "text-sm text-red-600";
@@ -42,6 +43,14 @@ if (role === "Institution") {
   type.textContent = "Institution type";
   name1.textContent = "Institution name";
   cacnumber.style.display = "none";
+  const select = document.createElement("select");
+  select.id = organizationType.id;
+  select.className = organizationType.className;
+  select.required = true;
+  select.append(new Option("Select institution type", "", true, true));
+  for (const value of validInstitutionTypes) select.add(new Option(value, value));
+  organizationType.replaceWith(select);
+  organizationType = select;
 } else {
   header.textContent = "Organization details";
   description.textContent = "Tell us about your organization";
