@@ -222,6 +222,10 @@ applicationForm.addEventListener("submit", async (event) => {
       throw new Error(safeMessage);
     }
 
+    // OTP verification uses the account email, not the institution's official email.
+    // Save it only after registration succeeds and before navigating.
+    sessionStorage.setItem("verificationEmail", userData.email.trim().toLowerCase());
+    sessionStorage.removeItem("registrationUser");
     localStorage.removeItem("user");
     window.location.href = `Registration_complete.html?role=${role}`;
   } catch (error) {
