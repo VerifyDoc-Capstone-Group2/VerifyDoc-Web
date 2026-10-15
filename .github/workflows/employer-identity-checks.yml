@@ -1,0 +1,28 @@
+name: Employer identity checks
+on:
+  push:
+    branches: [fix/employer-global-profile-identity]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Employer-dashbord/js/organization-identity.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const dir = 'Employer-dashbord';
+          for (const file of fs.readdirSync(dir).filter(name => name.endsWith('.html'))) {
+            const html = fs.readFileSync(dir + '/' + file, 'utf8');
+            if (!html.includes('src="js/organization-identity.js"')) throw new Error(file + ': shared identity script missing');
+            if (!html.includes('src="js/organization-session.js"')) throw new Error(file + ': organization session guard missing');
+          }
+          const js = fs.readFileSync(dir + '/js/organization-identity.js', 'utf8');
+          if (!js.includes('/organization/dashboard')) throw new Error('Organization endpoint missing');
+          if (!js.includes('profilePicture?.url')) throw new Error('User profile photo not supported');
+          EOF
