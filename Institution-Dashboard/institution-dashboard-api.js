@@ -73,19 +73,10 @@
     return result;
   }
   function updateIdentity(user) {
-    const name = [user.firstName, user.lastName].filter(Boolean).join(" ").trim() || "User";
-    if (heading) {
-      const hour = new Date().getHours();
-      const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
-      heading.textContent = greeting + ", " + name;
-    }
-    document.querySelectorAll("aside, #mobileMenu").forEach(panel => {
-      const button = panel.querySelector('button[aria-label="Log out"]');
-      const label = button?.previousElementSibling?.querySelector("span.text-lg");
-      if (label) label.textContent = name;
-    });
+    // Institution branding is loaded from /institutions/me by institution-identity.js.
+    // Keep personal user information separate from the institution name.
     const topLabel = document.querySelector("section.min-w-0 > div.flex.justify-between p.font-semibold");
-    if (topLabel) topLabel.textContent = name;
+    if (topLabel) topLabel.textContent = [user.firstName, user.lastName].filter(Boolean).join(" ") || "User";
   }
   async function run() {
     overview.forEach((_, i) => number(i, "—"));
