@@ -1,0 +1,26 @@
+name: Registration OTP email handoff
+on:
+  push:
+    branches: [fix/institution-organization-otp-email]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Authentication/Details.js
+      - run: node --check Authentication/Signup/Registration.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const details = fs.readFileSync('Authentication/Details.js', 'utf8');
+          const otp = fs.readFileSync('Authentication/Signup/Registration.js', 'utf8');
+          const save = details.indexOf('sessionStorage.setItem("verificationEmail", userData.email.trim().toLowerCase())');
+          const redirect = details.indexOf('window.location.href = `Registration_complete.html?role=');
+          if (save < 0 || redirect < 0 || save > redirect) throw new Error('Email must be stored before OTP redirect');
+          if (!otp.includes('sessionStorage.getItem("verificationEmail")')) throw new Error('OTP page must read saved email');
+          EOF
