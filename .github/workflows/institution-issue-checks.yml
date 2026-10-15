@@ -1,0 +1,24 @@
+name: Institution credential issuance checks
+on:
+  push:
+    branches: [feature/institution-issue-credential]
+  pull_request:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Institution-Dashboard/institution-issue-api.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const html = fs.readFileSync('Institution-Dashboard/Issue credentials.html','utf8');
+          for (const id of ['credential-title','credential-document','field-of-study','graduation-year']) {
+            if (!html.includes('id="' + id + '"')) throw Error('Missing required control: ' + id);
+          }
+          if (!html.includes('institution-issue-api.js')) throw Error('Missing issuance script');
+          EOF
