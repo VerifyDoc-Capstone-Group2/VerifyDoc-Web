@@ -1,7 +1,7 @@
 name: Citizen credential upload checks
 on:
   push:
-    branches: [integration/citizen-credential-upload-api]
+    branches: [feature/institution-search-credential-upload]
   pull_request:
     branches: [main]
 jobs:
@@ -24,5 +24,6 @@ jobs:
           for (const field of ['issuerName','title','credentialType','issueDate','document']) {
             if (!js.includes('data.append("' + field + '"')) throw Error('Missing API field: ' + field);
           }
+          if (!js.includes('/institutions/search?q=') || !js.includes('selectedInstitution.id')) throw Error('Missing institution search linkage');
           if (!js.includes('POST') || !js.includes('/credentials')) throw Error('Missing API request');
           EOF
