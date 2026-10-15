@@ -17,6 +17,8 @@
   let selectedInstitution = null;
   let searchTimer = null;
   let searchRequest = null;
+  const graduationYearInput = get("graduationYear");
+  if (graduationYearInput) graduationYearInput.max = String(new Date().getFullYear());
 
   const hideInstitutions = () => {
     institutionResults.classList.add("hidden");
@@ -29,6 +31,7 @@
     hideInstitutions();
     institutionHelp.textContent = "If your institution is not listed, its name will be saved as an unregistered issuer.";
     const query = institutionInput.value.trim();
+    institutionInput.setCustomValidity("");
     if (query.length < 2) return;
     searchTimer = setTimeout(async () => {
       const controller = new AbortController();
@@ -136,6 +139,7 @@
     const file = fileInput.files?.[0];
     if (!validateFile(file)) { fileError.classList.remove("hidden"); error("Choose a PDF document of no more than 5 MB."); return; }
     if (!currentProfile || !token()) { error("Your session is unavailable. Please sign in again."); return; }
+    if (!institutionInput.value.trim()) { error("Enter or select the issuing institution."); institutionInput.focus(); return; }
     const year = get("graduationYear").value.trim();
     const issueDate = get("issueDate").value;
     if (issueDate > new Date().toISOString().slice(0, 10)) { error("Issue date cannot be in the future."); return; }
