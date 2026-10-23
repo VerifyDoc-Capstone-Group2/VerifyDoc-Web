@@ -66,7 +66,7 @@
       const link = document.createElement("a");
       link.className = "inline-flex h-8 min-w-[73px] items-center justify-center rounded-lg border border-blue-800 px-2 text-sm text-blue-800 hover:bg-blue-50";
       link.textContent = "Review";
-      link.href = "Credential details.html?credentialId=" + encodeURIComponent(item.credentialId);
+      link.href = "Review credential.html?credentialId=" + encodeURIComponent(item.credentialId);
       action.append(link);
       const received = item.createdAt ? new Date(item.createdAt).toLocaleDateString("en-GB") : "—";
       tr.append(
