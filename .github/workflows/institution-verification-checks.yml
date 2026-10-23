@@ -13,6 +13,7 @@ jobs:
         with:
           node-version: '22'
       - run: node --check Institution-Dashboard/institution-verification-api.js
+      - run: node --check Institution-Dashboard/institution-review-api.js
       - run: |
           node --input-type=module <<'EOF'
           import fs from 'node:fs';
@@ -22,4 +23,9 @@ jobs:
           if (!js.includes('/credentials/institution')) throw Error('Institution endpoint missing');
           if (!html.includes('href="Verification request.html" aria-current="page"')) throw Error('Verification tab not active');
           if (html.includes('href="Credentials.html" aria-current="page"')) throw Error('Credentials tab incorrectly active');
+          const review = fs.readFileSync('Institution-Dashboard/Review credential.html', 'utf8');
+          const reviewJS = fs.readFileSync('Institution-Dashboard/institution-review-api.js', 'utf8');
+          if (!review.includes('src="./institution-review-api.js"')) throw Error('Review integration script missing');
+          if (!js.includes('Review credential.html?credentialId=')) throw Error('Review link missing');
+          if (!reviewJS.includes('/verify') || !reviewJS.includes('/reject')) throw Error('Decision endpoints missing');
           EOF
