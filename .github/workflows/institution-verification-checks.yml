@@ -27,5 +27,5 @@ jobs:
           const reviewJS = fs.readFileSync('Institution-Dashboard/institution-review-api.js', 'utf8');
           if (!review.includes('src="./institution-review-api.js"')) throw Error('Review integration script missing');
           if (!js.includes('Review credential.html?credentialId=')) throw Error('Review link missing');
-          if (!reviewJS.includes('/verify') || !reviewJS.includes('/reject')) throw Error('Decision endpoints missing');
+          if (!reviewJS.includes('"/credentials/" + encodeURIComponent(credentialId) + "/" + (kind === "reject" ? "reject" : "verify")')) throw Error('Decision endpoint construction missing');
           EOF
