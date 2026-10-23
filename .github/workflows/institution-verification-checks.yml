@@ -1,0 +1,31 @@
+name: Institution verification checks
+on:
+  push:
+    branches: [integration/institution-verification-live]
+  pull_request:
+    branches: [main]
+jobs:
+  static-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check Institution-Dashboard/institution-verification-api.js
+      - run: node --check Institution-Dashboard/institution-review-api.js
+      - run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const html = fs.readFileSync('Institution-Dashboard/Verification request.html', 'utf8');
+          const js = fs.readFileSync('Institution-Dashboard/institution-verification-api.js', 'utf8');
+          if (!html.includes('src="./institution-verification-api.js"')) throw Error('Integration script missing');
+          if (!js.includes('/credentials/institution')) throw Error('Institution endpoint missing');
+          if (!html.includes('href="Verification request.html" aria-current="page"')) throw Error('Verification tab not active');
+          if (html.includes('href="Credentials.html" aria-current="page"')) throw Error('Credentials tab incorrectly active');
+          const review = fs.readFileSync('Institution-Dashboard/Review credential.html', 'utf8');
+          const reviewJS = fs.readFileSync('Institution-Dashboard/institution-review-api.js', 'utf8');
+          if (!review.includes('src="./institution-review-api.js"')) throw Error('Review integration script missing');
+          if (!js.includes('Review credential.html?credentialId=')) throw Error('Review link missing');
+          if (!reviewJS.includes('"/credentials/" + encodeURIComponent(credentialId) + "/" + (kind === "reject" ? "reject" : "verify")')) throw Error('Decision endpoint construction missing');
+          EOF
