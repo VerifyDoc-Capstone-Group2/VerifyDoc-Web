@@ -9,7 +9,7 @@
   const status = main.querySelector('select[aria-label="Status"]');
   const date = main.querySelector('select[aria-label="Date"]');
   const search = main.querySelector('input[type="search"]');
-  const token = () => (localStorage.getItem("authorization") || "").replace(/^Bearer\\s+/i, "").trim();
+  const token = () => (localStorage.getItem("authorization") || "").replace(/^Bearer\s+/i, "").trim();
   let credentials = [];
   let activeTab = "all";
   const make = (tag, className, text) => {
